@@ -1,0 +1,102 @@
+{
+  "env": {
+    "node": true,
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "import",
+    "react-hooks"
+  ],
+  "rules": {
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "react/prop-types": [
+      0
+    ],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "objects": "only-multiline"
+      }
+    ],
+    "import/first": [
+      2
+    ],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always-and-inside-groups"
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        "allowSeparatedGroups": true,
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
+    ],
+    "no-trailing-spaces": [
+      "error"
+    ],
+    "no-multiple-empty-lines": [
+      "error", 
+      {
+        "max": 1,
+        "maxBOF": 0,
+        "maxEOF": 0
+      }
+    ],
+    "no-unused-vars": [
+      "warn"
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["./src/constants/*.js"],
+      "rules": {
+        "comma-dangle": [
+          "error",
+          {
+            "objects": "always-multiline"
+          }
+        ]
+      }
+    }
+  ]
+}
