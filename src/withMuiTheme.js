@@ -19,7 +19,7 @@ const theme = createTheme({
   typography: {
     useNextVariants: true,
     fontFamily: '"Courier Prime", monospace',
-  }
+  },
 });
 
 const withMuiTheme = (Component) => {
