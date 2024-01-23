@@ -1,7 +1,17 @@
 import React, { createContext, useReducer } from 'react';
 
+import constants from './constants';
+
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
+
+const {
+  util: {
+    tokens: {
+      CURRENT_USER,
+    },
+  },
+} = constants;
 
 const initialState = {
   id: null,
@@ -39,10 +49,12 @@ const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   const login = (userData) => {
+    localStorage.setItem(CURRENT_USER, userData.username);
     dispatch({ type: LOGIN, payload: { ...userData } });
   };
 
   const logout = () => {
+    localStorage.removeItem(CURRENT_USER);
     dispatch({ type: LOGOUT });
   };
 
