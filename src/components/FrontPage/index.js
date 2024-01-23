@@ -1,24 +1,57 @@
 import React, { useEffect, useState } from 'react';
-
 import { withStyles } from '@material-ui/core';
 
+import constants from '../../constants';
 import { axiosInstance } from '../../axiosInstance';
 
 import PostItem from '../Shared/PostItem';
 
+const {
+  endpoints,
+  errors: {
+    componentMessages: {
+      errorFormat,
+    },
+    keys: {
+      GENERAL_ERROR,
+    },
+  },
+  general: {
+    fieldTexts: {
+      LOADING_,
+      REFRESH,
+    },
+  },
+} = constants;
+
 const FrontPage = ({ classes }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [errors, setErrors] = useState({});
   const [data, setData] = useState({});
 
-  useEffect(() => {
-    axiosInstance.get('/front_page')
-      .then(res => {
-        setData(res.data);
-        setIsLoading(false);
-      })
-      .catch(err => console.log(err));
+  useEffect(() => getData(), []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  }, []);
+  const getData = () => {
+    setIsLoading(true);
+    setErrors({});
+
+    axiosInstance.get(endpoints.backend.frontPage)
+      .then(res => setData(res.data))
+      .catch(err => {
+        if (err.response) {
+          const { data: errorData } = err.response;
+
+          if (errorData.errors) {
+            setErrors({ ...errors, [GENERAL_ERROR]: errorData.errors.join(', ') });
+          } else {
+            setErrors({ ...errors, [GENERAL_ERROR]: err.message });
+          }
+        } else {
+          setErrors({ ...errors, [GENERAL_ERROR]: err.message });
+        }
+      })
+      .finally(() => setIsLoading(false));
+  };
 
   const postList = (posts) => {
     return posts.map((post) => {
@@ -26,7 +59,11 @@ const FrontPage = ({ classes }) => {
     });
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>{LOADING_}</div>;
+  if (Object.keys(errors).length) return <div className={classes.errorsContainer}>
+    <div className={classes.errorsHeader}>{errorFormat(Object.values(errors).join(', '))}</div>
+    <div className={classes.refreshPage} onClick={() => getData()}>{REFRESH}</div>
+  </div>;
 
   return (
     <div className={classes.frontPageFeed}>
@@ -37,6 +74,20 @@ const FrontPage = ({ classes }) => {
 
 const styles = () => ({
   frontPageFeed: {},
+  errorsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '1em',
+  },
+  errorsHeader: {
+    fontSize: '2em',
+    fontWeight: 600,
+  },
+  refreshPage: {
+    cursor: 'pointer',
+    textDecoration: 'underline',
+  },
 });
 
 export default withStyles(styles)(FrontPage);
