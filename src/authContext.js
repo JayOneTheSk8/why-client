@@ -6,7 +6,7 @@ const LOGOUT = 'LOGOUT';
 const initialState = {
   id: null,
   username: null,
-  display_name: null,
+  displayName: null,
   email: null,
 };
 
@@ -17,7 +17,7 @@ const authReducer = (state, action) => {
         ...state,
         id: action.payload.id,
         username: action.payload.username,
-        display_name: action.payload.display_name,
+        displayName: action.payload.display_name,
         email: action.payload.email,
       };
     case LOGOUT:
@@ -50,7 +50,7 @@ const AuthProvider = (props) => {
     <AuthContext.Provider
       value={{
         id: state.id,
-        display_name: state.display_name,
+        displayName: state.displayName,
         username: state.username,
         email: state.email,
         login,
