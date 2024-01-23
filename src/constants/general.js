@@ -18,6 +18,7 @@ const titles = {
 
 const fieldTexts = {
   LOADING_: 'Loading...',
+  REFRESH: 'Refresh',
 };
 
 export default {
