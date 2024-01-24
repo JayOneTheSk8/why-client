@@ -96,7 +96,7 @@ const Root = ({ classes }) => {
             )
               ? <>
                 <div className={classes.userInfo} onClick={() => setAccountMenuDisplayed(!accountMenuDisplayed)} ref={clickRef}>
-                  <div className={classes.userIcon}>{context.displayName && context.displayName[0].toUpperCase()}</div>
+                  <div className={classes.userIcon}>{context.displayName && context.username[0].toUpperCase()}</div>
 
                   <div className={classes.namesContainer}>
                     <div className={classes.displayName}>{context.displayName}</div>
