@@ -54,11 +54,11 @@ const Root = ({ classes }) => {
   const clickRef = useOnClickOutsideRef(() => accountMenuDisplayed && setAccountMenuDisplayed(false));
 
   const logoutUser = useCallback(() => {
+    // Attempt server logout; regardless of outcome, logout in auth context and refresh page
     axiosInstance.get(logOut)
-      .then(() => context.logout())
-      .catch((res) => {
-        console.log(res);
-        console.log(res.response.status);
+      .finally(() => {
+        context.logout();
+        window.location.reload();
       });
   }, [context]);
 
