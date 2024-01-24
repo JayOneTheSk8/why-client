@@ -294,6 +294,7 @@ const styles = () => ({
   },
   postText: {
     paddingTop: '0.5em',
+    whiteSpace: 'pre-wrap',
   },
   postImpressions: {
     display: 'flex',
