@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { withStyles } from '@material-ui/core';
 
 import constants from '../../constants';
 import { axiosInstance } from '../../axiosInstance';
+import { AuthContext } from '../../authContext';
 
 import PostItem from '../Shared/PostItem';
+import PostForm from '../Shared/PostForm';
 
 const {
   endpoints,
@@ -25,6 +27,8 @@ const {
 } = constants;
 
 const FrontPage = ({ classes }) => {
+  const context = useContext(AuthContext);
+
   const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState({});
   const [data, setData] = useState({});
@@ -67,6 +71,7 @@ const FrontPage = ({ classes }) => {
 
   return (
     <div className={classes.frontPageFeed}>
+      {context.id && <PostForm />}
       {postList(data.posts)}
     </div>
   );
