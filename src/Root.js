@@ -37,6 +37,11 @@ const {
       sessions,
     },
   },
+  general: {
+    fieldTexts: {
+      usernameWithSymbol,
+    },
+  },
   util: {
     tokens: {
       CURRENT_USER,
@@ -100,7 +105,7 @@ const Root = ({ classes }) => {
 
                   <div className={classes.namesContainer}>
                     <div className={classes.displayName}>{context.displayName}</div>
-                    <div className={classes.username}>{`¿${context.username}`}</div>
+                    <div className={classes.username}>{usernameWithSymbol(context.username)}</div>
                   </div>
 
                   <div className={classes.accountMenuIcon}>...</div>

@@ -17,6 +17,11 @@ const {
       repostedText,
     },
   },
+  general: {
+    fieldTexts: {
+      usernameWithSymbol,
+    },
+  },
   util: {
     tokens: {
       CURRENT_USER,
@@ -149,7 +154,7 @@ const PostItem = ({ classes, post, repostedByOverride, isComment }) => {
           {/* Author Data */}
           <div className={classes.authorData}>
             <div className={classes.postAuthorDisplayName}>{post.author.display_name}</div>
-            <div className={classes.postUsername}>{`¿${post.author.username}`}</div>
+            <div className={classes.postUsername}>{usernameWithSymbol(post.author.username)}</div>
             <div className={classes.nameAndDateSeparator}>.</div>
             <div className={classes.postDate}>{dateFormat(new Date(post.created_at))}</div>
           </div>

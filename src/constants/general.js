@@ -1,3 +1,7 @@
+const symbols = {
+  USERNAME_SYMBOL: '¿',
+};
+
 const eventTypes = {
   CLICK: 'click',
 };
@@ -19,6 +23,7 @@ const titles = {
 const fieldTexts = {
   LOADING_: 'Loading...',
   REFRESH: 'Refresh',
+  usernameWithSymbol: (username) => `${symbols.USERNAME_SYMBOL}${username}`,
 };
 
 export default {
@@ -26,4 +31,5 @@ export default {
   fields,
   titles,
   fieldTexts,
+  symbols,
 };

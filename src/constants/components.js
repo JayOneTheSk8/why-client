@@ -1,3 +1,5 @@
+import general from './general';
+
 const auth = {
   CREATE_YOUR_ACCOUNT_HEADER: 'Create your account',
   SIGN_IN_HEADER: 'Sign in to Y',
@@ -9,11 +11,11 @@ const auth = {
 };
 
 const accountMenu = {
-  logoutText: (username) => `Log out ¿${username}`,
+  logoutText: (username) => `Log out ${general.fieldTexts.usernameWithSymbol(username)}`,
 };
 
 const postItem = {
-  repostedText: (text) => `${text} reposted`,
+  repostedText: (user) => `${user} reposted`,
 };
 
 export default {
