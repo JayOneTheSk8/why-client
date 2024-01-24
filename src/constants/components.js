@@ -12,7 +12,12 @@ const accountMenu = {
   logoutText: (username) => `Log out ¿${username}`,
 };
 
+const postItem = {
+  repostedText: (text) => `${text} reposted`,
+};
+
 export default {
   accountMenu,
   auth,
+  postItem,
 };
