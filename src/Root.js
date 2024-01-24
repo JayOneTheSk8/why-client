@@ -158,6 +158,7 @@ const styles = () => ({
   '@global': {
     body: {
       overflowY: 'scroll',
+      backgroundColor: '#fafafa',
     }
   },
   root: {
