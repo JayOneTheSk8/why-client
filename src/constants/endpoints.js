@@ -14,5 +14,9 @@ export default {
     sessions: '/sessions',
     signIn: '/sign_in',
     signUp: '/sign_up',
+    commentReposts: '/comment_reposts',
+    postReposts: '/post_reposts',
+    commentLikes: '/comment_likes',
+    postLikes: '/post_likes',
   },
 };
