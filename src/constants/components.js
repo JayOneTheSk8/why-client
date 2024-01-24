@@ -18,8 +18,17 @@ const postItem = {
   repostedText: (user) => `${user} reposted`,
 };
 
+const postForm = {
+  POST: 'Post',
+  REPLY: 'Reply',
+  REPLY_TEXT: 'Inquiring further?!',
+  REPLYING_TO: 'Replying to',
+  WHAT_TO_ASK: 'What do you want to ask?!',
+};
+
 export default {
   accountMenu,
   auth,
   postItem,
+  postForm,
 };
