@@ -256,7 +256,6 @@ const styles = () => ({
   },
   accountMenuItem: {
     fontSize: '1.3em',
-    // width: '13.5em',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
