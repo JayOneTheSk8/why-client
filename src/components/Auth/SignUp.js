@@ -42,6 +42,11 @@ const {
       LOADING_,
     },
   },
+  util: {
+    limits: {
+      USERNAME_LIMIT,
+    },
+  },
 } = constants;
 
 const SignUp = ({ classes }) => {
@@ -158,6 +163,7 @@ const SignUp = ({ classes }) => {
             id={USERNAME}
             ref={usernameInput}
             spellCheck={false}
+            maxLength={USERNAME_LIMIT}
             className={classes.usernameInput}
             onChange={(e) => updateUsername(e)}
             onFocus={shrinkLabel(USERNAME)}
