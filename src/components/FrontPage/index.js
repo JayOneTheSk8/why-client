@@ -73,7 +73,9 @@ const FrontPage = ({ classes }) => {
 };
 
 const styles = () => ({
-  frontPageFeed: {},
+  frontPageFeed: {
+    borderBottom: '1px solid black',
+  },
   errorsContainer: {
     display: 'flex',
     flexDirection: 'column',

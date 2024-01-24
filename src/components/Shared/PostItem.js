@@ -238,7 +238,8 @@ const PostItem = ({ classes, post, repostedByOverride, isComment }) => {
 const styles = () => ({
   postItem: {
     width: '100%',
-    border: '1px solid black',
+    borderTop: '1px solid black',
+    borderRight: '1px solid black',
   },
   repostedByRepostIcon: {
 
