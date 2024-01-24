@@ -206,13 +206,14 @@ const styles = () => ({
     fontSize: '3em',
     color: 'white',
     margin: '0.1em',
-    padding: '0.3em 0.3em 0.3em 0.4em',
     border: '1px solid grey',
     backgroundColor: 'black',
     borderRadius: '54%',
     height: '1.5em',
-    lineHeight: '0.9',
     width: '2em',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   namesContainer: {
     marginLeft: '0.6em'
