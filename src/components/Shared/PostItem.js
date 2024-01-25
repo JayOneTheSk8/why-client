@@ -16,6 +16,9 @@ const {
     postItem: {
       repostedText,
     },
+    postForm: {
+      REPLYING_TO,
+    },
   },
   general: {
     fieldTexts: {
@@ -122,6 +125,24 @@ const PostItem = ({ classes, post, repostedByOverride, isComment }) => {
     }
   };
 
+  const replyingToUsernames = () => {
+    const { replying_to: replyingTo } = post;
+
+    const usernames = replyingTo.map((u, idx) => {
+      return (
+        <div key={idx} className={classes.replyingToUsername}>{usernameWithSymbol(u)}</div>
+      );
+    });
+
+    if (usernames.length > 1) {
+      usernames.splice(usernames.length - 1, 0, (
+        <div key={usernames.length} className={classes.replyingToAnd}>{'and'}</div>
+      ));
+    }
+
+    return usernames;
+  };
+
   const dateFormat = new Intl.DateTimeFormat(
     'en-US',
     {
@@ -160,6 +181,18 @@ const PostItem = ({ classes, post, repostedByOverride, isComment }) => {
             <div className={classes.nameAndDateSeparator}>.</div>
             <div className={classes.postDate}>{dateFormat(new Date(post.created_at))}</div>
           </div>
+
+          {/* Replying To */}
+          {
+            (isComment && post.replying_to && post.replying_to.length) &&
+              <div className={classes.replyingTo}>
+
+                <div className={classes.replyingToUsernames}>
+                  <div className={classes.replyingToText}>{REPLYING_TO}</div>
+                  {replyingToUsernames()}
+                </div>
+              </div>
+          }
 
           {/* Text */}
           <div className={classes.postText}>{post.text}</div>
@@ -262,7 +295,30 @@ const styles = () => ({
     marginLeft: '0.3em',
     color: '#848484',
     fontWeight: 600,
-
+  },
+  replyingTo: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  replyingToText: {
+    color: 'black',
+  },
+  replyingToUsernames: {
+    display: 'flex',
+    color: '#1D9BF0',
+    flexWrap: 'wrap',
+  },
+  replyingToUsername: {
+    marginLeft: '0.3em',
+    cursor: 'pointer',
+    maxWidth: '17em',
+    overflow: 'hidden',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+  replyingToAnd: {
+    marginLeft: '0.3em',
   },
   postData: {
     display: 'flex',
