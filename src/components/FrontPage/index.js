@@ -10,6 +10,12 @@ import PostForm from '../Shared/PostForm';
 
 const {
   endpoints,
+  components: {
+    frontPage: {
+      FOR_YOU,
+      FOLLOWING,
+    },
+  },
   errors: {
     componentMessages: {
       errorFormat,
@@ -31,16 +37,47 @@ const FrontPage = ({ classes }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState({});
+  const [followingPage, setFollowingPage] = useState(false);
+
   const [data, setData] = useState({});
+  const [followingPageData, setFollowingPageData] = useState({});
 
-  useEffect(() => getData(), []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => getData(true), []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const getData = () => {
-    setIsLoading(true);
+  const getData = (withLoading = false) => {
+    if (withLoading) { setIsLoading(true); }
     setErrors({});
 
     axiosInstance.get(endpoints.backend.frontPage)
-      .then(res => setData(res.data))
+      .then((res) => {
+        setData(res.data);
+        setFollowingPage(false);
+      })
+      .catch(err => {
+        if (err.response) {
+          const { data: errorData } = err.response;
+
+          if (errorData.errors) {
+            setErrors({ ...errors, [GENERAL_ERROR]: errorData.errors.join(', ') });
+          } else {
+            setErrors({ ...errors, [GENERAL_ERROR]: err.message });
+          }
+        } else {
+          setErrors({ ...errors, [GENERAL_ERROR]: err.message });
+        }
+      })
+      .finally(() => setIsLoading(false));
+  };
+
+  const getFollowedFrontPageData = (withLoading = false) => {
+    if (withLoading) { setIsLoading(true); }
+    setErrors({});
+
+    axiosInstance.get(endpoints.backend.frontPageFollowing)
+      .then((res) => {
+        setFollowingPageData(res.data);
+        setFollowingPage(true);
+      })
       .catch(err => {
         if (err.response) {
           const { data: errorData } = err.response;
@@ -58,8 +95,8 @@ const FrontPage = ({ classes }) => {
   };
 
   const postList = (posts) => {
-    return posts.map((post) => {
-      return <PostItem key={post.id} post={post} />;
+    return posts.map((post, idx) => {
+      return <PostItem key={idx} post={post} />;
     });
   };
 
@@ -71,8 +108,66 @@ const FrontPage = ({ classes }) => {
 
   return (
     <div className={classes.frontPageFeed}>
+      {/* Navbar */}
+      <div className={classes.pageNavbar}>
+        <div
+          className={classes.frontPageOptionContainer}
+          onClick={() => {
+            if (followingPage) {
+              if (!Object.keys(data).length) {
+                getData();
+              } else {
+                setFollowingPage(false);
+              }
+            }
+          }}
+        >
+          <div
+            className={
+              `${
+                classes.frontPageOption
+              } ${
+                followingPage ? classes.frontPageOptionDeselected : ''
+              }`
+            }
+          >{FOR_YOU}</div>
+          {
+            followingPage ||
+              <div className={classes.frontPageSelected}></div>
+          }
+        </div>
+
+        <div
+          className={classes.frontPageFollowingOptionContainer}
+          onClick={() => {
+            if (!followingPage) {
+              if (!Object.keys(followingPageData).length) {
+                getFollowedFrontPageData();
+              } else {
+                setFollowingPage(true);
+              }
+            }
+          }}
+        >
+          <div
+            className={
+              `${
+                classes.frontPageFollowingOption
+              } ${
+                followingPage ? '' : classes.frontPageFollowingOptionDeselected
+              }`
+            }
+          >{FOLLOWING}</div>
+          {
+            followingPage &&
+              <div className={classes.frontPageFollowingSelected}></div>
+          }
+        </div>
+      </div>
+
       {context.id && <PostForm />}
-      {postList(data.posts)}
+
+      {followingPage ? postList(followingPageData.posts) : postList(data.posts)}
     </div>
   );
 };
@@ -94,6 +189,61 @@ const styles = () => ({
   refreshPage: {
     cursor: 'pointer',
     textDecoration: 'underline',
+  },
+  pageNavbar: {
+    display: 'flex',
+    borderRight: '1px solid black',
+    borderBottom: '1px solid black',
+  },
+  frontPageOptionContainer: {
+    width: '50%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    cursor: 'pointer',
+    transition: 'background-color 0.5s',
+    '&:hover': {
+      backgroundColor: '#DCDCDC',
+    },
+  },
+  frontPageOption: {
+    textAlign: 'center',
+    fontSize: '1.5em',
+    fontWeight: 600,
+    padding: '0.5em',
+  },
+  frontPageSelected: {
+    border: '2px solid #1D9BF0',
+    width: '5.6em',
+    borderRadius: '15em',
+  },
+  frontPageOptionDeselected: {
+    color: 'darkgrey',
+  },
+  frontPageFollowingOptionContainer: {
+    width: '50%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    cursor: 'pointer',
+    transition: 'background-color 0.5s',
+    '&:hover': {
+      backgroundColor: '#DCDCDC',
+    },
+  },
+  frontPageFollowingOption: {
+    textAlign: 'center',
+    fontSize: '1.5em',
+    fontWeight: 600,
+    padding: '0.5em',
+  },
+  frontPageFollowingSelected: {
+    border: '2px solid #1D9BF0',
+    width: '5.6em',
+    borderRadius: '15em',
+  },
+  frontPageFollowingOptionDeselected: {
+    color: 'darkgrey',
   },
 });
 
