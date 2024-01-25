@@ -194,7 +194,7 @@ const styles = () => ({
 
   },
   postInputField: {
-    width: '40vw',
+    width: '38vw',
     border: 'none',
     resize: 'none',
     fontSize: '1.6em',
