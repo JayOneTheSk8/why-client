@@ -136,8 +136,10 @@ const PostItem = ({ classes, post, repostedByOverride, isComment }) => {
       {/* Reposted By */}
       {
         post.reposted_by &&
-          <div>
-            <div className={classes.repostedByRepostIcon}></div>
+          <div className={classes.repostedByContainer}>
+            <div className={classes.repostedByRepostIcon}>
+              <RepostIcon />
+            </div>
             <div className={classes.respostedBy}>
               {repostedText(repostedByOverride || post.reposted_by)}
             </div>
@@ -246,10 +248,20 @@ const styles = () => ({
     borderTop: '1px solid black',
     borderRight: '1px solid black',
   },
+  repostedByContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: '4em',
+    width: '40vw',
+    padding: '0.3em 0',
+  },
   repostedByRepostIcon: {
-
+    display: 'flex',
   },
   respostedBy: {
+    marginLeft: '0.3em',
+    color: '#848484',
+    fontWeight: 600,
 
   },
   postData: {
