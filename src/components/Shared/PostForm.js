@@ -112,14 +112,31 @@ const PostForm = ({ classes, isComment, postId, parentId, replyingTo }) => {
     }
   };
 
+  const replyingToUsernames = () => {
+    const usernames = replyingTo.map((u, idx) => {
+      return (
+        <div key={idx} className={classes.replyingToUsername}>{usernameWithSymbol(u)}</div>
+      );
+    });
+
+    if (usernames.length > 1) {
+      usernames.splice(usernames.length - 1, 0, (
+        <div key={usernames.length} className={classes.replyingToAnd}>{'and'}</div>
+      ));
+    }
+
+    return usernames;
+  };
+
   return (
     <div className={classes.postFormContainer}>
       {
         (isComment && replyingTo) &&
           <div className={classes.replyingTo}>
-            {REPLYING_TO}
-
-            <div className={classes.replyingToUsername}>{usernameWithSymbol(replyingTo)}</div>
+            <div className={classes.replyingToUsernames}>
+              <div className={classes.replyingToText}>{REPLYING_TO}</div>
+              {replyingToUsernames()}
+            </div>
           </div>
       }
 
@@ -169,10 +186,28 @@ const styles = () => ({
     display: 'flex',
     marginLeft: '5em',
     fontSize: '1.1em',
+    flexWrap: 'wrap',
+  },
+  replyingToText: {
+    color: 'black',
+  },
+  replyingToUsernames: {
+    display: 'flex',
+    marginLeft: '0.3em',
+    color: '#1D9BF0',
+    flexWrap: 'wrap',
   },
   replyingToUsername: {
     marginLeft: '0.3em',
-    color: '#1D9BF0',
+    cursor: 'pointer',
+    maxWidth: '17em',
+    overflow: 'hidden',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+  replyingToAnd: {
+    marginLeft: '0.3em',
   },
   userIconContainer: {
 
