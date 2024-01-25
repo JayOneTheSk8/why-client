@@ -29,6 +29,9 @@ const {
       LOADING_,
       REFRESH,
     },
+    postTypes: {
+      COMMENT_REPOST,
+    },
   },
 } = constants;
 
@@ -96,7 +99,13 @@ const FrontPage = ({ classes }) => {
 
   const postList = (posts) => {
     return posts.map((post, idx) => {
-      return <PostItem key={idx} post={post} />;
+      return (
+        <PostItem
+          key={idx}
+          isComment={post.post_type === COMMENT_REPOST}
+          post={post}
+        />
+      );
     });
   };
 

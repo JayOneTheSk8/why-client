@@ -13,6 +13,10 @@ const fields = {
   USERNAME: 'username',
 };
 
+const postTypes = {
+  COMMENT_REPOST: 'CommentRepost',
+};
+
 const titles = {
   EMAIL_TITLE: 'Email',
   DISPLAY_NAME_TITLE: 'Display Name',
@@ -29,6 +33,7 @@ const fieldTexts = {
 export default {
   eventTypes,
   fields,
+  postTypes,
   titles,
   fieldTexts,
   symbols,
