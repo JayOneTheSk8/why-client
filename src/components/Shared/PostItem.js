@@ -276,6 +276,7 @@ const styles = () => ({
   },
   authorData: {
     display: 'flex',
+    flexWrap: 'wrap',
     fontSize: '1.1em',
     marginTop: '0.3em',
   },
