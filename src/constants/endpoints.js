@@ -10,6 +10,7 @@ export default {
   },
   backend: {
     frontPage: '/front_page',
+    frontPageFollowing: '/front_page_following',
     logOut: '/sign_out',
     sessions: '/sessions',
     signIn: '/sign_in',

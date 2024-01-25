@@ -14,6 +14,11 @@ const accountMenu = {
   logoutText: (username) => `Log out ${general.fieldTexts.usernameWithSymbol(username)}`,
 };
 
+const frontPage = {
+  FOR_YOU: 'For you',
+  FOLLOWING: 'Following',
+};
+
 const postItem = {
   repostedText: (user) => `${user} reposted`,
 };
@@ -29,6 +34,7 @@ const postForm = {
 export default {
   accountMenu,
   auth,
+  frontPage,
   postItem,
   postForm,
 };
