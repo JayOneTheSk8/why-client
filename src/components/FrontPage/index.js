@@ -101,7 +101,7 @@ const FrontPage = ({ classes }) => {
     return posts.map((post, idx) => {
       return (
         <PostItem
-          key={idx}
+          key={`${followingPage ? 'FrontPageFollowing' : 'FrontPage'}${idx}`}
           isComment={post.post_type === COMMENT_REPOST}
           post={post}
         />
