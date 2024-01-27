@@ -118,61 +118,64 @@ const FrontPage = ({ classes }) => {
   return (
     <div className={classes.frontPageFeed}>
       {/* Navbar */}
-      <div className={classes.pageNavbar}>
-        <div
-          className={classes.frontPageOptionContainer}
-          onClick={() => {
-            if (followingPage) {
-              if (!Object.keys(data).length) {
-                getData();
-              } else {
-                setFollowingPage(false);
+      {
+        context.id &&
+          <div className={classes.pageNavbar}>
+            <div
+              className={classes.frontPageOptionContainer}
+              onClick={() => {
+                if (followingPage) {
+                  if (!Object.keys(data).length) {
+                    getData();
+                  } else {
+                    setFollowingPage(false);
+                  }
+                }
+              }}
+            >
+              <div
+                className={
+                  `${
+                    classes.frontPageOption
+                  } ${
+                    followingPage ? classes.frontPageOptionDeselected : ''
+                  }`
+                }
+              >{FOR_YOU}</div>
+              {
+                followingPage ||
+                  <div className={classes.frontPageSelected}></div>
               }
-            }
-          }}
-        >
-          <div
-            className={
-              `${
-                classes.frontPageOption
-              } ${
-                followingPage ? classes.frontPageOptionDeselected : ''
-              }`
-            }
-          >{FOR_YOU}</div>
-          {
-            followingPage ||
-              <div className={classes.frontPageSelected}></div>
-          }
-        </div>
+            </div>
 
-        <div
-          className={classes.frontPageFollowingOptionContainer}
-          onClick={() => {
-            if (!followingPage) {
-              if (!Object.keys(followingPageData).length) {
-                getFollowedFrontPageData();
-              } else {
-                setFollowingPage(true);
+            <div
+              className={classes.frontPageFollowingOptionContainer}
+              onClick={() => {
+                if (!followingPage) {
+                  if (!Object.keys(followingPageData).length) {
+                    getFollowedFrontPageData();
+                  } else {
+                    setFollowingPage(true);
+                  }
+                }
+              }}
+            >
+              <div
+                className={
+                  `${
+                    classes.frontPageFollowingOption
+                  } ${
+                    followingPage ? '' : classes.frontPageFollowingOptionDeselected
+                  }`
+                }
+              >{FOLLOWING}</div>
+              {
+                followingPage &&
+                  <div className={classes.frontPageFollowingSelected}></div>
               }
-            }
-          }}
-        >
-          <div
-            className={
-              `${
-                classes.frontPageFollowingOption
-              } ${
-                followingPage ? '' : classes.frontPageFollowingOptionDeselected
-              }`
-            }
-          >{FOLLOWING}</div>
-          {
-            followingPage &&
-              <div className={classes.frontPageFollowingSelected}></div>
-          }
-        </div>
-      </div>
+            </div>
+          </div>
+      }
 
       {context.id && <PostForm />}
 
