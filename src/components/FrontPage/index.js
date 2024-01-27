@@ -112,7 +112,7 @@ const FrontPage = ({ classes }) => {
   if (isLoading) return <div>{LOADING_}</div>;
   if (Object.keys(errors).length) return <div className={classes.errorsContainer}>
     <div className={classes.errorsHeader}>{errorFormat(Object.values(errors).join(', '))}</div>
-    <div className={classes.refreshPage} onClick={() => getData()}>{REFRESH}</div>
+    <div className={classes.refreshPage} onClick={() => getData(true)}>{REFRESH}</div>
   </div>;
 
   return (
