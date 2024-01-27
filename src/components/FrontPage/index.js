@@ -194,6 +194,7 @@ const styles = () => ({
   errorsHeader: {
     fontSize: '2em',
     fontWeight: 600,
+    textAlign: 'center',
   },
   refreshPage: {
     cursor: 'pointer',
