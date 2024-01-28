@@ -199,7 +199,8 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '1em',
+    paddingTop: '1em',
+    borderRight: '1px solid black',
   },
   errorsHeader: {
     fontSize: '2em',
