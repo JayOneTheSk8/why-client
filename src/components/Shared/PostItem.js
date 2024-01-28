@@ -32,7 +32,7 @@ const {
   },
 } = constants;
 
-const PostItem = ({ classes, post, repostedByOverride, isComment }) => {
+const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) => {
   const navigate = useNavigate();
   const context = useContext(AuthContext);
 
@@ -153,7 +153,9 @@ const PostItem = ({ classes, post, repostedByOverride, isComment }) => {
   ).format;
 
   return (
-    <div className={classes.postItem}>
+    <div
+      className={isParent ? classes.postItemNoBorder : classes.postItem}
+    >
       {/* Reposted By */}
       {
         post.reposted_by &&
@@ -171,6 +173,10 @@ const PostItem = ({ classes, post, repostedByOverride, isComment }) => {
         {/* Author Icon */}
         <div className={classes.postAuthorIconContainer}>
           <div className={classes.postAuthorIcon}>{post.author.username[0].toUpperCase()}</div>
+          {
+            isParent &&
+              <div className={classes.iconConnector}></div>
+          }
         </div>
 
         <div className={classes.postInfo}>
@@ -280,6 +286,9 @@ const styles = () => ({
     width: '100%',
     borderTop: '1px solid black',
     borderRight: '1px solid black',
+  postItemNoBorder: {
+    width: '100%',
+    borderRight: '1px solid black',
   },
   repostedByContainer: {
     display: 'flex',
@@ -324,7 +333,9 @@ const styles = () => ({
     display: 'flex',
   },
   postAuthorIconContainer: {
-
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   postAuthorIcon: {
     color: 'white',
@@ -338,6 +349,10 @@ const styles = () => ({
     borderRadius: '54%',
     justifyContent: 'center',
     backgroundColor: 'black',
+  },
+  iconConnector: {
+    border: '1px solid black',
+    height: '100%',
   },
   postInfo: {
     width: '40vw',
