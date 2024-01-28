@@ -113,7 +113,11 @@ const PostForm = ({ classes, isComment, postId, parentId, replyingTo }) => {
   };
 
   const replyingToUsernames = () => {
-    const usernames = replyingTo.map((u, idx) => {
+    const onlyUnique = (value, index, array) => {
+      return array.indexOf(value) === index;
+    };
+
+    const usernames = replyingTo.filter(onlyUnique).map((u, idx) => {
       return (
         <div key={idx} className={classes.replyingToUsername}>{usernameWithSymbol(u)}</div>
       );
