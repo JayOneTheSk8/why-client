@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core';
 import constants from '../../constants';
 import { axiosInstance } from '../../axiosInstance';
 import { AuthContext } from '../../authContext';
+import { dispatchEvent } from '../../util';
 
 import PostItem from '../Shared/PostItem';
 import PostForm from '../Shared/PostForm';
@@ -25,6 +26,9 @@ const {
     },
   },
   general: {
+    eventTypes: {
+      RESIZE_BORDER_EXTENSION,
+    },
     fieldTexts: {
       LOADING_,
       REFRESH,
@@ -69,7 +73,10 @@ const FrontPage = ({ classes }) => {
           setErrors({ ...errors, [GENERAL_ERROR]: err.message });
         }
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        dispatchEvent(RESIZE_BORDER_EXTENSION);
+      });
   };
 
   const getFollowedFrontPageData = (withLoading = false) => {

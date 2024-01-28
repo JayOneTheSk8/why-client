@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { withStyles } from '@material-ui/core';
 
@@ -38,6 +38,9 @@ const {
     },
   },
   general: {
+    eventTypes: {
+      RESIZE_BORDER_EXTENSION,
+    },
     fieldTexts: {
       usernameWithSymbol,
     },
@@ -57,6 +60,7 @@ const Root = ({ classes }) => {
   const [accountMenuDisplayed, setAccountMenuDisplayed] = useState(false);
 
   const clickRef = useOnClickOutsideRef(() => accountMenuDisplayed && setAccountMenuDisplayed(false));
+  const borderExtensionRef = useRef(null);
 
   const logoutUser = useCallback(() => {
     // Attempt server logout; regardless of outcome, logout in auth context and refresh page
@@ -82,6 +86,22 @@ const Root = ({ classes }) => {
         });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const handler = () => {
+      if (borderExtensionRef.current) {
+        const { current: borderExtension } = borderExtensionRef;
+
+        borderExtension.style.height = '100vh';
+        const newHeight = borderExtension.clientHeight - borderExtension.previousSibling.clientHeight;
+        borderExtension.style.height = `${(newHeight > 0 ? newHeight : 0) + 1}px`;
+      }
+    };
+
+    window.addEventListener(RESIZE_BORDER_EXTENSION, handler);
+
+    return () => window.removeEventListener(RESIZE_BORDER_EXTENSION, handler);
+  }, [borderExtensionRef, classes]);
 
   return (
     <div className={classes.root}>
@@ -147,6 +167,7 @@ const Root = ({ classes }) => {
             <Route path={signUp} Component={SignUp} />
           </Route>
         </Routes>
+        <div className={classes.borderExtension} ref={borderExtensionRef}></div>
       </div>
 
       <div className={classes.rightPanel}>RIGHT</div>
@@ -308,6 +329,12 @@ const styles = () => ({
     marginBottom: '1em',
     fontSize: '1.5em',
     fontWeight: 600,
+  },
+  borderExtension: {
+    width: '100%',
+    height: '100vh',
+    borderRight: '1px solid black',
+    borderTop: '1px solid black',
   },
 });
 

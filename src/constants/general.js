@@ -4,6 +4,7 @@ const symbols = {
 
 const eventTypes = {
   CLICK: 'click',
+  RESIZE_BORDER_EXTENSION: 'resizeBorderExtension',
 };
 
 const fields = {
