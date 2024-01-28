@@ -40,6 +40,7 @@ const {
 const PostForm = ({ classes, isComment, postId, parentId, replyingTo }) => {
   const navigate = useNavigate();
 
+  const [showReplyTo, setShowReplyTo] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [text, setText] = useState('');
   const [errors, setErrors] = useState({});
@@ -135,7 +136,7 @@ const PostForm = ({ classes, isComment, postId, parentId, replyingTo }) => {
   return (
     <div className={classes.postFormContainer}>
       {
-        (isComment && replyingTo) &&
+        (isComment && replyingTo && showReplyTo) &&
           <div className={classes.replyingTo}>
             <div className={classes.replyingToUsernames}>
               <div className={classes.replyingToText}>{REPLYING_TO}</div>
@@ -154,6 +155,7 @@ const PostForm = ({ classes, isComment, postId, parentId, replyingTo }) => {
             className={classes.postInputField}
             maxLength={POST_TEXT_LIMIT}
             placeholder={isComment ? REPLY_TEXT : WHAT_TO_ASK}
+            onFocus={() => isComment && replyingTo && !showReplyTo && setShowReplyTo(true)}
             onChange={(e) => {
               updateAreaHeight(e.target);
               setText(e.target.value);
