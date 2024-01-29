@@ -7,6 +7,8 @@ export default {
     signIn: '/login',
     signUp: '/register',
     userPage: '/user',
+    commentPage: '/comments',
+    postPage: '/posts',
   },
   backend: {
     frontPage: '/front_page',
