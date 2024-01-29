@@ -50,6 +50,7 @@ const FrontPage = ({ classes }) => {
   const [followingPageData, setFollowingPageData] = useState({});
 
   useEffect(() => getData(true), []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => dispatchEvent(RESIZE_BORDER_EXTENSION), [followingPage, isLoading]);
 
   const getData = (withLoading = false) => {
     if (withLoading) { setIsLoading(true); }
@@ -73,10 +74,7 @@ const FrontPage = ({ classes }) => {
           setErrors({ ...errors, [GENERAL_ERROR]: err.message });
         }
       })
-      .finally(() => {
-        setIsLoading(false);
-        dispatchEvent(RESIZE_BORDER_EXTENSION);
-      });
+      .finally(() => setIsLoading(false));
   };
 
   const getFollowedFrontPageData = (withLoading = false) => {
