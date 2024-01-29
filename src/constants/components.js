@@ -17,6 +17,7 @@ const accountMenu = {
 const frontPage = {
   FOR_YOU: 'For you',
   FOLLOWING: 'Following',
+  noPostsText: (followingPage) => `No ${followingPage ? 'Followed ' : ''}Posts Yet :(`,
 };
 
 const postItem = {

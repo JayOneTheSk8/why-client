@@ -15,6 +15,7 @@ const {
     frontPage: {
       FOR_YOU,
       FOLLOWING,
+      noPostsText,
     },
   },
   errors: {
@@ -103,6 +104,14 @@ const FrontPage = ({ classes }) => {
   };
 
   const postList = (posts) => {
+    if (posts.length === 0) {
+      return (
+        <div className={classes.noPostsSpan}>
+          {noPostsText(followingPage)}
+        </div>
+      );
+    }
+
     return posts.map((post, idx) => {
       return (
         <PostItem
@@ -192,6 +201,15 @@ const FrontPage = ({ classes }) => {
 const styles = () => ({
   frontPageFeed: {
     borderBottom: '1px solid black',
+  },
+  noPostsSpan: {
+    borderRight: '1px solid black',
+    borderTop: '1px solid black',
+    textAlign: 'center',
+    fontWeight: 600,
+    fontSize: '3em',
+    color: '#838383',
+    padding: '1em 0.5em',
   },
   errorsContainer: {
     display: 'flex',
