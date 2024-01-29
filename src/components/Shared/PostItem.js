@@ -143,6 +143,11 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) =>
     return usernames;
   };
 
+  const navigateToShowPage = () => {
+    const url = isComment ? endpoints.frontend.commentPage : endpoints.frontend.postPage;
+    navigate(`${url}/${post.id}`);
+  };
+
   const dateFormat = new Intl.DateTimeFormat(
     'en-US',
     {
@@ -155,6 +160,7 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) =>
   return (
     <div
       className={isParent ? classes.postItemNoBorder : classes.postItem}
+      onClick={navigateToShowPage}
     >
       {/* Reposted By */}
       {
@@ -286,9 +292,18 @@ const styles = () => ({
     width: '100%',
     borderTop: '1px solid black',
     borderRight: '1px solid black',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgb(0, 0, 0, 0.03)',
+    },
+  },
   postItemNoBorder: {
     width: '100%',
     borderRight: '1px solid black',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgb(0, 0, 0, 0.03)',
+    },
   },
   repostedByContainer: {
     display: 'flex',
