@@ -53,7 +53,11 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) =>
     return isLoggedIn && post.author.id.toString() === context.id.toString();
   };
 
-  const toggleRepost = () => {
+  const toggleRepost = (e) => {
+    e.stopPropagation();
+
+    if (isCurrentUsersPost() || isReposting) { return; }
+
     const isLoggedIn = !!localStorage.getItem(CURRENT_USER);
     if (!isLoggedIn) { return navigate(endpoints.frontend.signIn); }
 
@@ -89,7 +93,11 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) =>
     }
   };
 
-  const toggleLike = () => {
+  const toggleLike = (e) => {
+    e.stopPropagation();
+
+    if (isLiking) { return; }
+
     const isLoggedIn = !!localStorage.getItem(CURRENT_USER);
     if (!isLoggedIn) { return navigate(endpoints.frontend.signIn); }
 
@@ -234,7 +242,7 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) =>
             {/* Reposts */}
             <div
               className={classes.repostData}
-              onClick={() => isCurrentUsersPost() || isReposting || toggleRepost()}
+              onClick={toggleRepost}
               onMouseEnter={() => isCurrentUsersPost() || setHighlightedRepost(true)}
               onMouseLeave={() => isCurrentUsersPost() || setHighlightedRepost(false)}
             >
@@ -259,7 +267,7 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) =>
             {/* Likes */}
             <div
               className={classes.likeData}
-              onClick={() => isLiking || toggleLike()}
+              onClick={toggleLike}
               onMouseEnter={() => setHighlightedLike(true)}
               onMouseLeave={() => setHighlightedLike(false)}
             >
