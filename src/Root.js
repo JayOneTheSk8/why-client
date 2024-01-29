@@ -14,6 +14,8 @@ import Sidebar from './components/Sidebar';
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
 import WhyCon from './components/Shared/WhyCon';
+import CommentPage from './components/MessagePages/CommentPage';
+import PostPage from './components/MessagePages/PostPage';
 
 const {
   components: {
@@ -27,7 +29,9 @@ const {
   },
   endpoints: {
     frontend: {
+      commentPage,
       homePage,
+      postPage,
       root,
       signIn,
       signUp,
@@ -161,6 +165,8 @@ const Root = ({ classes }) => {
         <Routes>
           <Route exact path={root} Component={FrontPage} />
           <Route path={homePage} Component={FrontPage} />
+          <Route path={`${commentPage}/:id`} Component={CommentPage} />
+          <Route path={`${postPage}/:id`} Component={PostPage} />
 
           <Route element={AuthRoutes(isLoggedIn)}>
             <Route path={signIn} Component={SignIn} />
