@@ -16,6 +16,7 @@ import SignUp from './components/Auth/SignUp';
 import WhyCon from './components/Shared/WhyCon';
 import CommentPage from './components/MessagePages/CommentPage';
 import PostPage from './components/MessagePages/PostPage';
+import ProfilePage from './components/ProfilePage';
 
 const {
   components: {
@@ -35,6 +36,7 @@ const {
       root,
       signIn,
       signUp,
+      usersPage,
     },
     backend: {
       logOut,
@@ -167,6 +169,7 @@ const Root = ({ classes }) => {
           <Route path={homePage} Component={FrontPage} />
           <Route path={`${commentPage}/:id`} Component={CommentPage} />
           <Route path={`${postPage}/:id`} Component={PostPage} />
+          <Route path={`${usersPage}/:username`} Component={ProfilePage} />
 
           <Route element={AuthRoutes(isLoggedIn)}>
             <Route path={signIn} Component={SignIn} />
