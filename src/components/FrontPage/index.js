@@ -201,6 +201,7 @@ const FrontPage = ({ classes }) => {
 const styles = () => ({
   frontPageFeed: {
     borderBottom: '1px solid black',
+    paddingTop: '4em',
   },
   noPostsSpan: {
     borderRight: '1px solid black',
@@ -231,6 +232,10 @@ const styles = () => ({
     display: 'flex',
     borderRight: '1px solid black',
     borderBottom: '1px solid black',
+    position: 'fixed',
+    width: '50vw',
+    top: 0,
+    backgroundColor: 'rgb(250, 250, 250, 0.6)',
   },
   frontPageOptionContainer: {
     width: '50%',

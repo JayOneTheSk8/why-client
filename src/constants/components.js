@@ -32,10 +32,16 @@ const postForm = {
   WHAT_TO_ASK: 'What do you want to ask?!',
 };
 
+const messagePages = {
+  COMMENT: 'Comment',
+  POST: 'Post',
+};
+
 export default {
   accountMenu,
   auth,
   frontPage,
   postItem,
   postForm,
+  messagePages,
 };

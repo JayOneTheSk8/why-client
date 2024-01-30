@@ -9,11 +9,17 @@ import { dispatchEvent } from '../../util';
 
 import PostItem from '../Shared/PostItem';
 import PostForm from '../Shared/PostForm';
+import BackIcon from '../Shared/BackIcon';
 
 import MessageItem from './MessageItem';
 
 const {
   endpoints,
+  components: {
+    messagePages: {
+      POST,
+    },
+  },
   errors: {
     componentMessages: {
       errorFormat,
@@ -92,6 +98,13 @@ const PostPage = ({ classes }) => {
 
   return (
     <div className={classes.postPage}>
+      <div className={classes.navbar}>
+        <div className={classes.backButton}>
+          <BackIcon />
+        </div>
+        <div className={classes.postPageTitle}>{POST}</div>
+      </div>
+
       <MessageItem message={data} />
 
       {
@@ -110,7 +123,7 @@ const PostPage = ({ classes }) => {
 
 const styles = () => ({
   postPage: {
-
+    paddingTop: '3.5em',
   },
   errorsContainer: {
     display: 'flex',
@@ -127,6 +140,24 @@ const styles = () => ({
   refreshPage: {
     cursor: 'pointer',
     textDecoration: 'underline',
+  },
+  navbar: {
+    display: 'flex',
+    alignItems: 'center',
+    position: 'fixed',
+    top: 0,
+    width: '50vw',
+    backgroundColor: 'rgb(250, 250, 250, 0.6)',
+    padding: '0.5em',
+    borderRight: '1px solid black',
+  },
+  backButton: {
+    marginRight: '1em',
+    paddingTop: '0.3em',
+  },
+  postPageTitle: {
+    fontSize: '1.4em',
+    fontWeight: 600,
   },
 });
 
