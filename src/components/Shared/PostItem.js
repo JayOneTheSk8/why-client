@@ -138,7 +138,16 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) =>
 
     const usernames = replyingTo.map((u, idx) => {
       return (
-        <div key={idx} className={classes.replyingToUsername}>{usernameWithSymbol(u)}</div>
+        <div
+          key={idx}
+          className={classes.replyingToUsername}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(endpoints.frontend.userPage(u));
+          }}
+        >
+          {usernameWithSymbol(u)}
+        </div>
       );
     });
 
@@ -177,7 +186,13 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) =>
             <div className={classes.repostedByRepostIcon}>
               <RepostIcon />
             </div>
-            <div className={classes.respostedBy}>
+            <div
+              className={classes.respostedBy}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(endpoints.frontend.userPage(post.reposted_by_username));
+              }}
+            >
               {repostedText(repostedByOverride || post.reposted_by)}
             </div>
           </div>
@@ -186,7 +201,15 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) =>
       <div className={classes.postData}>
         {/* Author Icon */}
         <div className={classes.postAuthorIconContainer}>
-          <div className={classes.postAuthorIcon}>{post.author.username[0].toUpperCase()}</div>
+          <div
+            className={classes.postAuthorIcon}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(endpoints.frontend.userPage(post.author.username));
+            }}
+          >
+            {post.author.username[0].toUpperCase()}
+          </div>
           {
             isParent &&
               <div className={classes.iconConnector}></div>
@@ -196,7 +219,15 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) =>
         <div className={classes.postInfo}>
           {/* Author Data */}
           <div className={classes.authorData}>
-            <div className={classes.postAuthorDisplayName}>{post.author.display_name}</div>
+            <div
+              className={classes.postAuthorDisplayName}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(endpoints.frontend.userPage(post.author.username));
+              }}
+            >
+              {post.author.display_name}
+            </div>
             <div className={classes.postUsername}>{usernameWithSymbol(post.author.username)}</div>
             <div className={classes.nameAndDateSeparator}>.</div>
             <div className={classes.postDate}>{dateFormat(new Date(post.created_at))}</div>
@@ -327,6 +358,9 @@ const styles = () => ({
     marginLeft: '0.3em',
     color: '#848484',
     fontWeight: 600,
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
   replyingTo: {
     display: 'flex',
@@ -392,6 +426,9 @@ const styles = () => ({
     maxWidth: '10em',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
   postUsername: {
     maxWidth: '17.5em',
