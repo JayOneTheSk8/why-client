@@ -139,13 +139,21 @@ const MessageItem = ({ classes, message, isComment }) => {
     <div className={classes.message}>
       <div className={classes.authorData}>
         <div className={classes.authorIconContainer}>
-          <div className={classes.authorIcon}>
+          <div
+            className={classes.authorIcon}
+            onClick={() => navigate(endpoints.frontend.userPage(message.author.username))}
+          >
             {message.author.display_name[0].toUpperCase()}
           </div>
         </div>
 
         <div className={classes.authorInfo}>
-          <div className={classes.displayName}>{message.author.display_name}</div>
+          <div
+            className={classes.displayName}
+            onClick={() => navigate(endpoints.frontend.userPage(message.author.username))}
+          >
+            {message.author.display_name}
+          </div>
           <div className={classes.username}>{usernameWithSymbol(message.author.username)}</div>
         </div>
       </div>
@@ -259,6 +267,7 @@ const styles = () => ({
     borderRadius: '54%',
     justifyContent: 'center',
     backgroundColor: 'black',
+    cursor: 'pointer',
   },
   authorInfo: {
     width: '40vw',
@@ -267,6 +276,10 @@ const styles = () => ({
   },
   displayName: {
     fontWeight: 600,
+    cursor: 'pointer',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
   username: {
 
