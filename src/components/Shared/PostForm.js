@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { withStyles } from '@material-ui/core';
 
 import constants from '../../constants';
+import { AuthContext } from '../../authContext';
 import { axiosInstance } from '../../axiosInstance';
 
 const {
@@ -38,6 +39,7 @@ const {
 } = constants;
 
 const PostForm = ({ classes, isComment, postId, parentId, replyingTo }) => {
+  const context = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [showReplyTo, setShowReplyTo] = useState(false);
@@ -120,7 +122,13 @@ const PostForm = ({ classes, isComment, postId, parentId, replyingTo }) => {
 
     const usernames = replyingTo.filter(onlyUnique).map((u, idx) => {
       return (
-        <div key={idx} className={classes.replyingToUsername}>{usernameWithSymbol(u)}</div>
+        <div
+          key={idx}
+          className={classes.replyingToUsername}
+          onClick={() => navigate(endpoints.frontend.userPage(u))}
+        >
+          {usernameWithSymbol(u)}
+        </div>
       );
     });
 
@@ -147,7 +155,12 @@ const PostForm = ({ classes, isComment, postId, parentId, replyingTo }) => {
 
       <form className={classes.postForm} onSubmit={handlePost}>
         <div className={classes.userIconContainer}>
-          <div className={classes.userIcon}>{currentUserFirstLetter()}</div>
+          <div
+            className={classes.userIcon}
+            onClick={() => navigate(endpoints.frontend.userPage(context.username))}
+          >
+            {currentUserFirstLetter()}
+          </div>
         </div>
 
         <div className={classes.inputData}>
@@ -230,6 +243,7 @@ const styles = () => ({
     borderRadius: '54%',
     justifyContent: 'center',
     backgroundColor: 'black',
+    cursor: 'pointer',
   },
   inputData: {
 
