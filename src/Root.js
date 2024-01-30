@@ -206,6 +206,7 @@ const styles = () => ({
     left: 0,
     display: 'flex',
     justifyContent: 'space-between',
+    paddingLeft: '1em',
   },
   leftPanelSeparator: {
 
