@@ -130,7 +130,7 @@ const FrontPage = ({ classes }) => {
   </div>;
 
   return (
-    <div className={classes.frontPageFeed}>
+    <div className={context.id ? classes.frontPageFeedLoggedIn : classes.frontPageFeed}>
       {/* Navbar */}
       {
         context.id &&
@@ -200,6 +200,9 @@ const FrontPage = ({ classes }) => {
 
 const styles = () => ({
   frontPageFeed: {
+    borderBottom: '1px solid black',
+  },
+  frontPageFeedLoggedIn: {
     borderBottom: '1px solid black',
     paddingTop: '4em',
   },
