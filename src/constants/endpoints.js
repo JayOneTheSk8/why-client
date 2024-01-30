@@ -6,7 +6,8 @@ export default {
     root: '/',
     signIn: '/login',
     signUp: '/register',
-    userPage: '/user',
+    usersPage: '/user',
+    userPage: (username) => `/user/${username}`,
     commentPage: '/comments',
     postPage: '/posts',
   },
@@ -19,6 +20,8 @@ export default {
     signIn: '/sign_in',
     signUp: '/sign_up',
 
+    userData: (username) => `/users/${username}`,
+
     comments: '/comments',
     commentData: (commentId) => `/comments/${commentId}/data`,
     commentLikes: '/comment_likes',
@@ -28,5 +31,7 @@ export default {
     postData: (postId) => `/posts/${postId}/data`,
     postLikes: '/post_likes',
     postReposts: '/post_reposts',
+
+    follows: '/follows',
   },
 };

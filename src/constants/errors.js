@@ -4,6 +4,7 @@ const componentMessages = {
 
 const keys = {
   GENERAL_ERROR: 'generalError',
+  USERNAME_NOT_FOUND_ERROR: 'usernameNotFound',
 };
 
 export default {

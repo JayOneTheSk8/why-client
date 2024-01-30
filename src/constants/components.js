@@ -32,6 +32,17 @@ const postForm = {
   WHAT_TO_ASK: 'What do you want to ask?!',
 };
 
+const profilePage = {
+  EDIT_PROFILE: 'Edit profile',
+  FOLLOW: 'Follow',
+  FOLLOWERS: 'Followers',
+  FOLLOWING: 'Following',
+  NULL_ACCOUNT_SPAN: 'Try searching for another.',
+  PROFILE: 'Profile',
+  joinedAt: (formattedDate) => `Joined ${formattedDate}`,
+  postCount: (count) => `${count} Post${count === 1 ? '' : 's'}`,
+};
+
 const messagePages = {
   COMMENT: 'Comment',
   POST: 'Post',
@@ -43,5 +54,6 @@ export default {
   frontPage,
   postItem,
   postForm,
+  profilePage,
   messagePages,
 };
