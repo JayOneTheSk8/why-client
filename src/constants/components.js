@@ -14,6 +14,11 @@ const accountMenu = {
   logoutText: (username) => `Log out ${general.fieldTexts.usernameWithSymbol(username)}`,
 };
 
+const followPages = {
+  NO_FOLLOWERS_TEXT: 'No Followers :(',
+  NO_FOLLOWED_USERS_TEXT: 'Not following anyone yet :(',
+};
+
 const frontPage = {
   FOR_YOU: 'For you',
   FOLLOWING: 'Following',
@@ -56,6 +61,7 @@ const messagePages = {
 export default {
   accountMenu,
   auth,
+  followPages,
   frontPage,
   postItem,
   postForm,
