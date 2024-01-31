@@ -10,6 +10,8 @@ import { dispatchEvent } from '../../util';
 import BackIcon from '../Shared/BackIcon';
 import CalendarIcon from '../Shared/CalendarIcon';
 
+import EditProfile from './EditProfile';
+
 const {
   endpoints,
   components: {
@@ -54,6 +56,7 @@ const ProfilePage = ({ classes }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
   const [currentUserFollowing, setCurrentUserFollowing] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
 
   useEffect(() => getData(username), [username]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => dispatchEvent(RESIZE_BORDER_EXTENSION), [isLoading]);
@@ -163,6 +166,11 @@ const ProfilePage = ({ classes }) => {
 
   return (
     <div className={classes.profilePage}>
+      {
+        showEditProfile &&
+          <EditProfile closeFunction={setShowEditProfile} />
+      }
+
       <div className={classes.profilePageNavbar}>
         <div className={classes.backButton}>
           <BackIcon />
@@ -203,7 +211,12 @@ const ProfilePage = ({ classes }) => {
                     context.id &&
                     location.pathname === endpoints.frontend.userPage(context.username)
                   )
-                    ? <div className={classes.editProfileButton}>{EDIT_PROFILE}</div>
+                    ? <div
+                      className={classes.editProfileButton}
+                      onClick={() => setShowEditProfile(true)}
+                    >
+                      {EDIT_PROFILE}
+                    </div>
                     : <div
                       className={currentUserFollowing ? classes.followedButton : classes.editProfileButton}
                       onClick={() => isFollowing || handleFollow()}
