@@ -17,6 +17,8 @@ import WhyCon from './components/Shared/WhyCon';
 import CommentPage from './components/MessagePages/CommentPage';
 import PostPage from './components/MessagePages/PostPage';
 import ProfilePage from './components/ProfilePage';
+import FollowersPage from './components/FollowPages/FollowersPage';
+import FollowingPage from './components/FollowPages/FollowingPage';
 
 const {
   components: {
@@ -37,6 +39,8 @@ const {
       signIn,
       signUp,
       usersPage,
+      followers,
+      following,
     },
     backend: {
       logOut,
@@ -170,6 +174,8 @@ const Root = ({ classes }) => {
           <Route path={`${commentPage}/:id`} Component={CommentPage} />
           <Route path={`${postPage}/:id`} Component={PostPage} />
           <Route path={`${usersPage}/:username`} Component={ProfilePage} />
+          <Route path={`${usersPage}/:username${followers}`} Component={FollowersPage} />
+          <Route path={`${usersPage}/:username${following}`} Component={FollowingPage} />
 
           <Route element={AuthRoutes(isLoggedIn)}>
             <Route path={signIn} Component={SignIn} />
