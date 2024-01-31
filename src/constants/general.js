@@ -28,6 +28,7 @@ const titles = {
 const fieldTexts = {
   LOADING_: 'Loading...',
   REFRESH: 'Refresh',
+  SAVE: 'Save',
   usernameWithSymbol: (username) => `${symbols.USERNAME_SYMBOL}${username}`,
 };
 
