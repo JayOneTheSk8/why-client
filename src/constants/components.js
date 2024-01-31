@@ -43,6 +43,11 @@ const profilePage = {
   postCount: (count) => `${count} Post${count === 1 ? '' : 's'}`,
 };
 
+const profileItem = {
+  FOLLOWS_YOU: 'Follows you',
+  UNFOLLOW: 'Unfollow',
+};
+
 const messagePages = {
   COMMENT: 'Comment',
   POST: 'Post',
@@ -55,5 +60,6 @@ export default {
   postItem,
   postForm,
   profilePage,
+  profileItem,
   messagePages,
 };
