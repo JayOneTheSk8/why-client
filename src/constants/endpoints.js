@@ -2,6 +2,8 @@ export default {
   frontend: {
     followers: '/followers',
     following: '/following',
+    followersPage: (username) => `/user/${username}/followers`,
+    followingPage: (username) => `/user/${username}/following`,
     homePage: '/home',
     root: '/',
     signIn: '/login',
@@ -33,5 +35,7 @@ export default {
     postReposts: '/post_reposts',
 
     follows: '/follows',
+    following: (username) => `users/${username}/subscriptions`,
+    followers: (username) => `users/${username}/followers`,
   },
 };
