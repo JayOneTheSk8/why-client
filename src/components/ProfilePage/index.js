@@ -467,6 +467,7 @@ const styles = () => ({
     fontSize: '1.2em',
     width: '6em',
     textAlign: 'center',
+    border: '1px solid grey',
   },
   followError: {
     color: 'red',
