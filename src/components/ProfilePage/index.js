@@ -95,6 +95,8 @@ const ProfilePage = ({ classes }) => {
   };
 
   const handleFollow = () => {
+    if (!context.id) { return navigate(endpoints.frontend.signIn); }
+
     setIsFollowing(true);
     setFollowErrors({});
 
