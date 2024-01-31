@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { withStyles } from '@material-ui/core';
 
 import constants from '../../constants';
@@ -45,6 +45,7 @@ const {
 const ProfilePage = ({ classes }) => {
   const { username } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const context = useContext(AuthContext);
 
   const [data, setData] = useState({});
@@ -254,11 +255,18 @@ const ProfilePage = ({ classes }) => {
               </div>
 
               <div className={classes.followCounts}>
-                <div className={classes.following}>
+                <div
+                  className={classes.following}
+                  onClick={() => navigate(endpoints.frontend.followingPage(data.username))}
+                >
                   <div className={classes.followCount}>{data.following_count}</div>
                   {FOLLOWING}
                 </div>
-                <div className={classes.followers}>
+
+                <div
+                  className={classes.followers}
+                  onClick={() => navigate(endpoints.frontend.followersPage(data.username))}
+                >
                   <div className={classes.followCount}>{data.follower_count}</div>
                   {FOLLOWERS}
                 </div>
