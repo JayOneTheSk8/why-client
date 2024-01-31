@@ -374,6 +374,8 @@ const styles = () => ({
     borderRadius: '2em',
     fontWeight: 600,
     fontSize: '1.2em',
+    width: '6em',
+    textAlign: 'center',
   },
   names: {
     padding: '0.5em 0.5em 0.5em 1.7em',
@@ -455,6 +457,8 @@ const styles = () => ({
     borderRadius: '2em',
     fontWeight: 600,
     fontSize: '1.2em',
+    width: '6em',
+    textAlign: 'center',
   },
   followError: {
     color: 'red',
