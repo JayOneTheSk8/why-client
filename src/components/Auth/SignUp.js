@@ -100,6 +100,7 @@ const SignUp = ({ classes }) => {
     if (!displayNameInput.current.value || displayNameInput.current.value === text.slice(0, -1)) {
       !labelClassnames.displayName.includes('Shrunk') && shrinkLabel(DISPLAY_NAME)(e);
       displayNameInput.current.value = text;
+      setDisplayName(text);
     }
   };
 
