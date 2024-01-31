@@ -191,7 +191,7 @@ const styles = () => ({
     left: 0,
     height: '1000vh',
     width: '100vw',
-    backgroundColor: 'white',
+    backgroundColor: '#fafafa',
     zIndex: 2,
   },
   signInForm: {
