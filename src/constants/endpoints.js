@@ -37,5 +37,9 @@ export default {
     follows: '/follows',
     following: (username) => `users/${username}/subscriptions`,
     followers: (username) => `users/${username}/followers`,
+
+    linkedPosts: (userId) => `/users/${userId}/linked_posts`,
+    linkedComments: (userId) => `/users/${userId}/linked_comments`,
+    likes: (userId) => `/users/${userId}/likes`,
   },
 };
