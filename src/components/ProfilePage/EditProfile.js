@@ -171,7 +171,7 @@ const styles = () => ({
     height: '1000vh',
     width: '100vw',
     backgroundColor: 'rgb(0, 0, 0, 0.6)',
-    zIndex: 2,
+    zIndex: 4,
   },
   editProfileForm: {
     top: '17vh',

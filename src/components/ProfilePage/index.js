@@ -327,6 +327,7 @@ const styles = () => ({
     position: 'fixed',
     top: 0,
     backgroundColor: 'rgb(250, 250, 250, 0.6)',
+    zIndex: 3,
   },
   backButton: {
     marginRight: '1em',
