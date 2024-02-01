@@ -9,6 +9,7 @@ import { dispatchEvent } from '../../util';
 import BackIcon from '../Shared/BackIcon';
 
 import ProfileItem from '../Shared/ProfileItem';
+import LoadingIcon from '../Shared/LoadingIcon';
 
 const {
   endpoints,
@@ -34,7 +35,6 @@ const {
       RESIZE_BORDER_EXTENSION,
     },
     fieldTexts: {
-      LOADING_,
       REFRESH,
     },
   },
@@ -81,7 +81,10 @@ const FollowersPage = ({ classes }) => {
     });
   };
 
-  if (isLoading) return <div>{LOADING_}</div>;
+  if (isLoading) return <div className={classes.loadingIcon}>
+    <LoadingIcon />
+  </div>;
+
   if (Object.keys(errors).length) return <div className={classes.errorsContainer}>
     <div className={classes.errorsHeader}>{errorFormat(Object.values(errors).join(', '))}</div>
     <div className={classes.refreshPage} onClick={() => getData(username)}>{REFRESH}</div>
@@ -132,6 +135,12 @@ const FollowersPage = ({ classes }) => {
 const styles = () => ({
   followersPage: {
     paddingTop: '8.6em',
+  },
+  loadingIcon: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRight: '1px solid black'
   },
   errorsContainer: {
     display: 'flex',

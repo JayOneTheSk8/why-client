@@ -10,6 +10,7 @@ import { dispatchEvent } from '../../util';
 import BackIcon from '../Shared/BackIcon';
 import CalendarIcon from '../Shared/CalendarIcon';
 import PostItem from '../Shared/PostItem';
+import LoadingIcon from '../Shared/LoadingIcon';
 
 import EditProfile from './EditProfile';
 
@@ -42,7 +43,6 @@ const {
       RESIZE_BORDER_EXTENSION,
     },
     fieldTexts: {
-      LOADING_,
       REFRESH,
       usernameWithSymbol,
     },
@@ -301,7 +301,10 @@ const ProfilePage = ({ classes }) => {
     }
   ).format;
 
-  if (isLoading) return <div>{LOADING_}</div>;
+  if (isLoading) return <div className={classes.loadingIcon}>
+    <LoadingIcon />
+  </div>;
+
   if (errors[GENERAL_ERROR]) return <div className={classes.errorsContainer}>
     <div className={classes.errorsHeader}>{errors[GENERAL_ERROR]}</div>
     <div className={classes.refreshPage} onClick={() => getData(username)}>{REFRESH}</div>
@@ -509,19 +512,25 @@ const ProfilePage = ({ classes }) => {
               {
                 selectedProfileContentTab === POSTS
                   && fetchingLinkedPosts
-                  && <div>{LOADING_}</div>
+                  && <div className={classes.postLoadingIcon}>
+                    <LoadingIcon />
+                  </div>
               }
 
               {
                 selectedProfileContentTab === REPLIES
                   && fetchingLinkedComments
-                  && <div>{LOADING_}</div>
+                  && <div className={classes.postLoadingIcon}>
+                    <LoadingIcon />
+                  </div>
               }
 
               {
                 selectedProfileContentTab === LIKES
                   && fetchingLikes
-                  && <div>{LOADING_}</div>
+                  && <div className={classes.postLoadingIcon}>
+                    <LoadingIcon />
+                  </div>
               }
 
               {
@@ -600,6 +609,17 @@ const ProfilePage = ({ classes }) => {
 };
 
 const styles = () => ({
+  loadingIcon: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRight: '1px solid black'
+  },
+  postLoadingIcon: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
   errorsContainer: {
     borderRight: '1px solid black',
     display: 'flex',

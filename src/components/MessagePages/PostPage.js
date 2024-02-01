@@ -10,6 +10,7 @@ import { dispatchEvent } from '../../util';
 import PostItem from '../Shared/PostItem';
 import PostForm from '../Shared/PostForm';
 import BackIcon from '../Shared/BackIcon';
+import LoadingIcon from '../Shared/LoadingIcon';
 
 import MessageItem from './MessageItem';
 
@@ -33,7 +34,6 @@ const {
       RESIZE_BORDER_EXTENSION,
     },
     fieldTexts: {
-      LOADING_,
       REFRESH,
     }
   },
@@ -90,7 +90,10 @@ const PostPage = ({ classes }) => {
     }
   };
 
-  if (isLoading) return <div>{LOADING_}</div>;
+  if (isLoading) return <div className={classes.loadingIcon}>
+    <LoadingIcon />
+  </div>;
+
   if (Object.keys(errors).length) return <div className={classes.errorsContainer}>
     <div className={classes.errorsHeader}>{errorFormat(Object.values(errors).join(', '))}</div>
     <div className={classes.refreshPage} onClick={() => getData(postId)}>{REFRESH}</div>
@@ -124,6 +127,12 @@ const PostPage = ({ classes }) => {
 const styles = () => ({
   postPage: {
     paddingTop: '3.5em',
+  },
+  loadingIcon: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRight: '1px solid black'
   },
   errorsContainer: {
     display: 'flex',
