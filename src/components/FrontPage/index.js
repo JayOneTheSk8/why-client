@@ -8,6 +8,7 @@ import { dispatchEvent } from '../../util';
 
 import PostItem from '../Shared/PostItem';
 import PostForm from '../Shared/PostForm';
+import LoadingIcon from '../Shared/LoadingIcon';
 
 const {
   endpoints,
@@ -31,7 +32,6 @@ const {
       RESIZE_BORDER_EXTENSION,
     },
     fieldTexts: {
-      LOADING_,
       REFRESH,
     },
     postTypes: {
@@ -53,14 +53,15 @@ const FrontPage = ({ classes }) => {
   useEffect(() => getData(true), []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => dispatchEvent(RESIZE_BORDER_EXTENSION), [followingPage, isLoading]);
 
-  const getData = (withLoading = false) => {
-    if (withLoading) { setIsLoading(true); }
+  const getData = () => {
+    setIsLoading(true);
     setErrors({});
+    setFollowingPage(false);
 
     axiosInstance.get(endpoints.backend.frontPage)
       .then((res) => {
         setData(res.data);
-        setFollowingPage(false);
+        setIsLoading(true);
       })
       .catch(err => {
         if (err.response) {
@@ -78,14 +79,19 @@ const FrontPage = ({ classes }) => {
       .finally(() => setIsLoading(false));
   };
 
-  const getFollowedFrontPageData = (withLoading = false) => {
-    if (withLoading) { setIsLoading(true); }
+  const getFollowedFrontPageData = () => {
+    setIsLoading(true);
     setErrors({});
+    setFollowingPage(true);
 
     axiosInstance.get(endpoints.backend.frontPageFollowing)
       .then((res) => {
         setFollowingPageData(res.data);
-        setFollowingPage(true);
+
+        // Sometimes the 'finally' is updated before this so we set the loading to true
+        // to make sure the data state is fully set
+        // (has only happened when network throttling is on)
+        setIsLoading(true);
       })
       .catch(err => {
         if (err.response) {
@@ -123,10 +129,13 @@ const FrontPage = ({ classes }) => {
     });
   };
 
-  if (isLoading) return <div>{LOADING_}</div>;
+  if (isLoading && !data) return <div className={classes.loadingIcon}>
+    <LoadingIcon />
+  </div>;
+
   if (Object.keys(errors).length) return <div className={classes.errorsContainer}>
     <div className={classes.errorsHeader}>{errorFormat(Object.values(errors).join(', '))}</div>
-    <div className={classes.refreshPage} onClick={() => getData(true)}>{REFRESH}</div>
+    <div className={classes.refreshPage} onClick={() => getData()}>{REFRESH}</div>
   </div>;
 
   return (
@@ -138,7 +147,7 @@ const FrontPage = ({ classes }) => {
             <div
               className={classes.frontPageOptionContainer}
               onClick={() => {
-                if (followingPage) {
+                if (!isLoading && followingPage) {
                   if (!Object.keys(data).length) {
                     getData();
                   } else {
@@ -165,7 +174,7 @@ const FrontPage = ({ classes }) => {
             <div
               className={classes.frontPageFollowingOptionContainer}
               onClick={() => {
-                if (!followingPage) {
+                if (!isLoading && !followingPage) {
                   if (!Object.keys(followingPageData).length) {
                     getFollowedFrontPageData();
                   } else {
@@ -193,7 +202,12 @@ const FrontPage = ({ classes }) => {
 
       {context.id && <PostForm />}
 
-      {followingPage ? postList(followingPageData.posts) : postList(data.posts)}
+      {
+        isLoading
+          ? <div className={classes.postLoadingIcon}><LoadingIcon /></div>
+          : followingPage
+            ? postList(followingPageData.posts)
+            : postList(data.posts)}
     </div>
   );
 };
@@ -214,6 +228,19 @@ const styles = () => ({
     fontSize: '3em',
     color: '#838383',
     padding: '1em 0.5em',
+  },
+  loadingIcon: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRight: '1px solid black'
+  },
+  postLoadingIcon: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRight: '1px solid black',
+    borderTop: '1px solid black'
   },
   errorsContainer: {
     display: 'flex',
