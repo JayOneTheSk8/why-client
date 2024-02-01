@@ -32,7 +32,7 @@ const {
   },
 } = constants;
 
-const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) => {
+const PostItem = ({ classes, post, repostedByOverride, isComment, isParent, withoutRightBorder }) => {
   const navigate = useNavigate();
   const context = useContext(AuthContext);
 
@@ -176,7 +176,13 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent }) =>
 
   return (
     <div
-      className={isParent ? classes.postItemNoBorder : classes.postItem}
+      className={
+        `${
+          isParent ? classes.postItemNoBorder : classes.postItem
+        } ${
+          withoutRightBorder ? classes.postItemNoRightBorder : ''
+        }`
+      }
       onClick={navigateToShowPage}
     >
       {/* Reposted By */}
@@ -343,6 +349,9 @@ const styles = () => ({
     '&:hover': {
       backgroundColor: 'rgb(0, 0, 0, 0.03)',
     },
+  },
+  postItemNoRightBorder: {
+    borderRight: 'none',
   },
   repostedByContainer: {
     display: 'flex',
