@@ -267,7 +267,7 @@ const styles = () => ({
     fontSize: '1.3em',
     fontWeight: 600,
     color: '#fafafa',
-    width: '4.5em',
+    width: '6em',
     height: '1.7em',
     borderRadius: '4em',
     border: 'none',
