@@ -44,6 +44,10 @@ const profilePage = {
   FOLLOWING: 'Following',
   NULL_ACCOUNT_SPAN: 'Try searching for another.',
   PROFILE: 'Profile',
+  POSTS: 'Posts',
+  REPLIES: 'Replies',
+  LIKES: 'Likes',
+  noPostsText: (postType) => `No ${postType} Yet :(`,
   joinedAt: (formattedDate) => `Joined ${formattedDate}`,
   postCount: (count) => `${count} Post${count === 1 ? '' : 's'}`,
 };

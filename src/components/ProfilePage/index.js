@@ -9,6 +9,7 @@ import { dispatchEvent } from '../../util';
 
 import BackIcon from '../Shared/BackIcon';
 import CalendarIcon from '../Shared/CalendarIcon';
+import PostItem from '../Shared/PostItem';
 
 import EditProfile from './EditProfile';
 
@@ -22,7 +23,11 @@ const {
       FOLLOWING,
       NULL_ACCOUNT_SPAN,
       PROFILE,
+      POSTS,
+      REPLIES,
+      LIKES,
       joinedAt,
+      noPostsText,
       postCount,
     },
   },
@@ -41,6 +46,11 @@ const {
       REFRESH,
       usernameWithSymbol,
     },
+    postTypes: {
+      COMMENT,
+      COMMENT_LIKE,
+      COMMENT_REPOST,
+    },
   },
 } = constants;
 
@@ -58,8 +68,31 @@ const ProfilePage = ({ classes }) => {
   const [currentUserFollowing, setCurrentUserFollowing] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
 
+  const [selectedProfileContentTab, setSelectedProfileContentTab] = useState(POSTS);
+
+  const [fetchingLinkedPosts, setFetchingLinkedPosts] = useState(true);
+  const [fetchingLinkedComments, setFetchingLinkedComments] = useState(false);
+  const [fetchingLikes, setFetchingLikes] = useState(false);
+
+  const [linkedPostsData, setLinkedPostsData] = useState({});
+  const [linkedCommentsData, setLinkedCommentsData] = useState({});
+  const [likesData, setLikesData] = useState({});
+
+  const [linkedPostsErrors, setLinkedPostsErrors] = useState({});
+  const [linkedCommentsErrors, setLinkedCommentsErrors] = useState({});
+  const [likesErrors, setLikesErrors] = useState({});
+
   useEffect(() => getData(username), [username]); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => dispatchEvent(RESIZE_BORDER_EXTENSION), [isLoading]);
+  useEffect(
+    () => dispatchEvent(RESIZE_BORDER_EXTENSION),
+    [
+      isLoading,
+      fetchingLinkedPosts,
+      fetchingLinkedComments,
+      fetchingLikes,
+      selectedProfileContentTab,
+    ]
+  );
 
   const getData = (username) => {
     setIsLoading(true);
@@ -69,6 +102,15 @@ const ProfilePage = ({ classes }) => {
       .then((res) => {
         setData(res.data);
         setCurrentUserFollowing(res.data.current_user_following);
+
+        getPosts(
+          endpoints.backend.linkedPosts(res.data.id),
+          setLinkedPostsData,
+          setLinkedPostsErrors,
+          setFetchingLinkedPosts,
+          linkedPostsErrors,
+          POSTS
+        );
       })
       .catch(err => {
         window.err = err;
@@ -147,6 +189,107 @@ const ProfilePage = ({ classes }) => {
           }
         })
         .finally(() => setIsFollowing(false));
+    }
+  };
+
+  const postList = (posts, postType) => {
+    if (posts.length === 0) {
+      return (
+        <div className={classes.noPostsSpan}>
+          {noPostsText(postType)}
+        </div>
+      );
+    }
+
+    return posts.map((post, idx) => {
+      return (
+        <PostItem
+          key={`ProfilePage${postType}${idx}`}
+          withoutRightBorder
+          post={post}
+          isComment={
+            [COMMENT, COMMENT_REPOST].includes(post.post_type)
+              || post.like_type === COMMENT_LIKE
+          }
+        />
+      );
+    });
+  };
+
+  const getPosts = (endpoint, dataFunc, dataErrorsFunc, dataLoadingFunc, dataErrorsState, postType) => {
+    dataLoadingFunc(true);
+    setSelectedProfileContentTab(postType);
+    dataErrorsFunc({});
+
+    axiosInstance.get(endpoint)
+      .then((res) => {
+        dataFunc(res.data);
+      })
+      .catch(err => {
+        if (err.response) {
+          const { data: errorData } = err.response;
+
+          if (errorData.errors) {
+            dataErrorsFunc({ ...dataErrorsState, [GENERAL_ERROR]: errorData.errors.join(', ') });
+          } else {
+            dataErrorsFunc({ ...dataErrorsState, [GENERAL_ERROR]: err.message });
+          }
+        } else {
+          dataErrorsFunc({ ...dataErrorsState, [GENERAL_ERROR]: err.message });
+        }
+      })
+      .finally(() => dataLoadingFunc(false));
+  };
+
+  const postsByTab = () => {
+    switch (selectedProfileContentTab) {
+      case POSTS:
+        return postList(linkedPostsData.posts, POSTS);
+      case REPLIES:
+        return postList(linkedCommentsData.comments, REPLIES);
+      case LIKES:
+        return postList(likesData.likes, LIKES);
+      default:
+        break;
+    }
+  };
+
+  const handleLinkedPosts = () => {
+    if (selectedProfileContentTab !== POSTS && !fetchingLinkedPosts) {
+      getPosts(
+        endpoints.backend.linkedPosts(data.id),
+        setLinkedPostsData,
+        setLinkedPostsErrors,
+        setFetchingLinkedPosts,
+        linkedPostsErrors,
+        POSTS
+      );
+    }
+  };
+
+  const handleLinkedComments = () => {
+    if (selectedProfileContentTab !== REPLIES && !fetchingLinkedComments) {
+      getPosts(
+        endpoints.backend.linkedComments(data.id),
+        setLinkedCommentsData,
+        setLinkedCommentsErrors,
+        setFetchingLinkedComments,
+        linkedCommentsErrors,
+        REPLIES
+      );
+    }
+  };
+
+  const handleLikes = () => {
+    if (selectedProfileContentTab !== LIKES && !fetchingLikes) {
+      getPosts(
+        endpoints.backend.likes(data.id),
+        setLikesData,
+        setLikesErrors,
+        setFetchingLikes,
+        likesErrors,
+        LIKES
+      );
     }
   };
 
@@ -292,7 +435,165 @@ const ProfilePage = ({ classes }) => {
 
       {
         !!errors[USERNAME_NOT_FOUND_ERROR] ||
-          <div className={classes.profileContent}></div>
+          <div className={classes.profileContentContainer}>
+            <div className={classes.profileContentNavbar}>
+              <div
+                className={
+                  `${
+                    classes.profileContentOptionContainer
+                  } ${
+                    selectedProfileContentTab === POSTS
+                      ? classes.selectedProfileContentOptionContainer
+                      : ''
+                  }`
+                }
+                onClick={handleLinkedPosts}
+              >
+                <div className={classes.profileContentOption}>{POSTS}</div>
+                {
+                  selectedProfileContentTab === POSTS &&
+                    <div className={classes.selectedProfileContent}></div>
+                }
+              </div>
+
+              <div
+                className={
+                  `${
+                    classes.profileContentOptionContainer
+                  } ${
+                    selectedProfileContentTab === REPLIES
+                      ? classes.selectedProfileContentOptionContainer
+                      : ''
+                  }`
+                }
+                onClick={handleLinkedComments}
+              >
+                <div className={classes.profileContentOption}>{REPLIES}</div>
+                {
+                  selectedProfileContentTab === REPLIES &&
+                    <div className={classes.selectedProfileContent}></div>
+                }
+              </div>
+
+              <div
+                className={
+                  `${
+                    classes.profileContentOptionContainer
+                  } ${
+                    selectedProfileContentTab === LIKES
+                      ? classes.selectedProfileContentOptionContainer
+                      : ''
+                  }`
+                }
+                onClick={handleLikes}
+              >
+                <div className={classes.profileContentOption}>{LIKES}</div>
+                {
+                  selectedProfileContentTab === LIKES &&
+                    <div className={classes.selectedProfileContent}></div>
+                }
+              </div>
+            </div>
+
+            <div className={classes.profileContent}>
+              {
+                !linkedPostsErrors[GENERAL_ERROR]
+                  && !linkedCommentsErrors[GENERAL_ERROR]
+                  && !likesErrors[GENERAL_ERROR]
+                  && !fetchingLinkedPosts
+                  && !fetchingLinkedComments
+                  && !fetchingLikes
+                  && postsByTab()
+              }
+
+              {
+                selectedProfileContentTab === POSTS
+                  && fetchingLinkedPosts
+                  && <div>{LOADING_}</div>
+              }
+
+              {
+                selectedProfileContentTab === REPLIES
+                  && fetchingLinkedComments
+                  && <div>{LOADING_}</div>
+              }
+
+              {
+                selectedProfileContentTab === LIKES
+                  && fetchingLikes
+                  && <div>{LOADING_}</div>
+              }
+
+              {
+                selectedProfileContentTab === POSTS
+                  && linkedPostsErrors[GENERAL_ERROR]
+                  && <div className={classes.postErrorContainer}>
+                    <div className={classes.postError}>{linkedPostsErrors[GENERAL_ERROR]}</div>
+                    <div
+                      className={classes.refreshPage}
+                      onClick={() => {
+                        getPosts(
+                          endpoints.backend.linkedPosts(data.id),
+                          setLinkedPostsData,
+                          setLinkedPostsErrors,
+                          setFetchingLinkedPosts,
+                          linkedPostsErrors,
+                          POSTS
+                        );
+                      }}
+                    >
+                      {REFRESH}
+                    </div>
+                  </div>
+              }
+
+              {
+                selectedProfileContentTab === REPLIES
+                  && linkedCommentsErrors[GENERAL_ERROR]
+                  && <div className={classes.postErrorContainer}>
+                    <div className={classes.postError}>{linkedCommentsErrors[GENERAL_ERROR]}</div>
+                    <div
+                      className={classes.refreshPage}
+                      onClick={() => {
+                        getPosts(
+                          endpoints.backend.linkedComments(data.id),
+                          setLinkedCommentsData,
+                          setLinkedCommentsErrors,
+                          setFetchingLinkedComments,
+                          linkedCommentsErrors,
+                          REPLIES
+                        );
+                      }}
+                    >
+                      {REFRESH}
+                    </div>
+                  </div>
+              }
+
+              {
+                selectedProfileContentTab === LIKES
+                  && likesErrors[GENERAL_ERROR]
+                  && <div className={classes.postErrorContainer}>
+                    <div className={classes.postError}>{likesErrors[GENERAL_ERROR]}</div>
+                    <div
+                      className={classes.refreshPage}
+                      onClick={() => {
+                        getPosts(
+                          endpoints.backend.likes(data.id),
+                          setLikesData,
+                          setLikesErrors,
+                          setFetchingLikes,
+                          likesErrors,
+                          LIKES
+                        );
+                      }}
+                    >
+                      {REFRESH}
+                    </div>
+                  </div>
+              }
+            </div>
+          </div>
       }
     </div>
   );
@@ -333,7 +634,8 @@ const styles = () => ({
     marginRight: '1em',
   },
   profilePageTitle: {
-
+    width: '40vw',
+    overflow: 'hidden',
   },
   navbarProfileName: {
     fontSize: '1.3em',
@@ -470,9 +772,6 @@ const styles = () => ({
       borderBottom: '1px solid black',
     },
   },
-  profileContent: {
-
-  },
   followedButton: {
     cursor: 'pointer',
     padding: '0.3em',
@@ -489,6 +788,56 @@ const styles = () => ({
     color: 'red',
     fontSize: '1.5em',
     textAlign: 'center',
+  },
+  profileContentContainer: {
+
+  },
+  profileContentNavbar: {
+    display: 'flex',
+    borderBottom: '1px solid black',
+  },
+  profileContentOptionContainer: {
+    height: '3em',
+    width: '35%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    fontSize: '1.5em',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s',
+    '&:hover': {
+      backgroundColor: '#dfdfdf',
+    },
+  },
+  selectedProfileContentOptionContainer: {
+    fontWeight: 600,
+  },
+  profileContentOption: {
+    padding: '0.7em',
+  },
+  selectedProfileContent: {
+    border: '2px solid #1D9BF0',
+    borderRadius: '3em',
+    width: '2.5em',
+  },
+  profileContent: {
+
+  },
+  postError: {
+    fontSize: '3em',
+    color: 'red',
+  },
+  postErrorContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  noPostsSpan: {
+    borderTop: '1px solid black',
+    textAlign: 'center',
+    fontSize: '2em',
+    color: '#8b8b8b',
+    padding: '1em',
   },
 });
 

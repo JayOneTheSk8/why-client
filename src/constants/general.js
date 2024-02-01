@@ -15,7 +15,9 @@ const fields = {
 };
 
 const postTypes = {
+  COMMENT: 'Comment',
   COMMENT_REPOST: 'CommentRepost',
+  COMMENT_LIKE: 'CommentLike',
 };
 
 const titles = {
