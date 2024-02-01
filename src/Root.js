@@ -13,12 +13,14 @@ import FrontPage from './components/FrontPage';
 import Sidebar from './components/Sidebar';
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
-import WhyCon from './components/Shared/WhyCon';
 import CommentPage from './components/MessagePages/CommentPage';
 import PostPage from './components/MessagePages/PostPage';
 import ProfilePage from './components/ProfilePage';
 import FollowersPage from './components/FollowPages/FollowersPage';
 import FollowingPage from './components/FollowPages/FollowingPage';
+
+import LoadingModal from './components/Shared/LoadingModal';
+import WhyCon from './components/Shared/WhyCon';
 
 const {
   components: {
@@ -67,6 +69,7 @@ const Root = ({ classes }) => {
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem(CURRENT_USER);
 
+  const [isLoggingInUser, setIsLoggingInUser] = useState(false);
   const [accountMenuDisplayed, setAccountMenuDisplayed] = useState(false);
 
   const clickRef = useOnClickOutsideRef(() => accountMenuDisplayed && setAccountMenuDisplayed(false));
@@ -83,6 +86,8 @@ const Root = ({ classes }) => {
 
   useEffect(() => {
     if (isLoggedIn) {
+      setIsLoggingInUser(true);
+
       axiosInstance.get(sessions)
         .then((res) => context.login(res.data))
         .catch((err) => {
@@ -93,7 +98,8 @@ const Root = ({ classes }) => {
               logoutUser();
             }
           }
-        });
+        })
+        .finally(() => setIsLoggingInUser(false));
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -115,6 +121,8 @@ const Root = ({ classes }) => {
 
   return (
     <div className={classes.root}>
+      {isLoggingInUser && <LoadingModal />}
+
       <div className={classes.leftPanel}>
         <div className={classes.leftPanelSeparator}></div>
 
