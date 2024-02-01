@@ -26,6 +26,7 @@ const frontPage = {
 };
 
 const postItem = {
+  CANNOT_REPOST: 'Can\'t repost your own posts',
   repostedText: (user) => `${user} reposted`,
 };
 

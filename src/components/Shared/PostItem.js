@@ -14,6 +14,7 @@ const {
   endpoints,
   components: {
     postItem: {
+      CANNOT_REPOST,
       repostedText,
     },
     postForm: {
@@ -287,7 +288,7 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent, with
                 <div className={highlightedRepost ? classes.repostCircle : classes.hiddenRepostCircle}></div>
               </div>
 
-              <div className={classes.repostIcon}>
+              <div className={classes.repostIcon} title={isCurrentUsersPost() ? CANNOT_REPOST : ''}>
                 <RepostIcon highlighted={highlightedRepost || currentlyReposted} />
               </div>
 
