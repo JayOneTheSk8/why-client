@@ -3,7 +3,6 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { withStyles } from '@material-ui/core';
 
 import constants from './constants';
-import withMuiTheme from './withMuiTheme';
 import { AuthRoutes } from './routes';
 import { AuthContext } from './authContext';
 import { useOnClickOutsideRef } from './hooks';
@@ -362,4 +361,4 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(withMuiTheme(Root));
+export default withStyles(styles)(Root);

@@ -5,6 +5,7 @@ const symbols = {
 const eventTypes = {
   CLICK: 'click',
   RESIZE_BORDER_EXTENSION: 'resizeBorderExtension',
+  DARK_MODE_EVENT: 'darkModeEvent',
 };
 
 const fields = {

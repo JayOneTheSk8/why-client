@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 
-import Root from './Root';
+import ThemedApp from './ThemedApp';
 
 import { AuthProvider } from './authContext';
 
@@ -11,7 +11,7 @@ root.render(
   <React.StrictMode>
     <AuthProvider>
       <BrowserRouter>
-        <Root />
+        <ThemedApp />
       </BrowserRouter>
     </AuthProvider>
   </React.StrictMode>
