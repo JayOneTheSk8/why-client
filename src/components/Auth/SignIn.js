@@ -60,9 +60,15 @@ const SignIn = ({ classes }) => {
     password: classes.passwordLabel,
   });
 
+  const [focusedInputs, setFocusedInputs] = useState({
+    username: false,
+    password: false,
+  });
+
   const shrinkLabel = (field) => {
     return (e) => {
       e.preventDefault();
+      setFocusedInputs({ ...focusedInputs, [field]: true });
       setLabelClassnames({ ...labelClassnames, [field]: classes[`${field}LabelShrunk`] });
     };
   };
@@ -70,6 +76,8 @@ const SignIn = ({ classes }) => {
   const expandLabel = (field) => {
     return (e) => {
       e.preventDefault();
+      setFocusedInputs({ ...focusedInputs, [field]: false });
+
       if (e.target.value !== '') { return; }
 
       setLabelClassnames({ ...labelClassnames, [field]: classes[`${field}Label`] });
@@ -127,23 +135,33 @@ const SignIn = ({ classes }) => {
         }
 
         <div className={classes.signInDetails}>
-          <label htmlFor={USERNAME} className={labelClassnames[USERNAME]}>{USERNAME_TITLE}</label>
+          <label
+            htmlFor={USERNAME}
+            className={`${labelClassnames[USERNAME]} ${focusedInputs[USERNAME] ? classes.focusedLabel : ''}`}
+          >
+            {USERNAME_TITLE}
+          </label>
           <input
             id={USERNAME}
             spellCheck={false}
             maxLength={USERNAME_LIMIT}
-            className={classes.usernameInput}
+            className={`${classes.usernameInput} ${focusedInputs[USERNAME] ? classes.focusedInput : ''}`}
             onChange={(e) => setUsername(e.target.value)}
             onFocus={shrinkLabel(USERNAME)}
             onBlur={expandLabel(USERNAME)}
           />
 
-          <label htmlFor={PASSWORD} className={labelClassnames[PASSWORD]}>{PASSWORD_TITLE}</label>
+          <label
+            htmlFor={PASSWORD}
+            className={`${labelClassnames[PASSWORD]} ${focusedInputs[PASSWORD] ? classes.focusedLabel : ''}`}
+          >
+            {PASSWORD_TITLE}
+          </label>
           <input
             id={PASSWORD}
             type={passwordVisible ? '' : PASSWORD}
             spellCheck={false}
-            className={classes.passwordInput}
+            className={`${classes.passwordInput} ${focusedInputs[PASSWORD] ? classes.focusedInput : ''}`}
             onChange={(e) => setPassword(e.target.value)}
             onFocus={shrinkLabel(PASSWORD)}
             onBlur={expandLabel(PASSWORD)}

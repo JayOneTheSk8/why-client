@@ -45,6 +45,10 @@ const EditProfile = ({ classes, closeFunction }) => {
     displayName: classes.displayNameLabelShrunk,
     email: classes.emailLabelShrunk,
   });
+  const [focusedInputs, setFocusedInputs] = useState({
+    displayName: false,
+    email: false,
+  });
 
   useEffect(() => {
     setDisplayName(context.displayName);
@@ -54,6 +58,7 @@ const EditProfile = ({ classes, closeFunction }) => {
   const shrinkLabel = (field) => {
     return (e) => {
       e.preventDefault();
+      setFocusedInputs({ ...focusedInputs, [field]: true });
       setLabelClassnames({ ...labelClassnames, [field]: classes[`${field}LabelShrunk`] });
     };
   };
@@ -61,6 +66,8 @@ const EditProfile = ({ classes, closeFunction }) => {
   const expandLabel = (field) => {
     return (e) => {
       e.preventDefault();
+      setFocusedInputs({ ...focusedInputs, [field]: false });
+
       if (e.target.value !== '') { return; }
 
       setLabelClassnames({ ...labelClassnames, [field]: classes[`${field}Label`] });
@@ -126,13 +133,18 @@ const EditProfile = ({ classes, closeFunction }) => {
 
         <div className={classes.editProfileContainer}>
           <div className={classes.labelContainer}>
-            <label htmlFor={DISPLAY_NAME} className={labelClassnames[DISPLAY_NAME]}>{DISPLAY_NAME_TITLE}</label>
+            <label
+              htmlFor={DISPLAY_NAME}
+              className={`${labelClassnames[DISPLAY_NAME]} ${focusedInputs[DISPLAY_NAME] ? classes.focusedLabel : ''}`}
+            >
+              {DISPLAY_NAME_TITLE}
+            </label>
           </div>
 
           <input
             id={DISPLAY_NAME}
             spellCheck={false}
-            className={classes.displayNameInput}
+            className={`${classes.displayNameInput} ${focusedInputs[DISPLAY_NAME] ? classes.focusedInput : ''}`}
             defaultValue={context.displayName}
             onChange={(e) => setDisplayName(e.target.value)}
             onFocus={shrinkLabel(DISPLAY_NAME)}
@@ -140,14 +152,19 @@ const EditProfile = ({ classes, closeFunction }) => {
           />
 
           <div className={classes.labelContainer}>
-            <label htmlFor={EMAIL} className={labelClassnames[EMAIL]}>{EMAIL_TITLE}</label>
+            <label
+              htmlFor={EMAIL}
+              className={`${labelClassnames[EMAIL]} ${focusedInputs[EMAIL] ? classes.focusedLabel : ''}`}
+            >
+              {EMAIL_TITLE}
+            </label>
           </div>
 
           <input
             id={EMAIL}
             type={EMAIL}
             spellCheck={false}
-            className={classes.emailInput}
+            className={`${classes.emailInput} ${focusedInputs[EMAIL] ? classes.focusedInput : ''}`}
             defaultValue={context.email}
             onChange={(e) => setEmail(e.target.value)}
             onFocus={shrinkLabel(EMAIL)}
