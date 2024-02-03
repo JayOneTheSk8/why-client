@@ -159,7 +159,7 @@ const EditProfile = ({ classes, closeFunction }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   editProfile: {
     display: 'flex',
     justifyContent: 'center',
@@ -183,7 +183,7 @@ const styles = () => ({
     padding: '0 2em 2em 2em',
     border: '1px solid black',
     borderRadius: '1em',
-    backgroundColor: '#fafafa',
+    backgroundColor: theme.palette.primary.background,
     alignItems: 'center',
   },
   closeButton: {
@@ -196,15 +196,16 @@ const styles = () => ({
   submit: {
     fontSize: '1em',
     fontWeight: 600,
-    backgroundColor: '#fafafa',
+    backgroundColor: theme.palette.primary.background,
     border: '1px solid black',
     borderRadius: '1em',
     padding: '0.2em 0.5em',
-    color: 'black',
+    color: theme.palette.primary.text,
     cursor: 'pointer',
     '&:disabled': {
       cursor: 'not-allowed',
-      color: 'lightgrey',
+      backgroundColor: theme.palette.disabled.background,
+      color: theme.palette.disabled.text,
     }
   },
   labelContainer: {
@@ -212,6 +213,7 @@ const styles = () => ({
     height: 0,
   },
   displayNameLabel: {
+    color: theme.palette.primary.label.original,
     position: 'relative',
     whiteSpace: 'nowrap',
     top: '0.3em',
@@ -220,6 +222,7 @@ const styles = () => ({
     transition: 'font-size 0.4s, top 0.4s, right 0.4s',
   },
   emailLabel: {
+    color: theme.palette.primary.label.original,
     position: 'relative',
     whiteSpace: 'nowrap',
     top: '0.3em',
@@ -228,6 +231,7 @@ const styles = () => ({
     transition: 'font-size 0.4s, top 0.4s, right 0.4s',
   },
   displayNameLabelShrunk: {
+    color: theme.palette.primary.label.original,
     position: 'relative',
     whiteSpace: 'nowrap',
     right: '17.2em',
@@ -235,6 +239,7 @@ const styles = () => ({
     transition: 'font-size 0.4s, top 0.4s, right 0.4s',
   },
   emailLabelShrunk: {
+    color: theme.palette.primary.label.original,
     position: 'relative',
     whiteSpace: 'nowrap',
     right: '17.2em',
@@ -264,8 +269,10 @@ const styles = () => ({
     padding: '17px 5px 5px 5px',
     outline: 'none',
     borderRadius: '4px',
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.secondary.border}`,
     marginBottom: '1em',
+    color: 'inherit',
+    backgroundColor: theme.palette.primary.background,
   },
   emailInput: {
     width: '16em',
@@ -273,8 +280,16 @@ const styles = () => ({
     padding: '17px 5px 5px 5px',
     outline: 'none',
     borderRadius: '4px',
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.secondary.border}`,
     marginBottom: '1em',
+    color: 'inherit',
+    backgroundColor: theme.palette.primary.background,
+  },
+  focusedLabel: {
+    color: theme.palette.blue.original,
+  },
+  focusedInput: {
+    border: `1px solid ${theme.palette.blue.original}`,
   },
 });
 

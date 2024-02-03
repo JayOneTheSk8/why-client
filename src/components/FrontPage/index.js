@@ -212,17 +212,17 @@ const FrontPage = ({ classes }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   frontPageFeed: {
-    borderBottom: '1px solid black',
+    borderBottom: `1px solid ${theme.palette.primary.border}`,
   },
   frontPageFeedLoggedIn: {
-    borderBottom: '1px solid black',
+    borderBottom: `1px solid ${theme.palette.primary.border}`,
     paddingTop: '4em',
   },
   noPostsSpan: {
-    borderRight: '1px solid black',
-    borderTop: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
+    borderTop: `1px solid ${theme.palette.primary.border}`,
     textAlign: 'center',
     fontWeight: 600,
     fontSize: '3em',
@@ -233,21 +233,21 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    borderRight: '1px solid black'
+    borderRight: `1px solid ${theme.palette.primary.border}`,
   },
   postLoadingIcon: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    borderRight: '1px solid black',
-    borderTop: '1px solid black'
+    borderRight: `1px solid ${theme.palette.primary.border}`,
+    borderTop: `1px solid ${theme.palette.primary.border}`,
   },
   errorsContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     paddingTop: '1em',
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
   },
   errorsHeader: {
     fontSize: '2em',
@@ -260,12 +260,12 @@ const styles = () => ({
   },
   pageNavbar: {
     display: 'flex',
-    borderRight: '1px solid black',
-    borderBottom: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
+    borderBottom: `1px solid ${theme.palette.primary.border}`,
     position: 'fixed',
-    width: '50vw',
+    width: theme.centerPanel.width,
     top: 0,
-    backgroundColor: 'rgb(250, 250, 250, 0.6)',
+    backgroundColor: theme.palette.primary.navbar,
   },
   frontPageOptionContainer: {
     width: '50%',
@@ -275,7 +275,7 @@ const styles = () => ({
     cursor: 'pointer',
     transition: 'background-color 0.5s',
     '&:hover': {
-      backgroundColor: '#DCDCDC',
+      backgroundColor: theme.palette.primary.hover,
     },
   },
   frontPageOption: {
@@ -285,12 +285,12 @@ const styles = () => ({
     padding: '0.5em',
   },
   frontPageSelected: {
-    border: '2px solid #1D9BF0',
+    border: `2px solid ${theme.palette.blue.original}`,
     width: '5.6em',
     borderRadius: '15em',
   },
   frontPageOptionDeselected: {
-    color: 'darkgrey',
+    color: theme.palette.disabled.text,
   },
   frontPageFollowingOptionContainer: {
     width: '50%',
@@ -300,7 +300,7 @@ const styles = () => ({
     cursor: 'pointer',
     transition: 'background-color 0.5s',
     '&:hover': {
-      backgroundColor: '#DCDCDC',
+      backgroundColor: theme.palette.primary.hover,
     },
   },
   frontPageFollowingOption: {
@@ -310,12 +310,12 @@ const styles = () => ({
     padding: '0.5em',
   },
   frontPageFollowingSelected: {
-    border: '2px solid #1D9BF0',
+    border: `2px solid ${theme.palette.blue.original}`,
     width: '5.6em',
     borderRadius: '15em',
   },
   frontPageFollowingOptionDeselected: {
-    color: 'darkgrey',
+    color: theme.palette.disabled.text,
   },
 });
 

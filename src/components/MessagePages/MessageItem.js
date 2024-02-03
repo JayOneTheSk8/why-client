@@ -244,9 +244,9 @@ const MessageItem = ({ classes, message, isComment }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   message: {
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
   },
   authorData: {
     display: 'flex',
@@ -258,7 +258,7 @@ const styles = () => ({
   authorIcon: {
     color: 'white',
     width: '1.5em',
-    border: '1px solid grey',
+    border: '3px solid grey',
     height: '1.5em',
     margin: '0.1em 0.2em',
     display: 'flex',
@@ -315,8 +315,8 @@ const styles = () => ({
     display: 'flex',
     padding: '1em 5em',
     marginBottom: '1em',
-    borderTop: '1px solid black',
-    borderBottom: '1px solid black',
+    borderTop: `1px solid ${theme.palette.primary.border}`,
+    borderBottom: `1px solid ${theme.palette.primary.border}`,
     justifyContent: 'space-between',
   },
   commentData: {
@@ -336,7 +336,7 @@ const styles = () => ({
     paddingTop: '0.1em',
   },
   highlightedCommentCount: {
-    color: '#1D9BF0',
+    color: theme.palette.blue.original,
     fontSize: '1.4em',
     paddingTop: '0.1em',
   },
@@ -352,7 +352,7 @@ const styles = () => ({
     opacity: '0.4',
     position: 'relative',
     borderRadius: '100%',
-    backgroundColor: '#1D9BF0',
+    backgroundColor: theme.palette.blue.original,
     transition: 'background-color 0.4s',
   },
   hiddenCommentCircle: {

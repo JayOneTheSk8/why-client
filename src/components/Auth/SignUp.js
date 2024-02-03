@@ -233,7 +233,7 @@ const SignUp = ({ classes }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   labelError: {
     position: 'absolute',
     top: '4.5em',
@@ -250,7 +250,7 @@ const styles = () => ({
     left: 0,
     height: '1000vh',
     width: '100vw',
-    backgroundColor: '#fafafa',
+    backgroundColor: theme.palette.primary.background,
     zIndex: 2,
   },
   signUpForm: {
@@ -261,7 +261,7 @@ const styles = () => ({
     position: 'absolute',
     flexDirection: 'column',
     padding: '0 5em 5em 5em',
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.secondary.border}`,
     borderRadius: '1em',
   },
   signUpHeader: {
@@ -294,6 +294,7 @@ const styles = () => ({
   },
   usernameLabelShrunk: {
     transition: 'font-size 0.4s, top 0.4s, left 0.4s',
+    color: theme.palette.primary.label.original,
     position: 'absolute',
     top: '12.3em',
     left: '6.2em',
@@ -301,6 +302,7 @@ const styles = () => ({
   },
   usernameLabel: {
     transition: 'font-size 0.4s, top 0.4s, left 0.4s',
+    color: theme.palette.primary.label.original,
     position: 'absolute',
     top: '7.4em',
     left: '3.5em',
@@ -311,10 +313,13 @@ const styles = () => ({
     padding: '13px 5px 5px 5px',
     outline: 'none',
     borderRadius: '4px',
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.secondary.border}`,
+    color: 'inherit',
+    backgroundColor: theme.palette.primary.background,
   },
   displayNameLabelShrunk: {
     transition: 'font-size 0.4s, top 0.4s, left 0.4s',
+    color: theme.palette.primary.label.original,
     position: 'absolute',
     top: '18.4em',
     left: '6.2em',
@@ -322,6 +327,7 @@ const styles = () => ({
   },
   displayNameLabel: {
     transition: 'font-size 0.4s, top 0.4s, left 0.4s',
+    color: theme.palette.primary.label.original,
     position: 'absolute',
     top: '10.9em',
     left: '3.5em',
@@ -332,10 +338,13 @@ const styles = () => ({
     padding: '13px 5px 5px 5px',
     outline: 'none',
     borderRadius: '4px',
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.secondary.border}`,
+    color: 'inherit',
+    backgroundColor: theme.palette.primary.background,
   },
   emailLabelShrunk: {
     transition: 'font-size 0.4s, top 0.4s, left 0.4s',
+    color: theme.palette.primary.label.original,
     position: 'absolute',
     top: '24.6em',
     left: '6.2em',
@@ -343,6 +352,7 @@ const styles = () => ({
   },
   emailLabel: {
     transition: 'font-size 0.4s, top 0.4s, left 0.4s',
+    color: theme.palette.primary.label.original,
     position: 'absolute',
     top: '14.4em',
     left: '3.5em',
@@ -353,10 +363,13 @@ const styles = () => ({
     padding: '13px 5px 5px 5px',
     outline: 'none',
     borderRadius: '4px',
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.secondary.border}`,
+    color: 'inherit',
+    backgroundColor: theme.palette.primary.background,
   },
   passwordLabelShrunk: {
     transition: 'font-size 0.4s, top 0.4s, left 0.4s',
+    color: theme.palette.primary.label.original,
     position: 'absolute',
     top: '30.7em',
     left: '6.2em',
@@ -364,6 +377,7 @@ const styles = () => ({
   },
   passwordLabel: {
     transition: 'font-size 0.4s, top 0.4s, left 0.4s',
+    color: theme.palette.primary.label.original,
     position: 'absolute',
     top: '17.8em',
     left: '3.5em',
@@ -374,21 +388,30 @@ const styles = () => ({
     padding: '13px 2.4em 5px 5px',
     outline: 'none',
     borderRadius: '4px',
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.secondary.border}`,
+    color: 'inherit',
+    backgroundColor: theme.palette.primary.background,
+  },
+  focusedLabel: {
+    color: theme.palette.blue.original,
+  },
+  focusedInput: {
+    border: `1px solid ${theme.palette.blue.original}`,
   },
   submit: {
     height: '3em',
     width: '14em',
-    background: 'white',
-    border: '1px solid black',
+    background: theme.palette.primary.background,
+    border: `1px solid ${theme.palette.secondary.border}`,
     borderRadius: '5em',
-    color: 'black',
+    color: 'inherit',
     fontSize: '1.2em',
     fontWeight: 600,
     alignSelf: 'center',
     cursor: 'pointer',
     '&:disabled': {
-      background: '#DCDCDC',
+      color: theme.palette.disabled.text,
+      background: theme.palette.disabled.background,
     },
   },
   passwordVisibilityButton: {

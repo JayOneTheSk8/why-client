@@ -152,7 +152,7 @@ const ProfileItem = ({ classes, user }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   labelError: {
     color: 'red',
   },
@@ -160,14 +160,14 @@ const styles = () => ({
 
   },
   profileItem: {
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '1em',
     cursor: 'pointer',
     '&:hover': {
-      backgroundColor: '#dfdfdf',
+      backgroundColor: theme.palette.primary.lightHover,
     },
   },
   profileInfo: {
@@ -182,6 +182,7 @@ const styles = () => ({
   userIcon: {
     fontSize: '1.7em',
     color: 'white',
+    border: '3px solid grey',
     backgroundColor: 'black',
     padding: '0.3em',
     borderRadius: '55%',

@@ -26,13 +26,14 @@ const CalendarIcon = ({ classes }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   calendarIcon: {
     width: '2em',
     height: '2em',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    fill: theme.palette.primary.text,
   },
 });
 

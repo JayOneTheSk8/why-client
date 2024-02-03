@@ -197,24 +197,25 @@ const Root = ({ classes }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   '@global': {
     body: {
       overflowY: 'scroll',
-      backgroundColor: '#fafafa',
+      backgroundColor: theme.palette.primary.background,
+      color: theme.palette.primary.text,
     }
   },
   root: {
     display: 'flex',
   },
   centerPanel: {
-    width: '50vw',
+    width: theme.centerPanel.width,
     marginLeft: '25vw',
   },
   leftPanel: {
     width: '25vw',
     height: '100vh',
-    borderRight: '1px solid grey',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
     position: 'fixed',
     left: 0,
     display: 'flex',
@@ -243,7 +244,6 @@ const styles = () => ({
   userInfo: {
     marginBottom: '1em',
     marginRight: '1em',
-    border: '1px solid black',
     padding: '0.5em',
     borderRadius: '60px',
     alignItems: 'center',
@@ -251,12 +251,19 @@ const styles = () => ({
     cursor: 'pointer',
     width: '16em',
     height: '6em',
+    transition: 'background-color 0.3s',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.hover,
+    },
+  },
+  userInfoHighlighted: {
+    backgroundColor: theme.palette.primary.hover,
   },
   userIcon: {
     fontSize: '3em',
     color: 'white',
     margin: '0.1em',
-    border: '1px solid grey',
+    border: '3px solid grey',
     backgroundColor: 'black',
     borderRadius: '54%',
     height: '1.5em',
@@ -293,10 +300,10 @@ const styles = () => ({
     position: 'relative',
     right: '16.3em',
     bottom: '6.5em',
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.primary.border}`,
     borderRadius: '12px',
     padding: '5px',
-    background: 'white',
+    background: theme.palette.primary.background,
     width: '19em',
   },
   accountMenuContainer: {
@@ -313,6 +320,9 @@ const styles = () => ({
     cursor: 'pointer',
     padding: '10px',
     borderRadius: '7px',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.hover,
+    },
   },
   accountMenuOuterArrow: {
     alignSelf: 'center',
@@ -322,7 +332,7 @@ const styles = () => ({
     height: 0,
     borderLeft: '1em solid transparent',
     borderRight: '1em solid transparent',
-    borderTop: '1em solid black',
+    borderTop: `1em solid ${theme.palette.primary.border}`,
   },
   accountMenuInnerArrow: {
     alignSelf: 'center',
@@ -332,7 +342,7 @@ const styles = () => ({
     height: 0,
     borderLeft: '1em solid transparent',
     borderRight: '1em solid transparent',
-    borderTop: '1em solid white',
+    borderTop: `1em solid ${theme.palette.primary.background}`,
   },
   authButtons: {
     display: 'flex',
@@ -340,7 +350,7 @@ const styles = () => ({
   },
   authButton: {
     width: '10em',
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.secondary.border}`,
     cursor: 'pointer',
     height: '2em',
     display: 'flex',
@@ -356,8 +366,8 @@ const styles = () => ({
   borderExtension: {
     width: '100%',
     height: '100vh',
-    borderRight: '1px solid black',
-    borderTop: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
+    borderTop: `1px solid ${theme.palette.primary.border}`,
   },
 });
 

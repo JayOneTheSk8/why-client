@@ -193,9 +193,9 @@ const PostForm = ({ classes, isComment, postId, parentId, replyingTo }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   postFormContainer: {
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
   },
   postForm: {
     display: 'flex',
@@ -208,12 +208,12 @@ const styles = () => ({
     flexWrap: 'wrap',
   },
   replyingToText: {
-    color: 'black',
+    color: theme.palette.primary.text,
   },
   replyingToUsernames: {
     display: 'flex',
     marginLeft: '0.3em',
-    color: '#1D9BF0',
+    color: theme.palette.blue.original,
     flexWrap: 'wrap',
   },
   replyingToUsername: {
@@ -234,7 +234,7 @@ const styles = () => ({
   userIcon: {
     color: 'white',
     width: '1.5em',
-    border: '1px solid grey',
+    border: '3px solid grey',
     height: '1.5em',
     margin: '0.1em 0.2em',
     display: 'flex',
@@ -257,7 +257,8 @@ const styles = () => ({
     overflowY: 'hidden',
     outline: 'none',
     marginTop: '0.5em',
-    backgroundColor: '#fafafa',
+    backgroundColor: theme.palette.primary.background,
+    color: 'inherit',
   },
   submitArea: {
     display: 'flex',
@@ -271,12 +272,12 @@ const styles = () => ({
     height: '1.7em',
     borderRadius: '4em',
     border: 'none',
-    backgroundColor: '#1D9BF0',
+    backgroundColor: theme.palette.blue.original,
     margin: '0.3em',
     cursor: 'pointer',
     '&:disabled': {
       color: 'darkgrey',
-      backgroundColor: 'rgb(29 155 240 / 64%)',
+      backgroundColor: theme.palette.blue.faded,
       cursor: 'not-allowed',
     },
   },

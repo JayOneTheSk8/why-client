@@ -608,12 +608,12 @@ const ProfilePage = ({ classes }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   loadingIcon: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    borderRight: '1px solid black'
+    borderRight: `1px solid ${theme.palette.primary.border}`
   },
   postLoadingIcon: {
     display: 'flex',
@@ -621,7 +621,7 @@ const styles = () => ({
     alignItems: 'center'
   },
   errorsContainer: {
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -636,18 +636,18 @@ const styles = () => ({
     cursor: 'pointer',
   },
   profilePage: {
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
     paddingTop: '4.5em',
   },
   profilePageNavbar: {
-    width: '50vw',
-    borderRight: '1px solid black',
+    width: theme.centerPanel.width,
+    borderRight: `1px solid ${theme.palette.primary.border}`,
     padding: '0.5em',
     display: 'flex',
     alignItems: 'center',
     position: 'fixed',
     top: 0,
-    backgroundColor: 'rgb(250, 250, 250, 0.6)',
+    backgroundColor: theme.palette.primary.navbar,
     zIndex: 3,
   },
   backButton: {
@@ -671,7 +671,7 @@ const styles = () => ({
   header: {
     height: '11em',
     borderBottom: '5px solid black',
-    backgroundColor: '#dfdfdf',
+    backgroundColor: theme.palette.primary.hover,
   },
   profileData: {
 
@@ -704,7 +704,7 @@ const styles = () => ({
     fontSize: '5em',
     width: '1.5em',
     height: '1.5em',
-    border: '1px solid grey',
+    border: '3px solid grey',
     borderRadius: '54%',
     display: 'flex',
     alignItems: 'center',
@@ -716,11 +716,11 @@ const styles = () => ({
   editProfileButton: {
     cursor: 'pointer',
     padding: '0.3em',
-    border: '1px solid black',
+    border: `2px solid ${theme.palette.secondary.border}`,
     borderRadius: '2em',
     fontWeight: 600,
     fontSize: '1.2em',
-    width: '6em',
+    width: '7em',
     textAlign: 'center',
   },
   names: {
@@ -781,7 +781,7 @@ const styles = () => ({
     cursor: 'pointer',
     borderBottom: '1px solid transparent',
     '&:hover': {
-      borderBottom: '1px solid black',
+      borderBottom: `1px solid ${theme.palette.primary.text}`,
     },
   },
   followers: {
@@ -789,7 +789,7 @@ const styles = () => ({
     cursor: 'pointer',
     borderBottom: '1px solid transparent',
     '&:hover': {
-      borderBottom: '1px solid black',
+      borderBottom: `1px solid ${theme.palette.primary.text}`,
     },
   },
   followedButton: {
@@ -814,7 +814,7 @@ const styles = () => ({
   },
   profileContentNavbar: {
     display: 'flex',
-    borderBottom: '1px solid black',
+    borderBottom: `1px solid ${theme.palette.primary.border}`,
   },
   profileContentOptionContainer: {
     height: '3em',
@@ -825,18 +825,20 @@ const styles = () => ({
     fontSize: '1.5em',
     cursor: 'pointer',
     transition: 'background-color 0.3s',
+    color: theme.palette.disabled.text,
     '&:hover': {
-      backgroundColor: '#dfdfdf',
+      backgroundColor: theme.palette.primary.hover,
     },
   },
   selectedProfileContentOptionContainer: {
     fontWeight: 600,
+    color: theme.palette.primary.text,
   },
   profileContentOption: {
     padding: '0.7em',
   },
   selectedProfileContent: {
-    border: '2px solid #1D9BF0',
+    border: `2px solid ${theme.palette.blue.original}`,
     borderRadius: '3em',
     width: '2.5em',
   },
@@ -853,7 +855,7 @@ const styles = () => ({
     alignItems: 'center',
   },
   noPostsSpan: {
-    borderTop: '1px solid black',
+    borderTop: `1px solid ${theme.palette.primary.border}`,
     textAlign: 'center',
     fontSize: '2em',
     color: '#8b8b8b',

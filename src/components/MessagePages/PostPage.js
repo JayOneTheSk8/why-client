@@ -124,7 +124,7 @@ const PostPage = ({ classes }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   postPage: {
     paddingTop: '3.5em',
   },
@@ -132,14 +132,14 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    borderRight: '1px solid black'
+    borderRight: `1px solid ${theme.palette.primary.border}`
   },
   errorsContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     paddingTop: '1em',
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
   },
   errorsHeader: {
     fontSize: '2em',
@@ -155,10 +155,10 @@ const styles = () => ({
     alignItems: 'center',
     position: 'fixed',
     top: 0,
-    width: '50vw',
-    backgroundColor: 'rgb(250, 250, 250, 0.6)',
+    width: theme.centerPanel.width,
+    backgroundColor: theme.palette.primary.navbar,
     padding: '0.5em',
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
   },
   backButton: {
     marginRight: '1em',

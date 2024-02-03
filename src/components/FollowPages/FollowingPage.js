@@ -132,7 +132,7 @@ const FollowingPage = ({ classes }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   followingPage: {
     paddingTop: '8.6em',
   },
@@ -140,14 +140,14 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    borderRight: '1px solid black'
+    borderRight: `1px solid ${theme.palette.primary.border}`
   },
   errorsContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     paddingTop: '1em',
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
   },
   errorsHeader: {
     fontSize: '2em',
@@ -161,16 +161,16 @@ const styles = () => ({
   navbar: {
     display: 'flex',
     flexDirection: 'column',
-    width: '50vw',
+    width: theme.centerPanel.width,
     position: 'fixed',
     top: 0,
-    backgroundColor: 'rgb(250, 250, 250, 0.6)',
+    backgroundColor: theme.palette.primary.navbar,
   },
   userData: {
     display: 'flex',
     alignItems: 'center',
     padding: '0.5em',
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
   },
   backButton: {
     marginRight: '1em',
@@ -188,8 +188,8 @@ const styles = () => ({
   },
   pageNavbar: {
     display: 'flex',
-    borderBottom: '1px solid black',
-    borderRight: '1px solid black',
+    borderBottom: `1px solid ${theme.palette.primary.border}`,
+    borderRight: `1px solid ${theme.palette.primary.border}`,
   },
   followingPageLink: {
     textAlign: 'center',
@@ -198,14 +198,14 @@ const styles = () => ({
     fontWeight: 600,
   },
   followersPageLink: {
-    color: 'darkgrey',
+    color: theme.palette.disabled.text,
     textAlign: 'center',
     padding: '1em',
     fontSize: '1.2em',
     fontWeight: 600,
   },
   noFollowingText: {
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
     textAlign: 'center',
     fontSize: '2em',
     padding: '2em',
@@ -219,7 +219,7 @@ const styles = () => ({
     alignItems: 'center',
     transition: 'background-color 0.3s',
     '&:hover': {
-      backgroundColor: '#dfdfdf',
+      backgroundColor: theme.palette.primary.hover,
     },
   },
   followersPageLinkContainer: {
@@ -230,12 +230,12 @@ const styles = () => ({
     alignItems: 'center',
     transition: 'background-color 0.3s',
     '&:hover': {
-      backgroundColor: '#dfdfdf',
+      backgroundColor: theme.palette.primary.hover,
     },
   },
   followingSelected: {
     width: '5.6em',
-    border: '2px solid #1D9BF0',
+    border: `2px solid ${theme.palette.blue.original}`,
     borderRadius: '15em',
   },
 });

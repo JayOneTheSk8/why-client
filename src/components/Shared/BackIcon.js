@@ -13,11 +13,12 @@ const BackIcon = ({ classes, endpointOverride }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   backIcon: {
     width: '2em',
     height: '2em',
     cursor: 'pointer',
+    fill: theme.palette.primary.text
   },
 });
 

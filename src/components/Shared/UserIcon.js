@@ -26,10 +26,11 @@ const UserIcon = ({ classes, highlighted }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   userIcon: {
     width: '4em',
     height: '4em',
+    fill: theme.palette.primary.text,
   },
 });
 

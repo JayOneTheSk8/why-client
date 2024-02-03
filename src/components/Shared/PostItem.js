@@ -333,22 +333,22 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent, with
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   postItem: {
     width: '100%',
-    borderTop: '1px solid black',
-    borderRight: '1px solid black',
+    borderTop: `1px solid ${theme.palette.primary.border}`,
+    borderRight: `1px solid ${theme.palette.primary.border}`,
     cursor: 'pointer',
     '&:hover': {
-      backgroundColor: 'rgb(0, 0, 0, 0.03)',
+      backgroundColor: theme.palette.primary.lightHover,
     },
   },
   postItemNoBorder: {
     width: '100%',
-    borderRight: '1px solid black',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
     cursor: 'pointer',
     '&:hover': {
-      backgroundColor: 'rgb(0, 0, 0, 0.03)',
+      backgroundColor: theme.palette.primary.lightHover,
     },
   },
   postItemNoRightBorder: {
@@ -377,11 +377,11 @@ const styles = () => ({
     flexWrap: 'wrap',
   },
   replyingToText: {
-    color: 'black',
+    color: theme.palette.primary.text,
   },
   replyingToUsernames: {
     display: 'flex',
-    color: '#1D9BF0',
+    color: theme.palette.blue.original,
     flexWrap: 'wrap',
   },
   replyingToUsername: {
@@ -407,7 +407,7 @@ const styles = () => ({
   postAuthorIcon: {
     color: 'white',
     width: '1.5em',
-    border: '1px solid grey',
+    border: '3px solid grey',
     height: '1.5em',
     margin: '0.1em 0.2em',
     display: 'flex',
@@ -418,7 +418,7 @@ const styles = () => ({
     backgroundColor: 'black',
   },
   iconConnector: {
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.primary.border}`,
     height: '100%',
   },
   postInfo: {
@@ -479,7 +479,7 @@ const styles = () => ({
 
   },
   highlightedCommentCount: {
-    color: '#1D9BF0',
+    color: theme.palette.blue.original,
   },
   commentCircleContainer: {
     width: 0, // Prevents from taking up space
@@ -490,7 +490,7 @@ const styles = () => ({
     opacity: '0.4',
     position: 'relative',
     borderRadius: '100%',
-    backgroundColor: '#1D9BF0',
+    backgroundColor: theme.palette.blue.original,
     right: '0.5em',
     transition: 'background-color 0.4s',
   },
