@@ -10,6 +10,10 @@ const auth = {
   SIGN_UP: 'Sign up',
 };
 
+const darkModeToggle = {
+  DARK_MODE_TEXT: 'Dark Mode',
+};
+
 const accountMenu = {
   logoutText: (username) => `Log out ${general.fieldTexts.usernameWithSymbol(username)}`,
 };
@@ -66,6 +70,7 @@ const messagePages = {
 export default {
   accountMenu,
   auth,
+  darkModeToggle,
   followPages,
   frontPage,
   postItem,

@@ -13,6 +13,7 @@ const fields = {
   DISPLAY_NAME: 'displayName',
   PASSWORD: 'password',
   USERNAME: 'username',
+  DARK_MODE_CHECKBOX: 'darkModeCheckbox',
 };
 
 const postTypes = {

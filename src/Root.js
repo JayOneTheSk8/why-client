@@ -7,6 +7,7 @@ import { AuthRoutes } from './routes';
 import { AuthContext } from './authContext';
 import { useOnClickOutsideRef } from './hooks';
 import { axiosInstance } from './axiosInstance';
+import { dispatchEvent } from './util';
 
 import FrontPage from './components/FrontPage';
 import Sidebar from './components/Sidebar';
@@ -30,6 +31,9 @@ const {
     accountMenu: {
       logoutText,
     },
+    darkModeToggle: {
+      DARK_MODE_TEXT,
+    },
   },
   endpoints: {
     frontend: {
@@ -50,7 +54,11 @@ const {
   },
   general: {
     eventTypes: {
+      DARK_MODE_EVENT,
       RESIZE_BORDER_EXTENSION,
+    },
+    fields: {
+      DARK_MODE_CHECKBOX,
     },
     fieldTexts: {
       usernameWithSymbol,
@@ -58,6 +66,7 @@ const {
   },
   util: {
     tokens: {
+      DARK_MODE_ACTIVE,
       CURRENT_USER,
     },
   },
@@ -70,6 +79,7 @@ const Root = ({ classes }) => {
 
   const [isLoggingInUser, setIsLoggingInUser] = useState(false);
   const [accountMenuDisplayed, setAccountMenuDisplayed] = useState(false);
+  const [darkModeActive, setDarkModeActive] = useState(!!localStorage.getItem(DARK_MODE_ACTIVE));
 
   const clickRef = useOnClickOutsideRef(() => accountMenuDisplayed && setAccountMenuDisplayed(false));
   const borderExtensionRef = useRef(null);
@@ -82,6 +92,11 @@ const Root = ({ classes }) => {
         window.location.reload();
       });
   }, [context]);
+
+  const handleDarkModeChange = (e) => {
+    dispatchEvent(DARK_MODE_EVENT, { darkMode: e.target.checked });
+    setDarkModeActive(e.target.checked);
+  };
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -196,7 +211,19 @@ const Root = ({ classes }) => {
         <div className={classes.borderExtension} ref={borderExtensionRef}></div>
       </div>
 
-      <div className={classes.rightPanel}>RIGHT</div>
+      <div className={classes.rightPanel}>
+        <label
+          htmlFor={DARK_MODE_CHECKBOX}
+        >
+          {DARK_MODE_TEXT}
+          <input
+            id={DARK_MODE_CHECKBOX}
+            type="checkbox"
+            onChange={handleDarkModeChange}
+            checked={darkModeActive}
+          />
+        </label>
+      </div>
     </div>
   );
 };

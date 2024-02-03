@@ -4,6 +4,7 @@ const limits = {
 };
 
 const tokens = {
+  DARK_MODE_ACTIVE: 'whyDarkModeActivated',
   CURRENT_USER: 'currentUser',
 };
 
