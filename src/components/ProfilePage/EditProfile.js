@@ -198,7 +198,7 @@ const styles = theme => ({
     position: 'absolute',
     flexDirection: 'column',
     padding: '0 2em 2em 2em',
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.secondary.border}`,
     borderRadius: '1em',
     backgroundColor: theme.palette.primary.background,
     alignItems: 'center',
