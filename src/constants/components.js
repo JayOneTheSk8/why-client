@@ -67,6 +67,20 @@ const messagePages = {
   POST: 'Post',
 };
 
+const searchPage = {
+  NOTHING_FOUND_TEXT: 'Couldn\'t find anything :(',
+  SEARCH: 'Search',
+  QUERY: 'q',
+  unfoundMessage: (element) => `No ${element} found :(`,
+  searchFor: (text) => `Search for "${text}"`,
+  headers: {
+    TOP: 'Top',
+    PEOPLE: 'People',
+    POSTS: 'Posts',
+    COMMENTS: 'Comments',
+  },
+};
+
 export default {
   accountMenu,
   auth,
@@ -78,4 +92,5 @@ export default {
   profilePage,
   profileItem,
   messagePages,
+  searchPage,
 };

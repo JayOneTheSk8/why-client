@@ -1,3 +1,11 @@
+import components from './components';
+
+const {
+  searchPage: {
+    QUERY,
+  },
+} = components;
+
 export default {
   frontend: {
     followers: '/followers',
@@ -6,6 +14,8 @@ export default {
     followingPage: (username) => `/user/${username}/following`,
     homePage: '/home',
     root: '/',
+    search: '/search',
+    searchWithQuery: (searchText) => `/search?${QUERY}=${encodeURIComponent(searchText)}`,
     signIn: '/login',
     signUp: '/register',
     usersPage: '/user',
@@ -41,5 +51,11 @@ export default {
     linkedPosts: (userId) => `/users/${userId}/linked_posts`,
     linkedComments: (userId) => `/users/${userId}/linked_comments`,
     likes: (userId) => `/users/${userId}/likes`,
+
+    quickSearch: '/search/quick',
+    topSearch: '/search/top',
+    usersSearch: '/search/users',
+    postsSearch: '/search/posts',
+    commentsSearch: '/search/comments',
   },
 };
