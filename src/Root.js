@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { withStyles } from '@material-ui/core';
 
 import constants from './constants';
@@ -18,6 +18,9 @@ import PostPage from './components/MessagePages/PostPage';
 import ProfilePage from './components/ProfilePage';
 import FollowersPage from './components/FollowPages/FollowersPage';
 import FollowingPage from './components/FollowPages/FollowingPage';
+import SearchPage from './components/SearchPage';
+
+import SearchBar from './components/SearchPage/SearchBar';
 
 import LoadingModal from './components/Shared/LoadingModal';
 import WhyCon from './components/Shared/WhyCon';
@@ -43,6 +46,7 @@ const {
       root,
       signIn,
       signUp,
+      search,
       usersPage,
       followers,
       following,
@@ -74,6 +78,7 @@ const {
 
 const Root = ({ classes }) => {
   const context = useContext(AuthContext);
+  const location = useLocation();
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem(CURRENT_USER);
 
@@ -202,6 +207,7 @@ const Root = ({ classes }) => {
           <Route path={`${usersPage}/:username`} Component={ProfilePage} />
           <Route path={`${usersPage}/:username${followers}`} Component={FollowersPage} />
           <Route path={`${usersPage}/:username${following}`} Component={FollowingPage} />
+          <Route path={search} Component={SearchPage} />
 
           <Route element={AuthRoutes(isLoggedIn)}>
             <Route path={signIn} Component={SignIn} />
@@ -212,17 +218,28 @@ const Root = ({ classes }) => {
       </div>
 
       <div className={classes.rightPanel}>
-        <label
-          htmlFor={DARK_MODE_CHECKBOX}
-        >
-          {DARK_MODE_TEXT}
-          <input
-            id={DARK_MODE_CHECKBOX}
-            type="checkbox"
-            onChange={handleDarkModeChange}
-            checked={darkModeActive}
-          />
-        </label>
+        {
+          location.pathname !== search &&
+            <div className={classes.searchBar}>
+              <SearchBar fromPage={'Root'} />
+            </div>
+        }
+
+        <div className={classes.darkModeCheckboxContainer}>
+          <label
+            htmlFor={DARK_MODE_CHECKBOX}
+            className={classes.darkModeCheckboxLabel}
+          >
+            {DARK_MODE_TEXT}
+            <input
+              id={DARK_MODE_CHECKBOX}
+              type="checkbox"
+              onChange={handleDarkModeChange}
+              checked={darkModeActive}
+              className={classes.darkModeCheckboxInput}
+            />
+          </label>
+        </div>
       </div>
     </div>
   );
@@ -399,6 +416,19 @@ const styles = theme => ({
     height: '100vh',
     borderRight: `1px solid ${theme.palette.primary.border}`,
     borderTop: `1px solid ${theme.palette.primary.border}`,
+  },
+  darkModeCheckboxContainer: {
+    marginTop: '1em',
+  },
+  darkModeCheckboxLabel: {
+
+  },
+  darkModeCheckboxInput: {
+
+  },
+  searchBar: {
+    width: '90%',
+    marginTop: '1em',
   },
 });
 
