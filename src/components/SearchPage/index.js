@@ -290,6 +290,7 @@ const styles = theme => ({
     borderRight: `1px solid ${theme.palette.primary.border}`,
     width: theme.centerPanel.width,
     borderBottom: `1px solid ${theme.palette.primary.border}`,
+    backdropFilter: 'blur(2px)',
   },
   searchHeader: {
     display: 'flex',

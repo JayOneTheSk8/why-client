@@ -159,6 +159,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.navbar,
     padding: '0.5em',
     borderRight: `1px solid ${theme.palette.primary.border}`,
+    backdropFilter: 'blur(2px)',
   },
   backButton: {
     marginRight: '1em',

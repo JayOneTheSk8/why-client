@@ -266,6 +266,7 @@ const styles = theme => ({
     width: theme.centerPanel.width,
     top: 0,
     backgroundColor: theme.palette.primary.navbar,
+    backdropFilter: 'blur(2px)',
   },
   frontPageOptionContainer: {
     width: '50%',

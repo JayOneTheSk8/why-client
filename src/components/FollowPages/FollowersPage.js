@@ -165,6 +165,7 @@ const styles = theme => ({
     position: 'fixed',
     top: 0,
     backgroundColor: theme.palette.primary.navbar,
+    backdropFilter: 'blur(2px)',
   },
   userData: {
     display: 'flex',

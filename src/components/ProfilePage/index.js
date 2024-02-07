@@ -648,6 +648,7 @@ const styles = theme => ({
     top: 0,
     backgroundColor: theme.palette.primary.navbar,
     zIndex: 3,
+    backdropFilter: 'blur(2px)',
   },
   backButton: {
     marginRight: '1em',
