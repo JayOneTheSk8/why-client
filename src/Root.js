@@ -36,9 +36,6 @@ const {
     accountMenu: {
       logoutText,
     },
-    darkModeToggle: {
-      DARK_MODE_TEXT,
-    },
   },
   endpoints: {
     frontend: {
