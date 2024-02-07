@@ -50,8 +50,7 @@ const PostItem = ({ classes, post, repostedByOverride, isComment, isParent, with
   const [highlightedLike, setHighlightedLike] = useState(false);
 
   const isCurrentUsersPost = () => {
-    const isLoggedIn = !!localStorage.getItem(CURRENT_USER);
-    return isLoggedIn && post.author.id.toString() === context.id.toString();
+    return context.id && post.author.id.toString() === context.id.toString();
   };
 
   const toggleRepost = (e) => {
