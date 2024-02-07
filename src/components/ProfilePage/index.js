@@ -113,7 +113,6 @@ const ProfilePage = ({ classes }) => {
         );
       })
       .catch(err => {
-        window.err = err;
         if (err.response) {
           const { data: errorData, status } = err.response;
 
