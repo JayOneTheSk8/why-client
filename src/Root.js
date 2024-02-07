@@ -24,6 +24,8 @@ import SearchBar from './components/SearchPage/SearchBar';
 
 import LoadingModal from './components/Shared/LoadingModal';
 import WhyCon from './components/Shared/WhyCon';
+import SunIcon from './components/Shared/SunIcon';
+import MoonIcon from './components/Shared/MoonIcon';
 
 const {
   components: {
@@ -230,7 +232,11 @@ const Root = ({ classes }) => {
             htmlFor={DARK_MODE_CHECKBOX}
             className={classes.darkModeCheckboxLabel}
           >
-            {DARK_MODE_TEXT}
+            {
+              darkModeActive
+                ? <SunIcon />
+                : <MoonIcon />
+            }
             <input
               id={DARK_MODE_CHECKBOX}
               type="checkbox"
@@ -421,10 +427,13 @@ const styles = theme => ({
     marginTop: '1em',
   },
   darkModeCheckboxLabel: {
-
+    display: 'flex',
+    alignItems: 'center',
   },
   darkModeCheckboxInput: {
-
+    width: '1.5em',
+    height: '1.5em',
+    marginLeft: '0.5em',
   },
   searchBar: {
     width: '90%',
