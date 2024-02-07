@@ -81,10 +81,6 @@ const FollowersPage = ({ classes }) => {
     });
   };
 
-  if (isLoading) return <div className={classes.loadingIcon}>
-    <LoadingIcon />
-  </div>;
-
   if (Object.keys(errors).length) return <div className={classes.errorsContainer}>
     <div className={classes.errorsHeader}>{errorFormat(Object.values(errors).join(', '))}</div>
     <div className={classes.refreshPage} onClick={() => getData(username)}>{REFRESH}</div>
@@ -100,8 +96,8 @@ const FollowersPage = ({ classes }) => {
           </div>
 
           <div className={classes.userInfo}>
-            <div className={classes.navbarDisplayName}>{data.display_name}</div>
-            <div className={classes.navbarUsername}>{data.username}</div>
+            <div className={classes.navbarDisplayName}>{isLoading ? username : data.display_name}</div>
+            <div className={classes.navbarUsername}>{isLoading ? username : data.username}</div>
           </div>
         </div>
 
@@ -122,11 +118,15 @@ const FollowersPage = ({ classes }) => {
       </div>
 
       {
-        data.followers.length
-          ? profileItems(data.followers)
-          : <div className={classes.noFollowersText}>
-            {NO_FOLLOWERS_TEXT}
+        isLoading
+          ? <div className={classes.loadingIcon}>
+            <LoadingIcon />
           </div>
+          : data.followers.length
+            ? profileItems(data.followers)
+            : <div className={classes.noFollowersText}>
+              {NO_FOLLOWERS_TEXT}
+            </div>
       }
     </div>
   );

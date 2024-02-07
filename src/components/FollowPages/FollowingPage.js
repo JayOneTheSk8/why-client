@@ -81,10 +81,6 @@ const FollowingPage = ({ classes }) => {
     });
   };
 
-  if (isLoading) return <div className={classes.loadingIcon}>
-    <LoadingIcon />
-  </div>;
-
   if (Object.keys(errors).length) return <div className={classes.errorsContainer}>
     <div className={classes.errorsHeader}>{errorFormat(Object.values(errors).join(', '))}</div>
     <div className={classes.refreshPage} onClick={() => getData(username)}>{REFRESH}</div>
@@ -100,8 +96,8 @@ const FollowingPage = ({ classes }) => {
           </div>
 
           <div className={classes.userInfo}>
-            <div className={classes.navbarDisplayName}>{data.display_name}</div>
-            <div className={classes.navbarUsername}>{data.username}</div>
+            <div className={classes.navbarDisplayName}>{isLoading ? username : data.display_name}</div>
+            <div className={classes.navbarUsername}>{isLoading ? username : data.username}</div>
           </div>
         </div>
 
@@ -122,11 +118,15 @@ const FollowingPage = ({ classes }) => {
       </div>
 
       {
-        data.followed_users.length
-          ? profileItems(data.followed_users)
-          : <div className={classes.noFollowingText}>
-            {NO_FOLLOWED_USERS_TEXT}
+        isLoading
+          ? <div className={classes.loadingIcon}>
+            <LoadingIcon />
           </div>
+          : data.followed_users.length
+            ? profileItems(data.followed_users)
+            : <div className={classes.noFollowingText}>
+              {NO_FOLLOWED_USERS_TEXT}
+            </div>
       }
     </div>
   );
