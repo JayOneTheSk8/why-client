@@ -7,7 +7,6 @@ import { AuthRoutes } from './routes';
 import { AuthContext } from './authContext';
 import { useOnClickOutsideRef } from './hooks';
 import { axiosInstance } from './axiosInstance';
-import { dispatchEvent } from './util';
 
 import FrontPage from './components/FrontPage';
 import Sidebar from './components/Sidebar';
@@ -24,8 +23,7 @@ import SearchBar from './components/SearchPage/SearchBar';
 
 import LoadingModal from './components/Shared/LoadingModal';
 import WhyCon from './components/Shared/WhyCon';
-import SunIcon from './components/Shared/SunIcon';
-import MoonIcon from './components/Shared/MoonIcon';
+import DarkModeCheckbox from './components/Shared/DarkModeCheckbox';
 
 const {
   components: {
@@ -57,11 +55,7 @@ const {
   },
   general: {
     eventTypes: {
-      DARK_MODE_EVENT,
       RESIZE_BORDER_EXTENSION,
-    },
-    fields: {
-      DARK_MODE_CHECKBOX,
     },
     fieldTexts: {
       usernameWithSymbol,
@@ -69,7 +63,6 @@ const {
   },
   util: {
     tokens: {
-      DARK_MODE_ACTIVE,
       CURRENT_USER,
     },
   },
@@ -83,7 +76,6 @@ const Root = ({ classes }) => {
 
   const [isLoggingInUser, setIsLoggingInUser] = useState(false);
   const [accountMenuDisplayed, setAccountMenuDisplayed] = useState(false);
-  const [darkModeActive, setDarkModeActive] = useState(!!localStorage.getItem(DARK_MODE_ACTIVE));
 
   const clickRef = useOnClickOutsideRef(() => accountMenuDisplayed && setAccountMenuDisplayed(false));
   const borderExtensionRef = useRef(null);
@@ -96,11 +88,6 @@ const Root = ({ classes }) => {
         window.location.reload();
       });
   }, [context]);
-
-  const handleDarkModeChange = (e) => {
-    dispatchEvent(DARK_MODE_EVENT, { darkMode: e.target.checked });
-    setDarkModeActive(e.target.checked);
-  };
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -225,23 +212,7 @@ const Root = ({ classes }) => {
         }
 
         <div className={classes.darkModeCheckboxContainer}>
-          <label
-            htmlFor={DARK_MODE_CHECKBOX}
-            className={classes.darkModeCheckboxLabel}
-          >
-            {
-              darkModeActive
-                ? <SunIcon />
-                : <MoonIcon />
-            }
-            <input
-              id={DARK_MODE_CHECKBOX}
-              type="checkbox"
-              onChange={handleDarkModeChange}
-              checked={darkModeActive}
-              className={classes.darkModeCheckboxInput}
-            />
-          </label>
+          <DarkModeCheckbox />
         </div>
       </div>
     </div>
@@ -422,15 +393,6 @@ const styles = theme => ({
   },
   darkModeCheckboxContainer: {
     marginTop: '1em',
-  },
-  darkModeCheckboxLabel: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  darkModeCheckboxInput: {
-    width: '1.5em',
-    height: '1.5em',
-    marginLeft: '0.5em',
   },
   searchBar: {
     width: '90%',
