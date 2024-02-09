@@ -275,7 +275,7 @@ const SearchPage = ({ classes }) => {
 
 const styles = theme => ({
   searchPage: {
-    paddingTop: '9.89em',
+    paddingTop: '8.89em',
   },
   loadingIcon: {
     display: 'flex',
@@ -344,13 +344,13 @@ const styles = theme => ({
     },
   },
   selectedNavbarOption: {
-    fontSize: '1.5em',
+    fontSize: '1.2em',
     padding: '1em',
     fontWeight: 600,
     color: theme.palette.primary.text,
   },
   navbarOption: {
-    fontSize: '1.5em',
+    fontSize: '1.2em',
     padding: '1em',
     color: theme.palette.disabled.text,
   },
