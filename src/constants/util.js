@@ -1,6 +1,7 @@
 const limits = {
   USERNAME_LIMIT: 50,
   POST_TEXT_LIMIT: 200,
+  MOBILE_VIEW_PIXEL_LIMIT: 985,
 };
 
 const tokens = {
