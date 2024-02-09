@@ -93,7 +93,7 @@ const SearchPage = ({ classes }) => {
     setErrors({});
     setData({});
 
-    const text = decodeURIComponent(params.get(QUERY));
+    const text = params.get(QUERY) ? decodeURIComponent(params.get(QUERY)) : '';
     const searchEndpoint = pageEndpoint();
 
     axiosInstance.get(searchEndpoint, {
