@@ -161,7 +161,13 @@ const Root = ({ classes }) => {
             )
               ? <>
                 <div
-                  className={`${classes.userInfo} ${accountMenuDisplayed ? classes.userInfoHighlighted : ''}`}
+                  className={
+                    `${
+                      mobileView ? classes.mobileUserInfo : classes.userInfo
+                    } ${
+                      accountMenuDisplayed ? classes.userInfoHighlighted : ''
+                    }`
+                  }
                   onClick={() => setAccountMenuDisplayed(!accountMenuDisplayed)}
                   ref={clickRef}
                 >
@@ -184,13 +190,17 @@ const Root = ({ classes }) => {
                       <div
                         className={
                           accountMenuDisplayed
-                            ? classes.accountMenu
+                            ? (
+                              mobileView
+                                ? classes.mobileAccountMenu
+                                : classes.accountMenu
+                            )
                             : classes.hiddenAccountMenu
                         }
                       >
                         <div className={classes.accountMenuItem} onClick={logoutUser}>{logoutText(context.username)}</div>
-                        <div className={classes.accountMenuOuterArrow}></div>
-                        <div className={classes.accountMenuInnerArrow}></div>
+                        <div className={mobileView ? classes.mobileAccountMenuOuterArrow : classes.accountMenuOuterArrow}></div>
+                        <div className={mobileView ? classes.mobileAccountMenuInnerArrow : classes.accountMenuInnerArrow}></div>
                       </div>
                     }
                   </div>
@@ -308,6 +318,21 @@ const styles = theme => ({
       backgroundColor: theme.palette.primary.hover,
     },
   },
+  mobileUserInfo: {
+    marginBottom: '1em',
+    marginRight: '1em',
+    padding: '0.5em',
+    borderRadius: '60px',
+    alignItems: 'center',
+    display: 'flex',
+    cursor: 'pointer',
+    width: '6em',
+    height: '6em',
+    transition: 'background-color 0.3s',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.hover,
+    },
+  },
   userInfoHighlighted: {
     backgroundColor: theme.palette.primary.hover,
   },
@@ -358,6 +383,18 @@ const styles = theme => ({
     background: theme.palette.primary.background,
     width: '19em',
   },
+  mobileAccountMenu: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    right: '4.5em',
+    bottom: '6.5em',
+    border: `1px solid ${theme.palette.primary.border}`,
+    borderRadius: '12px',
+    padding: '5px',
+    background: theme.palette.primary.background,
+    width: '19em',
+  },
   accountMenuContainer: {
     width: 0, // Prevents from taking up space
   },
@@ -390,6 +427,28 @@ const styles = theme => ({
     alignSelf: 'center',
     position: 'absolute',
     bottom: '-0.9em',
+    width: 0,
+    height: 0,
+    borderLeft: '1em solid transparent',
+    borderRight: '1em solid transparent',
+    borderTop: `1em solid ${theme.palette.primary.background}`,
+  },
+  mobileAccountMenuOuterArrow: {
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: '-1em',
+    left: '1em',
+    width: 0,
+    height: 0,
+    borderLeft: '1em solid transparent',
+    borderRight: '1em solid transparent',
+    borderTop: `1em solid ${theme.palette.primary.border}`,
+  },
+  mobileAccountMenuInnerArrow: {
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: '-0.9em',
+    left: '1em',
     width: 0,
     height: 0,
     borderLeft: '1em solid transparent',
