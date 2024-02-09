@@ -10,6 +10,7 @@ const blue = {
 
 const centerPanel = {
   width: '50vw',
+  mobileWidth: '75vw',
 };
 
 export const defaultTheme = createTheme({
