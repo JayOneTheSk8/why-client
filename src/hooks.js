@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import constants from './constants';
 
@@ -6,6 +6,7 @@ const {
   general: {
     eventTypes: {
       CLICK,
+      RESIZE,
     },
   },
 } = constants;
@@ -25,4 +26,28 @@ export const useOnClickOutsideRef = (callback, initialValue = null) => {
   }, [callback]);
 
   return elementRef;
+};
+
+const getWindowDimensions = () => {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+};
+
+// Keep track of window dimensions
+export const useWindowDimensions = () => {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions(getWindowDimensions());
+    };
+
+    window.addEventListener(RESIZE, handleResize);
+    return () => window.removeEventListener(RESIZE, handleResize);
+  }, []);
+
+  return windowDimensions;
 };
