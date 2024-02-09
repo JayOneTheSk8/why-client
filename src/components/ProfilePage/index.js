@@ -652,7 +652,7 @@ const styles = theme => ({
   },
   profilePage: {
     borderRight: `1px solid ${theme.palette.primary.border}`,
-    paddingTop: '4.5em',
+    paddingTop: '4.3em',
   },
   profilePageNavbar: {
     width: theme.centerPanel.width,
