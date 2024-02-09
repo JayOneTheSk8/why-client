@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core';
 import constants from '../../constants';
 import { AuthContext } from '../../authContext';
 import { axiosInstance } from '../../axiosInstance';
+import { useWindowDimensions } from '../../hooks';
 import { dispatchEvent } from '../../util';
 
 import BackIcon from '../Shared/BackIcon';
@@ -52,6 +53,11 @@ const {
       COMMENT_REPOST,
     },
   },
+  util: {
+    limits: {
+      MOBILE_VIEW_PIXEL_LIMIT,
+    },
+  },
 } = constants;
 
 const ProfilePage = ({ classes }) => {
@@ -59,6 +65,7 @@ const ProfilePage = ({ classes }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const context = useContext(AuthContext);
+  const { width } = useWindowDimensions();
 
   const [data, setData] = useState({});
   const [errors, setErrors] = useState({});
@@ -67,6 +74,7 @@ const ProfilePage = ({ classes }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [currentUserFollowing, setCurrentUserFollowing] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [mobileView, setMobileView] = useState(false);
 
   const [selectedProfileContentTab, setSelectedProfileContentTab] = useState(POSTS);
 
@@ -93,6 +101,14 @@ const ProfilePage = ({ classes }) => {
       selectedProfileContentTab,
     ]
   );
+
+  useEffect(() => {
+    if (width < MOBILE_VIEW_PIXEL_LIMIT) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }, [width]);
 
   const getData = (username) => {
     setIsLoading(true);
@@ -316,7 +332,7 @@ const ProfilePage = ({ classes }) => {
           <EditProfile closeFunction={setShowEditProfile} />
       }
 
-      <div className={classes.profilePageNavbar}>
+      <div className={mobileView ? classes.mobileProfilePageNavbar : classes.profilePageNavbar}>
         <div className={classes.backButton}>
           <BackIcon />
         </div>
@@ -640,6 +656,18 @@ const styles = theme => ({
   },
   profilePageNavbar: {
     width: theme.centerPanel.width,
+    borderRight: `1px solid ${theme.palette.primary.border}`,
+    padding: '0.5em',
+    display: 'flex',
+    alignItems: 'center',
+    position: 'fixed',
+    top: 0,
+    backgroundColor: theme.palette.primary.navbar,
+    zIndex: 3,
+    backdropFilter: 'blur(2px)',
+  },
+  mobileProfilePageNavbar: {
+    width: theme.centerPanel.mobileWidth,
     borderRight: `1px solid ${theme.palette.primary.border}`,
     padding: '0.5em',
     display: 'flex',

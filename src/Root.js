@@ -5,8 +5,9 @@ import { withStyles } from '@material-ui/core';
 import constants from './constants';
 import { AuthRoutes } from './routes';
 import { AuthContext } from './authContext';
-import { useOnClickOutsideRef } from './hooks';
+import { useOnClickOutsideRef, useWindowDimensions } from './hooks';
 import { axiosInstance } from './axiosInstance';
+import { dispatchEvent } from './util';
 
 import FrontPage from './components/FrontPage';
 import Sidebar from './components/Sidebar';
@@ -62,6 +63,9 @@ const {
     },
   },
   util: {
+    limits: {
+      MOBILE_VIEW_PIXEL_LIMIT,
+    },
     tokens: {
       CURRENT_USER,
     },
@@ -72,10 +76,13 @@ const Root = ({ classes }) => {
   const context = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const { width } = useWindowDimensions();
+
   const isLoggedIn = !!localStorage.getItem(CURRENT_USER);
 
   const [isLoggingInUser, setIsLoggingInUser] = useState(false);
   const [accountMenuDisplayed, setAccountMenuDisplayed] = useState(false);
+  const [mobileView, setMobileView] = useState(false);
 
   const clickRef = useOnClickOutsideRef(() => accountMenuDisplayed && setAccountMenuDisplayed(false));
   const borderExtensionRef = useRef(null);
@@ -124,6 +131,16 @@ const Root = ({ classes }) => {
     return () => window.removeEventListener(RESIZE_BORDER_EXTENSION, handler);
   }, [borderExtensionRef, classes]);
 
+  useEffect(() => {
+    dispatchEvent(RESIZE_BORDER_EXTENSION);
+
+    if (width < MOBILE_VIEW_PIXEL_LIMIT) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }, [width]);
+
   return (
     <div className={classes.root}>
       {isLoggingInUser && <LoadingModal />}
@@ -150,12 +167,17 @@ const Root = ({ classes }) => {
                 >
                   <div className={classes.userIcon}>{context.displayName && context.username[0].toUpperCase()}</div>
 
-                  <div className={classes.namesContainer}>
-                    <div className={classes.displayName}>{context.displayName}</div>
-                    <div className={classes.username}>{usernameWithSymbol(context.username)}</div>
-                  </div>
+                  {
+                    mobileView ||
+                      <>
+                        <div className={classes.namesContainer}>
+                          <div className={classes.displayName}>{context.displayName}</div>
+                          <div className={classes.username}>{usernameWithSymbol(context.username)}</div>
+                        </div>
 
-                  <div className={classes.accountMenuIcon}>...</div>
+                        <div className={classes.accountMenuIcon}>...</div>
+                      </>
+                  }
 
                   <div className={classes.accountMenuContainer}>
                     {
@@ -184,7 +206,7 @@ const Root = ({ classes }) => {
         </div>
       </div>
 
-      <div className={classes.centerPanel}>
+      <div className={mobileView ? classes.mobileCenterPanel : classes.centerPanel}>
         <Routes>
           <Route exact path={root} Component={FrontPage} />
           <Route path={homePage} Component={FrontPage} />
@@ -203,18 +225,21 @@ const Root = ({ classes }) => {
         <div className={classes.borderExtension} ref={borderExtensionRef}></div>
       </div>
 
-      <div className={classes.rightPanel}>
-        {
-          location.pathname !== search &&
-            <div className={classes.searchBar}>
-              <SearchBar fromPage={'Root'} />
-            </div>
-        }
+      {
+        mobileView ||
+          <div className={classes.rightPanel}>
+            {
+              location.pathname !== search &&
+                <div className={classes.searchBar}>
+                  <SearchBar fromPage={'Root'} />
+                </div>
+            }
 
-        <div className={classes.darkModeCheckboxContainer}>
-          <DarkModeCheckbox />
-        </div>
-      </div>
+            <div className={classes.darkModeCheckboxContainer}>
+              <DarkModeCheckbox />
+            </div>
+          </div>
+      }
     </div>
   );
 };
@@ -233,6 +258,11 @@ const styles = theme => ({
   centerPanel: {
     width: theme.centerPanel.width,
     marginLeft: '25vw',
+  },
+  mobileCenterPanel: {
+    width: theme.centerPanel.mobileWidth,
+    marginLeft: '25vw',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
   },
   leftPanel: {
     width: '25vw',
@@ -289,7 +319,7 @@ const styles = theme => ({
     backgroundColor: 'black',
     borderRadius: '54%',
     height: '1.5em',
-    width: '2em',
+    width: '1.5em',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core';
 import constants from '../../constants';
 import { axiosInstance } from '../../axiosInstance';
 import { AuthContext } from '../../authContext';
+import { useWindowDimensions } from '../../hooks';
 import { dispatchEvent } from '../../util';
 
 import PostItem from '../Shared/PostItem';
@@ -38,11 +39,18 @@ const {
       COMMENT_REPOST,
     },
   },
+  util: {
+    limits: {
+      MOBILE_VIEW_PIXEL_LIMIT,
+    },
+  },
 } = constants;
 
 const FrontPage = ({ classes }) => {
   const context = useContext(AuthContext);
+  const { width } = useWindowDimensions();
 
+  const [mobileView, setMobileView] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState({});
   const [followingPage, setFollowingPage] = useState(false);
@@ -52,6 +60,14 @@ const FrontPage = ({ classes }) => {
 
   useEffect(() => getData(true), []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => dispatchEvent(RESIZE_BORDER_EXTENSION), [followingPage, isLoading]);
+
+  useEffect(() => {
+    if (width < MOBILE_VIEW_PIXEL_LIMIT) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }, [width]);
 
   const getData = () => {
     setIsLoading(true);
@@ -143,7 +159,7 @@ const FrontPage = ({ classes }) => {
       {/* Navbar */}
       {
         context.id &&
-          <div className={classes.pageNavbar}>
+          <div className={mobileView ? classes.mobilePageNavbar : classes.pageNavbar}>
             <div
               className={classes.frontPageOptionContainer}
               onClick={() => {
@@ -264,6 +280,16 @@ const styles = theme => ({
     borderBottom: `1px solid ${theme.palette.primary.border}`,
     position: 'fixed',
     width: theme.centerPanel.width,
+    top: 0,
+    backgroundColor: theme.palette.primary.navbar,
+    backdropFilter: 'blur(2px)',
+  },
+  mobilePageNavbar: {
+    display: 'flex',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
+    borderBottom: `1px solid ${theme.palette.primary.border}`,
+    position: 'fixed',
+    width: theme.centerPanel.mobileWidth,
     top: 0,
     backgroundColor: theme.palette.primary.navbar,
     backdropFilter: 'blur(2px)',

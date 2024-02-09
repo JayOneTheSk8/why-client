@@ -4,9 +4,11 @@ import { withStyles } from '@material-ui/core';
 
 import constants from '../../constants';
 import { AuthContext } from '../../authContext';
+import { useWindowDimensions } from '../../hooks';
 
 import UserIcon from '../Shared/UserIcon';
 import SearchGlassIcon from '../SearchPage/SearchGlassIcon';
+import DarkModeCheckbox from '../Shared/DarkModeCheckbox';
 
 const {
   endpoints,
@@ -18,6 +20,11 @@ const {
       SEARCH,
     },
   },
+  util: {
+    limits: {
+      MOBILE_VIEW_PIXEL_LIMIT,
+    },
+  },
 } = constants;
 
 const Sidebar = ({ classes }) => {
@@ -25,8 +32,11 @@ const Sidebar = ({ classes }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { width } = useWindowDimensions();
+
   const [highlightedProfileIcon, setHighlightedProfileIcon] = useState(false);
   const [highlightedSearchIcon, setHighlightedSearchIcon] = useState(false);
+  const [mobileView, setMobileView] = useState(false);
 
   useEffect(() => {
     if (context.id) {
@@ -46,6 +56,14 @@ const Sidebar = ({ classes }) => {
     }
   }, [context, location]);
 
+  useEffect(() => {
+    if (width < MOBILE_VIEW_PIXEL_LIMIT) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }, [width]);
+
   const navigateToProfile = () => {
     if (context.id) {
       navigate(endpoints.frontend.userPage(context.username));
@@ -57,29 +75,44 @@ const Sidebar = ({ classes }) => {
   return (
     <div className={classes.sidebar}>
       <div className={classes.sidebarOption} onClick={() => navigate(endpoints.frontend.search)}>
-        <SearchGlassIcon width={'4em'} height={'3.3em'} />
-        <div
-          className={`${
-            classes.optionText
-          } ${
-            highlightedSearchIcon ? classes.highlightedOptionText : ''
-          }`}
-        >
-          {SEARCH}
-        </div>
+        {
+          mobileView ||
+            <div
+              className={`${
+                classes.optionText
+              } ${
+                highlightedSearchIcon ? classes.highlightedOptionText : ''
+              }`}
+            >
+              {SEARCH}
+            </div>
+        }
       </div>
 
       <div className={classes.sidebarOption} onClick={navigateToProfile}>
         <UserIcon highlighted={highlightedProfileIcon} />
-        <div
-          className={`${
-            classes.optionText} ${
-            highlightedProfileIcon ? classes.highlightedOptionText : ''
-          }`}
-        >
-          {PROFILE}
-        </div>
+
+        {
+          mobileView ||
+            <div
+              className={`${
+                classes.optionText} ${
+                highlightedProfileIcon ? classes.highlightedOptionText : ''
+              }`}
+            >
+              {PROFILE}
+            </div>
+        }
       </div>
+
+      {
+        mobileView &&
+          <div className={classes.sidebarOption}>
+            <div className={classes.darkModeCheckbox}>
+              <DarkModeCheckbox />
+            </div>
+          </div>
+      }
     </div>
   );
 };
@@ -100,6 +133,10 @@ const styles = () => ({
     alignItems: 'center',
     cursor: 'pointer',
     width: 'max-content',
+    marginTop: '2em',
+  },
+  darkModeCheckbox: {
+    marginLeft: '0.5em',
   },
   searchIcon: {
 

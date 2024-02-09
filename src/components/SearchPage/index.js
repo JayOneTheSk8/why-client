@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core';
 
 import constants from '../../constants';
 import { axiosInstance } from '../../axiosInstance';
+import { useWindowDimensions } from '../../hooks';
 import { dispatchEvent } from '../../util';
 
 import BackIcon from '../Shared/BackIcon';
@@ -44,18 +45,33 @@ const {
       REFRESH,
     },
   },
+  util: {
+    limits: {
+      MOBILE_VIEW_PIXEL_LIMIT,
+    },
+  },
 } = constants;
 
 const SearchPage = ({ classes }) => {
   const [searchParams] = useSearchParams();
+  const { width } = useWindowDimensions();
 
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState({});
   const [selectedPage, setSelectedPage] = useState(TOP);
+  const [mobileView, setMobileView] = useState(false);
 
   useEffect(() => dispatchEvent(RESIZE_BORDER_EXTENSION), [isLoading, data]);
   useEffect(() => getData(searchParams), [searchParams, selectedPage]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (width < MOBILE_VIEW_PIXEL_LIMIT) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }, [width]);
 
   const pageEndpoint = () => {
     switch (selectedPage) {
@@ -159,7 +175,7 @@ const SearchPage = ({ classes }) => {
 
   return (
     <div className={classes.searchPage}>
-      <div className={classes.navbar}>
+      <div className={mobileView ? classes.mobileNavbar : classes.navbar}>
         <div className={classes.searchHeader}>
           <div className={classes.backButton}>
             <BackIcon />
@@ -289,6 +305,15 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.navbar,
     borderRight: `1px solid ${theme.palette.primary.border}`,
     width: theme.centerPanel.width,
+    borderBottom: `1px solid ${theme.palette.primary.border}`,
+    backdropFilter: 'blur(2px)',
+  },
+  mobileNavbar: {
+    position: 'fixed',
+    top: 0,
+    backgroundColor: theme.palette.primary.navbar,
+    borderRight: `1px solid ${theme.palette.primary.border}`,
+    width: theme.centerPanel.mobileWidth,
     borderBottom: `1px solid ${theme.palette.primary.border}`,
     backdropFilter: 'blur(2px)',
   },

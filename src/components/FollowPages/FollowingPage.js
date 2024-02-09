@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core';
 import constants from '../../constants';
 import { axiosInstance } from '../../axiosInstance';
 import { dispatchEvent } from '../../util';
+import { useWindowDimensions } from '../../hooks';
 
 import BackIcon from '../Shared/BackIcon';
 
@@ -38,18 +39,33 @@ const {
       REFRESH,
     },
   },
+  util: {
+    limits: {
+      MOBILE_VIEW_PIXEL_LIMIT,
+    },
+  },
 } = constants;
 
 const FollowingPage = ({ classes }) => {
   const { username } = useParams();
   const navigate = useNavigate();
+  const { width } = useWindowDimensions();
 
+  const [mobileView, setMobileView] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
   const [errors, setErrors] = useState({});
 
   useEffect(() => getData(username), [username]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => dispatchEvent(RESIZE_BORDER_EXTENSION), [isLoading]);
+
+  useEffect(() => {
+    if (width < MOBILE_VIEW_PIXEL_LIMIT) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }, [width]);
 
   const getData = (username) => {
     setIsLoading(true);
@@ -88,7 +104,7 @@ const FollowingPage = ({ classes }) => {
 
   return (
     <div className={classes.followingPage}>
-      <div className={classes.navbar}>
+      <div className={mobileView ? classes.mobileNavbar : classes.navbar}>
         {/* User Data */}
         <div className={classes.userData}>
           <div className={classes.backButton}>
@@ -162,6 +178,15 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: theme.centerPanel.width,
+    position: 'fixed',
+    top: 0,
+    backgroundColor: theme.palette.primary.navbar,
+    backdropFilter: 'blur(2px)',
+  },
+  mobileNavbar: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: theme.centerPanel.mobileWidth,
     position: 'fixed',
     top: 0,
     backgroundColor: theme.palette.primary.navbar,

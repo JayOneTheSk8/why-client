@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core';
 import constants from '../../constants';
 import { AuthContext } from '../../authContext';
 import { axiosInstance } from '../../axiosInstance';
+import { useWindowDimensions } from '../../hooks';
 import { dispatchEvent } from '../../util';
 
 import PostItem from '../Shared/PostItem';
@@ -37,18 +38,33 @@ const {
       REFRESH,
     }
   },
+  util: {
+    limits: {
+      MOBILE_VIEW_PIXEL_LIMIT,
+    },
+  },
 } = constants;
 
 const PostPage = ({ classes }) => {
   const context = useContext(AuthContext);
   const { id: postId } = useParams();
+  const { width } = useWindowDimensions();
 
+  const [mobileView, setMobileView] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
   const [errors, setErrors] = useState({});
 
   useEffect(() => getData(postId), [postId]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => dispatchEvent(RESIZE_BORDER_EXTENSION), [isLoading]);
+
+  useEffect(() => {
+    if (width < MOBILE_VIEW_PIXEL_LIMIT) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }, [width]);
 
   const getData = (id) => {
     setIsLoading(true);
@@ -101,7 +117,7 @@ const PostPage = ({ classes }) => {
 
   return (
     <div className={classes.postPage}>
-      <div className={classes.navbar}>
+      <div className={mobileView ? classes.mobileNavbar : classes.navbar}>
         <div className={classes.backButton}>
           <BackIcon />
         </div>
@@ -156,6 +172,17 @@ const styles = theme => ({
     position: 'fixed',
     top: 0,
     width: theme.centerPanel.width,
+    backgroundColor: theme.palette.primary.navbar,
+    padding: '0.5em',
+    borderRight: `1px solid ${theme.palette.primary.border}`,
+    backdropFilter: 'blur(2px)',
+  },
+  mobileNavbar: {
+    display: 'flex',
+    alignItems: 'center',
+    position: 'fixed',
+    top: 0,
+    width: theme.centerPanel.mobileWidth,
     backgroundColor: theme.palette.primary.navbar,
     padding: '0.5em',
     borderRight: `1px solid ${theme.palette.primary.border}`,
