@@ -75,6 +75,7 @@ const Sidebar = ({ classes }) => {
   return (
     <div className={classes.sidebar}>
       <div className={classes.sidebarOption} onClick={() => navigate(endpoints.frontend.search)}>
+        <SearchGlassIcon width={'4em'} height={'3.3em'} highlighted={highlightedSearchIcon} />
         {
           mobileView ||
             <div
