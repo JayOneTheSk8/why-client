@@ -29,3 +29,28 @@ yarn lint
 ```sh
 yarn start-nb
 ```
+
+Features
+===================
+
+## Familiar Design
+
+![](public/HomeScreen1.png)
+
+![](public/FamiliarDesign2.png)
+
+![](public/FamiliarDesign3.png)
+
+![](public/FamiliarDesign4.png)
+
+## Mobile Responsive
+
+![](public/MobileResponsive1.png)
+
+## Dark Theme
+
+![](public/DarkMode1.png)
+
+## Auth Management
+
+![](public/Auth1.png)
