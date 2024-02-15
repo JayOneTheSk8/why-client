@@ -118,7 +118,7 @@ const Sidebar = ({ classes }) => {
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   sidebar: {
     width: 'max-content',
   },
@@ -135,6 +135,12 @@ const styles = () => ({
     cursor: 'pointer',
     width: 'max-content',
     marginTop: '2em',
+    borderRadius: '4em',
+    transition: 'background-color 0.2s',
+    padding: '5px 7px',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.hover,
+    },
   },
   darkModeCheckbox: {
     marginLeft: '0.5em',
