@@ -147,7 +147,7 @@ const Root = ({ classes }) => {
       {isLoggingInUser && <LoadingModal />}
 
       <div className={classes.leftPanel}>
-        <div className={classes.leftPanelSeparator}></div>
+        { mobileView || <div className={classes.leftPanelSeparator}></div> }
 
         <div className={classes.leftPanelDetails}>
           <div className={classes.rootWhyCon} onClick={() => navigate(homePage)}>
