@@ -9,6 +9,7 @@ import { useWindowDimensions } from '../../hooks';
 import UserIcon from '../Shared/UserIcon';
 import SearchGlassIcon from '../SearchPage/SearchGlassIcon';
 import DarkModeCheckbox from '../Shared/DarkModeCheckbox';
+import AboutIcon from '../Shared/AboutIcon';
 
 const {
   endpoints,
@@ -36,6 +37,7 @@ const Sidebar = ({ classes }) => {
 
   const [highlightedProfileIcon, setHighlightedProfileIcon] = useState(false);
   const [highlightedSearchIcon, setHighlightedSearchIcon] = useState(false);
+  const [highlightedAboutIcon, setHighlightedAboutIcon] = useState(false);
   const [mobileView, setMobileView] = useState(false);
 
   useEffect(() => {
@@ -46,13 +48,20 @@ const Sidebar = ({ classes }) => {
       } else {
         setHighlightedProfileIcon(false);
       }
+    }
 
-      // Highlight Search
-      if (location.pathname === endpoints.frontend.search) {
-        setHighlightedSearchIcon(true);
-      } else {
-        setHighlightedSearchIcon(false);
-      }
+    // Highlight Search
+    if (location.pathname === endpoints.frontend.search) {
+      setHighlightedSearchIcon(true);
+    } else {
+      setHighlightedSearchIcon(false);
+    }
+
+    // Highlight Search
+    if (location.pathname === endpoints.frontend.aboutPage) {
+      setHighlightedAboutIcon(true);
+    } else {
+      setHighlightedAboutIcon(false);
     }
   }, [context, location]);
 
@@ -102,6 +111,25 @@ const Sidebar = ({ classes }) => {
               }`}
             >
               {PROFILE}
+            </div>
+        }
+      </div>
+
+      <div className={mobileView ? classes.mobileSidebarOption : classes.sidebarOption} onClick={() => navigate(endpoints.frontend.aboutPage)}>
+        <AboutIcon />
+
+        {
+          mobileView ||
+            <div
+              className={
+                `${
+                  classes.optionText
+                } ${
+                  highlightedAboutIcon ? classes.highlightedOptionText : ''
+                }`
+              }
+            >
+              {'About'}
             </div>
         }
       </div>
