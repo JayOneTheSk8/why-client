@@ -120,7 +120,7 @@ const Sidebar = ({ classes }) => {
 
 const styles = () => ({
   sidebar: {
-
+    width: 'max-content',
   },
   highlightedOptionText: {
     fontWeight: 600,

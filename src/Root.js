@@ -289,7 +289,6 @@ const styles = theme => ({
     left: 0,
     display: 'flex',
     justifyContent: 'space-between',
-    paddingLeft: '1em',
   },
   leftPanelSeparator: {
 
@@ -327,13 +326,11 @@ const styles = theme => ({
   },
   mobileUserInfo: {
     marginBottom: '1em',
-    marginRight: '1em',
     padding: '0.5em',
     borderRadius: '60px',
     alignItems: 'center',
     display: 'flex',
     cursor: 'pointer',
-    width: '6em',
     height: '6em',
     transition: 'background-color 0.3s',
     '&:hover': {
@@ -346,7 +343,6 @@ const styles = theme => ({
   userIcon: {
     fontSize: '3em',
     color: 'white',
-    margin: '0.1em',
     border: '3px solid grey',
     backgroundColor: 'black',
     borderRadius: '54%',
