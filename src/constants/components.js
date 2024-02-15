@@ -1,5 +1,19 @@
 import general from './general';
 
+const aboutPage = {
+  ABOUT_HEADER: 'Hello!\nMy name is Justin Cox and I made this website for the curious. If you are feeling even more curious, check out the links below.',
+  CLIENT_GITHUB_REPO_URL: 'https://github.com/JayOneTheSk8/why-client',
+  CLIENT_GITHUB_REPO_TEXT: 'Client Repo',
+  SERVER_GITHUB_REPO_URL: 'https://github.com/JayOneTheSk8/but-why-tho',
+  SERVER_GITHUB_REPO_TEXT: 'Server Repo',
+  GITHUB_PROFILE_URL: 'https://github.com/JayOneTheSk8',
+  GITHUB_PROFILE_TEXT: 'Github Profile',
+  LINKEDIN_PROFILE_URL: 'https://www.linkedin.com/in/justinecox',
+  LINKEDIN_PROFILE_TEXT: 'LinkedIn',
+  WEBSITE_URL: 'https://jayonethesk8.github.io',
+  WEBSITE_TEXT: 'Creator Website',
+};
+
 const auth = {
   CREATE_YOUR_ACCOUNT_HEADER: 'Create your account',
   SIGN_IN_HEADER: 'Sign in to Y',
@@ -82,6 +96,7 @@ const searchPage = {
 };
 
 export default {
+  aboutPage,
   accountMenu,
   auth,
   darkModeToggle,
