@@ -238,6 +238,8 @@ const styles = theme => ({
   },
   followButton: {
     border: '1px solid black',
+    backgroundColor: '#fafafa',
+    color: 'black',
     borderRadius: '3em',
     padding: '0.5em',
     fontSize: '1.1em',
