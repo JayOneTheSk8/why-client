@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { withStyles } from '@material-ui/core';
 
 import constants from '../../constants';
 import { AuthContext } from '../../authContext';
 import { axiosInstance } from '../../axiosInstance';
+import { useWindowDimensions } from '../../hooks';
 
 import WhyCon from '../Shared/WhyCon';
 import TextInput from '../Shared/TextInput';
@@ -40,6 +41,7 @@ const {
   },
   util : {
     limits: {
+      MOBILE_VIEW_PIXEL_LIMIT,
       USERNAME_LIMIT,
     },
   },
@@ -48,12 +50,23 @@ const {
 const SignIn = ({ classes }) => {
   const context = useContext(AuthContext);
   const navigate = useNavigate();
+  const { width } = useWindowDimensions();
 
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const [mobileView, setMobileView] = useState(false);
+
+  useEffect(() => {
+    if (width < MOBILE_VIEW_PIXEL_LIMIT) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }, [width]);
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -86,8 +99,8 @@ const SignIn = ({ classes }) => {
 
   return(
     <div className={classes.signIn}>
-      <form className={classes.signInForm} onSubmit={handleSignIn}>
-        <div className={classes.signInTopBar}>
+      <form className={mobileView ? classes.mobileSignInForm : classes.signInForm} onSubmit={handleSignIn}>
+        <div className={mobileView ? classes.mobileSignInTopBar : classes.signInTopBar}>
           <div className={classes.signInClose} onClick={() => navigate(endpoints.frontend.root)}>X</div>
 
           <div className={classes.signInWhycon}>
@@ -105,7 +118,7 @@ const SignIn = ({ classes }) => {
           </>
         }
 
-        <div className={classes.signInDetails}>
+        <div className={mobileView ? classes.mobileSignInDetails : classes.signInDetails}>
           <TextInput
             id={USERNAME}
             title={USERNAME_TITLE}
@@ -129,7 +142,7 @@ const SignIn = ({ classes }) => {
             }
           >{isLoading ? LOADING_ : SIGN_IN}</button>
 
-          <div className={classes.signUpContainer}>
+          <div className={mobileView ? classes.mobileSignUpContainer : classes.signUpContainer}>
             {REGISTER_ACCOUNT_TEXT}
             <div className={classes.signUpLink} onClick={() => navigate(endpoints.frontend.signUp)}>
               {SIGN_UP}
@@ -172,10 +185,20 @@ const styles = theme => ({
     border: `1px solid ${theme.palette.secondary.border}`,
     borderRadius: '1em',
   },
+  mobileSignInForm: {
+    top: 0,
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    position: 'absolute',
+    flexDirection: 'column',
+    padding: '0 5em 5em 5em',
+    overflow: 'scroll',
+  },
   signInHeader: {
     fontSize: '2em',
     fontWeight: 600,
-    marginBottom: '0.5em'
+    marginBottom: '0.5em',
   },
   signInTopBar: {
     right: '2.5em',
@@ -185,6 +208,13 @@ const styles = theme => ({
     marginBottom: '2em',
     justifyContent: 'space-between',
     width: '34em',
+  },
+  mobileSignInTopBar: {
+    display: 'flex',
+    position: 'relative',
+    alignItems: 'center',
+    marginBottom: '2em',
+    justifyContent: 'space-between',
   },
   signInClose: {
     fontSize: '2em',
@@ -199,6 +229,12 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     height: '14.6em',
+  },
+  mobileSignInDetails: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    minHeight: '16em',
   },
   submit: {
     height: '3em',
@@ -221,6 +257,11 @@ const styles = theme => ({
     position: 'absolute',
     bottom: '2em',
     left: '12em',
+  },
+  mobileSignUpContainer: {
+    display: 'flex',
+    alignSelf: 'center',
+    whiteSpace: 'nowrap',
   },
   signUpText: {
 

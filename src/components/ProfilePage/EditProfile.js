@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core';
 import constants from '../../constants';
 import { AuthContext } from '../../authContext';
 import { axiosInstance } from '../../axiosInstance';
+import { useWindowDimensions } from '../../hooks';
+
 import TextInput from '../Shared/TextInput';
 
 const {
@@ -32,16 +34,31 @@ const {
       SAVE,
     },
   },
+  util: {
+    limits: {
+      MOBILE_VIEW_PIXEL_LIMIT,
+    },
+  },
 } = constants;
 
 const EditProfile = ({ classes, closeFunction }) => {
   const context = useContext(AuthContext);
+  const { width } = useWindowDimensions();
 
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState(false);
 
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
+  const [mobileView, setMobileView] = useState(false);
+
+  useEffect(() => {
+    if (width < MOBILE_VIEW_PIXEL_LIMIT) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }, [width]);
 
   useEffect(() => {
     setDisplayName(context.displayName);
@@ -82,8 +99,12 @@ const EditProfile = ({ classes, closeFunction }) => {
 
   return (
     <div className={classes.editProfile} onClick={() => closeFunction(false)}>
-      <form onSubmit={handeEditUser} className={classes.editProfileForm} onClick={(e) => e.stopPropagation()}>
-        <div className={classes.topBar}>
+      <form
+        onSubmit={handeEditUser}
+        onClick={(e) => e.stopPropagation()}
+        className={mobileView ? classes.mobileEditProfileForm : classes.editProfileForm}
+      >
+        <div className={mobileView ? classes.mobileTopBar : classes.topBar}>
           <div className={classes.closeButton} onClick={() => closeFunction(false)}>X</div>
           <div className={classes.editProfileHeader}>{EDIT_PROFILE}</div>
           <button
@@ -152,6 +173,17 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.background,
     alignItems: 'center',
   },
+  mobileEditProfileForm: {
+    top: 0,
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    position: 'absolute',
+    flexDirection: 'column',
+    padding: '0 2em 2em 2em',
+    backgroundColor: theme.palette.primary.background,
+    alignItems: 'center',
+  },
   closeButton: {
     padding: '0.5em',
     cursor: 'pointer',
@@ -182,6 +214,15 @@ const styles = theme => ({
     fontWeight: 600,
     fontSize: '1.5em',
     width: '23em',
+  },
+  mobileTopBar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: '0.5em 0 1em 0',
+    fontWeight: 600,
+    fontSize: '1.5em',
+    width: '100%',
   },
   labelError: {
     color: 'red',

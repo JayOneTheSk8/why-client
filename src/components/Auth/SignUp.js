@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { withStyles } from '@material-ui/core';
 import validator from 'validator';
@@ -6,6 +6,7 @@ import validator from 'validator';
 import constants from '../../constants';
 import { AuthContext } from '../../authContext';
 import { axiosInstance } from '../../axiosInstance';
+import { useWindowDimensions } from '../../hooks';
 
 import WhyCon from '../Shared/WhyCon';
 import TextInput from '../Shared/TextInput';
@@ -45,6 +46,7 @@ const {
   },
   util: {
     limits: {
+      MOBILE_VIEW_PIXEL_LIMIT,
       USERNAME_LIMIT,
     },
   },
@@ -53,6 +55,7 @@ const {
 const SignUp = ({ classes }) => {
   const context = useContext(AuthContext);
   const navigate = useNavigate();
+  const { width } = useWindowDimensions();
 
   const usernameInput = useRef(null);
   const displayNameInput = useRef(null);
@@ -66,6 +69,16 @@ const SignUp = ({ classes }) => {
   const [password, setPassword] = useState('');
 
   const [shrinkDisplayNameLabel, setShrinkDisplayNameLabel] = useState(false);
+
+  const [mobileView, setMobileView] = useState(false);
+
+  useEffect(() => {
+    if (width < MOBILE_VIEW_PIXEL_LIMIT) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }, [width]);
 
   const updateUsername = (e) => {
     // Reject spaces
@@ -118,8 +131,8 @@ const SignUp = ({ classes }) => {
 
   return (
     <div className={classes.signUp}>
-      <form className={classes.signUpForm} onSubmit={handleSignUp}>
-        <div className={classes.signUpTopBar}>
+      <form className={mobileView ? classes.mobileSignUpForm : classes.signUpForm } onSubmit={handleSignUp}>
+        <div className={mobileView ? classes.mobileSignUpTopBar : classes.signUpTopBar}>
           <div className={classes.signUpClose} onClick={() => navigate(endpoints.frontend.root)}>X</div>
 
           <div className={classes.signUpWhycon}>
@@ -137,7 +150,7 @@ const SignUp = ({ classes }) => {
           </>
         }
 
-        <div className={classes.signUpDetails}>
+        <div className={mobileView ? classes.mobileSignUpDetails : classes.signUpDetails}>
           <TextInput
             id={USERNAME}
             reference={usernameInput}
@@ -179,7 +192,7 @@ const SignUp = ({ classes }) => {
             }
           >{isLoading ? LOADING_ : SIGN_UP}</button>
 
-          <div className={classes.signInContainer}>
+          <div className={mobileView ? classes.mobileSignInContainer : classes.signInContainer}>
             {EXISTING_ACCOUNT_TEXT}
             <div className={classes.signInLink} onClick={() => navigate(endpoints.frontend.signIn)}>
               {LOG_IN}
@@ -222,10 +235,20 @@ const styles = theme => ({
     border: `1px solid ${theme.palette.secondary.border}`,
     borderRadius: '1em',
   },
+  mobileSignUpForm: {
+    top: 0,
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    position: 'absolute',
+    flexDirection: 'column',
+    padding: '0 5em 5em 5em',
+    overflow: 'scroll',
+  },
   signUpHeader: {
     fontSize: '2em',
     fontWeight: 600,
-    marginBottom: '0.5em'
+    marginBottom: '0.5em',
   },
   signUpTopBar: {
     right: '2.5em',
@@ -235,6 +258,13 @@ const styles = theme => ({
     marginBottom: '2em',
     justifyContent: 'space-between',
     width: '34em',
+  },
+  mobileSignUpTopBar: {
+    display: 'flex',
+    position: 'relative',
+    alignItems: 'center',
+    marginBottom: '2em',
+    justifyContent: 'space-between',
   },
   signUpClose: {
     fontSize: '2em',
@@ -249,6 +279,12 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     height: '100%',
+  },
+  mobileSignUpDetails: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    minHeight: '26em',
   },
   submit: {
     height: '3em',
@@ -271,6 +307,11 @@ const styles = theme => ({
     position: 'absolute',
     bottom: '2em',
     left: '12em',
+  },
+  mobileSignInContainer: {
+    display: 'flex',
+    alignSelf: 'center',
+    whiteSpace: 'nowrap',
   },
   signInText: {
 
