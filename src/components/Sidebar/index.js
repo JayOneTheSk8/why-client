@@ -74,7 +74,7 @@ const Sidebar = ({ classes }) => {
 
   return (
     <div className={classes.sidebar}>
-      <div className={classes.sidebarOption} onClick={() => navigate(endpoints.frontend.search)}>
+      <div className={mobileView ? classes.mobileSidebarOption : classes.sidebarOption} onClick={() => navigate(endpoints.frontend.search)}>
         <SearchGlassIcon width={'4em'} height={'3.3em'} highlighted={highlightedSearchIcon} />
         {
           mobileView ||
@@ -90,7 +90,7 @@ const Sidebar = ({ classes }) => {
         }
       </div>
 
-      <div className={classes.sidebarOption} onClick={navigateToProfile}>
+      <div className={mobileView ? classes.mobileSidebarOption : classes.sidebarOption} onClick={navigateToProfile}>
         <UserIcon highlighted={highlightedProfileIcon} />
 
         {
@@ -108,7 +108,7 @@ const Sidebar = ({ classes }) => {
 
       {
         mobileView &&
-          <div className={classes.sidebarOption}>
+          <div className={mobileView ? classes.mobileSidebarOption : classes.sidebarOption}>
             <div className={classes.darkModeCheckbox}>
               <DarkModeCheckbox />
             </div>
@@ -135,6 +135,18 @@ const styles = theme => ({
     cursor: 'pointer',
     width: 'max-content',
     marginTop: '2em',
+    borderRadius: '4em',
+    transition: 'background-color 0.2s',
+    padding: '5px 7px',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.hover,
+    },
+  },
+  mobileSidebarOption: {
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+    width: 'max-content',
     borderRadius: '4em',
     transition: 'background-color 0.2s',
     padding: '5px 7px',
