@@ -214,7 +214,7 @@ const styles = theme => ({
     fontSize: '1em',
     fontWeight: 600,
     backgroundColor: theme.palette.primary.background,
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.secondary.border}`,
     borderRadius: '1em',
     padding: '0.2em 0.5em',
     color: theme.palette.primary.text,
