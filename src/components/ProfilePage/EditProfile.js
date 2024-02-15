@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core';
 import constants from '../../constants';
 import { AuthContext } from '../../authContext';
 import { axiosInstance } from '../../axiosInstance';
+import TextInput from '../Shared/TextInput';
 
 const {
   endpoints,
@@ -41,38 +42,11 @@ const EditProfile = ({ classes, closeFunction }) => {
 
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
-  const [labelClassnames, setLabelClassnames] = useState({
-    displayName: classes.displayNameLabelShrunk,
-    email: classes.emailLabelShrunk,
-  });
-  const [focusedInputs, setFocusedInputs] = useState({
-    displayName: false,
-    email: false,
-  });
 
   useEffect(() => {
     setDisplayName(context.displayName);
     setEmail(context.email);
   }, [context]);
-
-  const shrinkLabel = (field) => {
-    return (e) => {
-      e.preventDefault();
-      setFocusedInputs({ ...focusedInputs, [field]: true });
-      setLabelClassnames({ ...labelClassnames, [field]: classes[`${field}LabelShrunk`] });
-    };
-  };
-
-  const expandLabel = (field) => {
-    return (e) => {
-      e.preventDefault();
-      setFocusedInputs({ ...focusedInputs, [field]: false });
-
-      if (e.target.value !== '') { return; }
-
-      setLabelClassnames({ ...labelClassnames, [field]: classes[`${field}Label`] });
-    };
-  };
 
   const handeEditUser = (e) => {
     e.preventDefault();
@@ -132,43 +106,18 @@ const EditProfile = ({ classes, closeFunction }) => {
         }
 
         <div className={classes.editProfileContainer}>
-          <div className={classes.labelContainer}>
-            <label
-              htmlFor={DISPLAY_NAME}
-              className={`${labelClassnames[DISPLAY_NAME]} ${focusedInputs[DISPLAY_NAME] ? classes.focusedLabel : ''}`}
-            >
-              {DISPLAY_NAME_TITLE}
-            </label>
-          </div>
-
-          <input
+          <TextInput
             id={DISPLAY_NAME}
-            spellCheck={false}
-            className={`${classes.displayNameInput} ${focusedInputs[DISPLAY_NAME] ? classes.focusedInput : ''}`}
+            title={DISPLAY_NAME_TITLE}
+            changeFunc={(e) => setDisplayName(e.target.value)}
             defaultValue={context.displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-            onFocus={shrinkLabel(DISPLAY_NAME)}
-            onBlur={expandLabel(DISPLAY_NAME)}
           />
 
-          <div className={classes.labelContainer}>
-            <label
-              htmlFor={EMAIL}
-              className={`${labelClassnames[EMAIL]} ${focusedInputs[EMAIL] ? classes.focusedLabel : ''}`}
-            >
-              {EMAIL_TITLE}
-            </label>
-          </div>
-
-          <input
+          <TextInput
             id={EMAIL}
-            type={EMAIL}
-            spellCheck={false}
-            className={`${classes.emailInput} ${focusedInputs[EMAIL] ? classes.focusedInput : ''}`}
+            title={EMAIL_TITLE}
+            changeFunc={(e) => setEmail(e.target.value)}
             defaultValue={context.email}
-            onChange={(e) => setEmail(e.target.value)}
-            onFocus={shrinkLabel(EMAIL)}
-            onBlur={expandLabel(EMAIL)}
           />
         </div>
       </form>
@@ -225,44 +174,6 @@ const styles = theme => ({
       color: theme.palette.disabled.text,
     }
   },
-  labelContainer: {
-    width: 0,
-    height: 0,
-  },
-  displayNameLabel: {
-    color: theme.palette.primary.label.original,
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    top: '0.3em',
-    right: '7.8em',
-    fontSize: '2em',
-    transition: 'font-size 0.4s, top 0.4s, right 0.4s',
-  },
-  emailLabel: {
-    color: theme.palette.primary.label.original,
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    top: '0.3em',
-    right: '7.8em',
-    fontSize: '2em',
-    transition: 'font-size 0.4s, top 0.4s, right 0.4s',
-  },
-  displayNameLabelShrunk: {
-    color: theme.palette.primary.label.original,
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    right: '17.2em',
-    fontSize: '0.9em',
-    transition: 'font-size 0.4s, top 0.4s, right 0.4s',
-  },
-  emailLabelShrunk: {
-    color: theme.palette.primary.label.original,
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    right: '17.2em',
-    fontSize: '0.9em',
-    transition: 'font-size 0.4s, top 0.4s, right 0.4s',
-  },
   topBar: {
     display: 'flex',
     alignItems: 'center',
@@ -279,34 +190,8 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  displayNameInput: {
-    width: '16em',
-    fontSize: '2em',
-    padding: '17px 5px 5px 5px',
-    outline: 'none',
-    borderRadius: '4px',
-    border: `1px solid ${theme.palette.secondary.border}`,
-    marginBottom: '1em',
-    color: 'inherit',
-    backgroundColor: theme.palette.primary.background,
-  },
-  emailInput: {
-    width: '16em',
-    fontSize: '2em',
-    padding: '17px 5px 5px 5px',
-    outline: 'none',
-    borderRadius: '4px',
-    border: `1px solid ${theme.palette.secondary.border}`,
-    marginBottom: '1em',
-    color: 'inherit',
-    backgroundColor: theme.palette.primary.background,
-  },
-  focusedLabel: {
-    color: theme.palette.blue.original,
-  },
-  focusedInput: {
-    border: `1px solid ${theme.palette.blue.original}`,
+    height: '8.5em',
+    justifyContent: 'space-between',
   },
 });
 

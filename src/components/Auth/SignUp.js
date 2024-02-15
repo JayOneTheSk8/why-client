@@ -8,7 +8,8 @@ import { AuthContext } from '../../authContext';
 import { axiosInstance } from '../../axiosInstance';
 
 import WhyCon from '../Shared/WhyCon';
-import GlassesIcon from '../Shared/GlassesIcon';
+import TextInput from '../Shared/TextInput';
+import PasswordInput from '../Shared/PasswordInput';
 
 const {
   endpoints,
@@ -64,38 +65,7 @@ const SignUp = ({ classes }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [labelClassnames, setLabelClassnames] = useState({
-    username: classes.usernameLabel,
-    displayName: classes.displayNameLabel,
-    email: classes.emailLabel,
-    password: classes.passwordLabel,
-  });
-  const [focusedInputs, setFocusedInputs] = useState({
-    username: false,
-    displayName: false,
-    email: false,
-    password: false,
-  });
-
-  const shrinkLabel = (field) => {
-    return (e) => {
-      e.preventDefault();
-      setFocusedInputs({ ...focusedInputs, [field]: true });
-      setLabelClassnames({ ...labelClassnames, [field]: classes[`${field}LabelShrunk`] });
-    };
-  };
-
-  const expandLabel = (field) => {
-    return (e) => {
-      e.preventDefault();
-      setFocusedInputs({ ...focusedInputs, [field]: false });
-
-      if (e.target.value !== '') { return; }
-
-      setLabelClassnames({ ...labelClassnames, [field]: classes[`${field}Label`] });
-    };
-  };
+  const [shrinkDisplayNameLabel, setShrinkDisplayNameLabel] = useState(false);
 
   const updateUsername = (e) => {
     // Reject spaces
@@ -107,10 +77,7 @@ const SignUp = ({ classes }) => {
     // Match display name if it's not filled in or being filled in
     // Make sure to shrink label
     if (!displayNameInput.current.value || displayNameInput.current.value === text.slice(0, -1)) {
-      if (!labelClassnames.displayName.includes('Shrunk')) {
-        setLabelClassnames({ ...labelClassnames, [DISPLAY_NAME]: classes[`${DISPLAY_NAME}LabelShrunk`] });
-      }
-
+      setShrinkDisplayNameLabel(true);
       displayNameInput.current.value = text;
       setDisplayName(text);
     }
@@ -171,73 +138,33 @@ const SignUp = ({ classes }) => {
         }
 
         <div className={classes.signUpDetails}>
-          <label
-            htmlFor={USERNAME}
-            className={`${labelClassnames[USERNAME]} ${focusedInputs[USERNAME] ? classes.focusedLabel : ''}`}
-          >
-            {USERNAME_TITLE}
-          </label>
-          <input
+          <TextInput
             id={USERNAME}
-            ref={usernameInput}
-            spellCheck={false}
+            reference={usernameInput}
+            title={USERNAME_TITLE}
+            changeFunc={(e) => updateUsername(e)}
             maxLength={USERNAME_LIMIT}
-            className={`${classes.usernameInput} ${focusedInputs[USERNAME] ? classes.focusedInput : ''}`}
-            onChange={(e) => updateUsername(e)}
-            onFocus={shrinkLabel(USERNAME)}
-            onBlur={expandLabel(USERNAME)}
           />
 
-          <label
-            htmlFor={DISPLAY_NAME}
-            className={`${labelClassnames[DISPLAY_NAME]} ${focusedInputs[DISPLAY_NAME] ? classes.focusedLabel : ''}`}
-          >
-            {DISPLAY_NAME_TITLE}
-          </label>
-          <input
+          <TextInput
             id={DISPLAY_NAME}
-            ref={displayNameInput}
-            spellCheck={false}
-            className={`${classes.displayNameInput} ${focusedInputs[DISPLAY_NAME] ? classes.focusedInput : ''}`}
-            onChange={(e) => setDisplayName(e.target.value)}
-            onFocus={shrinkLabel(DISPLAY_NAME)}
-            onBlur={expandLabel(DISPLAY_NAME)}
+            reference={displayNameInput}
+            title={DISPLAY_NAME_TITLE}
+            overrideShrinkLabel={shrinkDisplayNameLabel}
+            changeFunc={(e) => setDisplayName(e.target.value)}
           />
 
-          <label
-            htmlFor={EMAIL}
-            className={`${labelClassnames[EMAIL]} ${focusedInputs[EMAIL] ? classes.focusedLabel : ''}`}
-          >
-            {EMAIL_TITLE}
-          </label>
-          <input
+          <TextInput
             id={EMAIL}
-            type={EMAIL}
-            spellCheck={false}
-            className={`${classes.emailInput} ${focusedInputs[EMAIL] ? classes.focusedInput : ''}`}
-            onChange={(e) => setEmail(e.target.value)}
-            onFocus={shrinkLabel(EMAIL)}
-            onBlur={expandLabel(EMAIL)}
+            title={EMAIL_TITLE}
+            changeFunc={(e) => setEmail(e.target.value)}
           />
 
-          <label
-            htmlFor={PASSWORD}
-            className={`${labelClassnames[PASSWORD]} ${focusedInputs[PASSWORD] ? classes.focusedLabel : ''}`}
-          >
-            {PASSWORD_TITLE}
-          </label>
-          <input
+          <PasswordInput
             id={PASSWORD}
-            type={passwordVisible ? '' : PASSWORD}
-            spellCheck={false}
-            className={`${classes.passwordInput} ${focusedInputs[PASSWORD] ? classes.focusedInput : ''}`}
-            onChange={(e) => setPassword(e.target.value)}
-            onFocus={shrinkLabel(PASSWORD)}
-            onBlur={expandLabel(PASSWORD)}
+            title={PASSWORD_TITLE}
+            changeFunc={(e) => setPassword(e.target.value)}
           />
-          <div className={classes.passwordVisibilityButton} onClick={() => setPasswordVisible(!passwordVisible)}>
-            <GlassesIcon clear={passwordVisible} />
-          </div>
 
           <button
             type="submit"
@@ -259,7 +186,6 @@ const SignUp = ({ classes }) => {
             </div>
           </div>
         </div>
-
       </form>
     </div>
   );
@@ -324,112 +250,6 @@ const styles = theme => ({
     justifyContent: 'space-between',
     height: '100%',
   },
-  usernameLabelShrunk: {
-    transition: 'font-size 0.4s, top 0.4s, left 0.4s',
-    color: theme.palette.primary.label.original,
-    position: 'absolute',
-    top: '12.3em',
-    left: '6.2em',
-    fontSize: '0.9em',
-  },
-  usernameLabel: {
-    transition: 'font-size 0.4s, top 0.4s, left 0.4s',
-    color: theme.palette.primary.label.original,
-    position: 'absolute',
-    top: '7.4em',
-    left: '3.5em',
-    fontSize: '1.6em',
-  },
-  usernameInput: {
-    fontSize: '2em',
-    padding: '13px 5px 5px 5px',
-    outline: 'none',
-    borderRadius: '4px',
-    border: `1px solid ${theme.palette.secondary.border}`,
-    color: 'inherit',
-    backgroundColor: theme.palette.primary.background,
-  },
-  displayNameLabelShrunk: {
-    transition: 'font-size 0.4s, top 0.4s, left 0.4s',
-    color: theme.palette.primary.label.original,
-    position: 'absolute',
-    top: '18.4em',
-    left: '6.2em',
-    fontSize: '0.9em',
-  },
-  displayNameLabel: {
-    transition: 'font-size 0.4s, top 0.4s, left 0.4s',
-    color: theme.palette.primary.label.original,
-    position: 'absolute',
-    top: '10.9em',
-    left: '3.5em',
-    fontSize: '1.6em',
-  },
-  displayNameInput: {
-    fontSize: '2em',
-    padding: '13px 5px 5px 5px',
-    outline: 'none',
-    borderRadius: '4px',
-    border: `1px solid ${theme.palette.secondary.border}`,
-    color: 'inherit',
-    backgroundColor: theme.palette.primary.background,
-  },
-  emailLabelShrunk: {
-    transition: 'font-size 0.4s, top 0.4s, left 0.4s',
-    color: theme.palette.primary.label.original,
-    position: 'absolute',
-    top: '24.6em',
-    left: '6.2em',
-    fontSize: '0.9em',
-  },
-  emailLabel: {
-    transition: 'font-size 0.4s, top 0.4s, left 0.4s',
-    color: theme.palette.primary.label.original,
-    position: 'absolute',
-    top: '14.4em',
-    left: '3.5em',
-    fontSize: '1.6em',
-  },
-  emailInput: {
-    fontSize: '2em',
-    padding: '13px 5px 5px 5px',
-    outline: 'none',
-    borderRadius: '4px',
-    border: `1px solid ${theme.palette.secondary.border}`,
-    color: 'inherit',
-    backgroundColor: theme.palette.primary.background,
-  },
-  passwordLabelShrunk: {
-    transition: 'font-size 0.4s, top 0.4s, left 0.4s',
-    color: theme.palette.primary.label.original,
-    position: 'absolute',
-    top: '30.7em',
-    left: '6.2em',
-    fontSize: '0.9em',
-  },
-  passwordLabel: {
-    transition: 'font-size 0.4s, top 0.4s, left 0.4s',
-    color: theme.palette.primary.label.original,
-    position: 'absolute',
-    top: '17.8em',
-    left: '3.5em',
-    fontSize: '1.6em',
-  },
-  passwordInput: {
-    fontSize: '2em',
-    padding: '13px 2.4em 5px 5px',
-    outline: 'none',
-    borderRadius: '4px',
-    border: `1px solid ${theme.palette.secondary.border}`,
-    color: 'inherit',
-    backgroundColor: theme.palette.primary.background,
-  },
-  focusedLabel: {
-    color: theme.palette.blue.original,
-  },
-  focusedInput: {
-    border: `1px solid ${theme.palette.blue.original}`,
-  },
   submit: {
     height: '3em',
     width: '14em',
@@ -445,12 +265,6 @@ const styles = theme => ({
       color: theme.palette.disabled.text,
       background: theme.palette.disabled.background,
     },
-  },
-  passwordVisibilityButton: {
-    position: 'absolute',
-    top: '28.8em',
-    left: '30.8em',
-    cursor: 'pointer',
   },
   signInContainer: {
     display: 'flex',
