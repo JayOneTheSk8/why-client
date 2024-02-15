@@ -25,6 +25,7 @@ import SearchBar from './components/SearchPage/SearchBar';
 import LoadingModal from './components/Shared/LoadingModal';
 import WhyCon from './components/Shared/WhyCon';
 import DarkModeCheckbox from './components/Shared/DarkModeCheckbox';
+import EntryIcon from './components/Shared/EntryIcon';
 
 const {
   components: {
@@ -207,10 +208,16 @@ const Root = ({ classes }) => {
                 </div>
               </>
               : <>
-                <div className={classes.authButtons}>
-                  <div className={classes.authButton} onClick={() => navigate(signIn)}>{LOG_IN}</div>
-                  <div className={classes.authButton} onClick={() => navigate(signUp)}>{SIGN_UP}</div>
-                </div>
+                {
+                  mobileView
+                    ? <div className={classes.entryIcon} onClick={() => navigate(signUp)}>
+                      <EntryIcon />
+                    </div>
+                    : <div className={classes.authButtons}>
+                      <div className={classes.authButton} onClick={() => navigate(signIn)}>{LOG_IN}</div>
+                      <div className={classes.authButton} onClick={() => navigate(signUp)}>{SIGN_UP}</div>
+                    </div>
+                }
               </>
           }
         </div>
@@ -473,6 +480,9 @@ const styles = theme => ({
     marginBottom: '1em',
     fontSize: '1.5em',
     fontWeight: 600,
+  },
+  entryIcon: {
+    cursor: 'pointer',
   },
   borderExtension: {
     width: '100%',
