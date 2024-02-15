@@ -26,6 +26,7 @@ import LoadingModal from './components/Shared/LoadingModal';
 import WhyCon from './components/Shared/WhyCon';
 import DarkModeCheckbox from './components/Shared/DarkModeCheckbox';
 import EntryIcon from './components/Shared/EntryIcon';
+import AboutPage from './components/AboutPage';
 
 const {
   components: {
@@ -39,6 +40,7 @@ const {
   },
   endpoints: {
     frontend: {
+      aboutPage,
       commentPage,
       homePage,
       postPage,
@@ -233,6 +235,7 @@ const Root = ({ classes }) => {
           <Route path={`${usersPage}/:username${followers}`} Component={FollowersPage} />
           <Route path={`${usersPage}/:username${following}`} Component={FollowingPage} />
           <Route path={search} Component={SearchPage} />
+          <Route path={aboutPage} Component={AboutPage} />
 
           <Route element={AuthRoutes(isLoggedIn)}>
             <Route path={signIn} Component={SignIn} />

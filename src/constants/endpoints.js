@@ -22,6 +22,7 @@ export default {
     userPage: (username) => `/user/${username}`,
     commentPage: '/comments',
     postPage: '/posts',
+    aboutPage: '/about',
   },
   backend: {
     frontPage: '/front_page',
